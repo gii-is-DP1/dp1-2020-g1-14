@@ -32,7 +32,22 @@
 
     </properties>
 	<developers>
-
+		
+		<developer>
+ 			<id>jairamlar</id>
+ 			<name>Jaime Ramos Lara</name>
+ 			<email>j23rl07@gmail.com</email>
+ 			<url>www.ejemplo.com</url>
+ 			<roles>
+ 				<role>ejemplo</role>
+ 			</roles>
+ 			<properties>
+ 				<picUrl>
+				ejemplo
+				</picUrl>
+ 			</properties>
+ 		</developer>
+		
  		<developer>
  			<id>josaloroc</id>
  			<name>José Luis Alonso Rocha</name>
