@@ -31,8 +31,13 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-	
 	<developers>
+		<developer>
+		<id>canjorbus</id>
+		<name>candela</name>
+		<email>candelajordano@gmail.com</email>
+		</developer>
+
 		<developer>
  		<id>H3G0A</id>
  		<name>Hegoa</name>
@@ -54,7 +59,6 @@
 			<email>jacobo.estudiante16@gmail.com</email>
 		</developer>
 	</developers>
-	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
