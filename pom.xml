@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G1-14</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>G1-14</name>
 
     <properties>
 
@@ -32,6 +32,7 @@
 
     </properties>
 	<developers>
+
  		<developer>
  			<id>josaloroc</id>
  			<name>José Luis Alonso Rocha</name>
@@ -46,6 +47,34 @@
 				</picUrl>
  			</properties>
  		</developer>
+
+		<developer>
+		<id>canjorbus</id>
+		<name>candela</name>
+		<email>candelajordano@gmail.com</email>
+		</developer>
+
+		<developer>
+ 		<id>H3G0A</id>
+ 		<name>Hegoa</name>
+ 		<email>hegoaria@gmail.com</email>
+ 		<url>http://www.tmht.com/leo</url>
+ 		<roles>
+ 			<role>Jungla</role>
+ 		</roles>
+ 		<properties>
+ 			<picUrl>
+			https://fotografias-neox.atresmedia.com/clipping/cmsimages02/2018/01/12/DFF1693E-6CDC-49E2-A32F-5386D284E12C/64.jpg
+			</picUrl>
+ 		</properties>
+ 		</developer>
+ 		
+		<developer>
+			<id>Jacgavel</id>
+			<name>Jacobo</name>
+			<email>jacobo.estudiante16@gmail.com</email>
+		</developer>
+
 	</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
