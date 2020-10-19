@@ -32,6 +32,15 @@
 
     </properties>
 
+<developers>
+	<developer>
+	<id>canjorbus</id>
+	<name>candela</name>
+	<email>candelajordano@gmail.com</email>
+</developer>
+</developers>
+
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
