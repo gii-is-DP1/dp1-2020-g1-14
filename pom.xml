@@ -31,7 +31,24 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-
+	
+	<developers>
+		<developer>
+ 		<id>H3G0A</id>
+ 		<name>Hegoa</name>
+ 		<email>hegoaria@gmail.com</email>
+ 		<url>http://www.tmht.com/leo</url>
+ 		<roles>
+ 			<role>Jungla</role>
+ 		</roles>
+ 		<properties>
+ 			<picUrl>
+			https://fotografias-neox.atresmedia.com/clipping/cmsimages02/2018/01/12/DFF1693E-6CDC-49E2-A32F-5386D284E12C/64.jpg
+			</picUrl>
+ 		</properties>
+ 		</developer>
+	</developers>
+	
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
