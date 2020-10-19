@@ -32,6 +32,22 @@
 
     </properties>
 	<developers>
+
+ 		<developer>
+ 			<id>josaloroc</id>
+ 			<name>José Luis Alonso Rocha</name>
+ 			<email>joseluisalro20@gmail.com</email>
+ 			<url>www.ejemplo.com</url>
+ 			<roles>
+ 				<role>ejemplo</role>
+ 			</roles>
+ 			<properties>
+ 				<picUrl>
+				ejemplo
+				</picUrl>
+ 			</properties>
+ 		</developer>
+
 		<developer>
 		<id>canjorbus</id>
 		<name>candela</name>
@@ -58,6 +74,7 @@
 			<name>Jacobo</name>
 			<email>jacobo.estudiante16@gmail.com</email>
 		</developer>
+
 	</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
