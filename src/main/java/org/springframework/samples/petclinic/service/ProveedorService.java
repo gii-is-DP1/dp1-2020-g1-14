@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.repository.ProveedorRepository;
@@ -19,5 +21,15 @@ public class ProveedorService {
 	public Iterable<Proveedor> findAll() {
 		return proveedorRepo.findAll();
 		
+	}
+	@Transactional(readOnly=true)
+	public Optional<Proveedor> findProveedorById(int id) {
+		return proveedorRepo.findById(id);
+	}
+	public void save(Proveedor proveedor) {
+		proveedorRepo.save(proveedor);
+	}
+	public void delete(Proveedor proveedor) {
+		proveedorRepo.delete(proveedor);
 	}
 }	
