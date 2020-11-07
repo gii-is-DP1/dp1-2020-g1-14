@@ -16,6 +16,6 @@ public class ProveedorServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = proveedorService.proveedorCount();
-		assertEquals(count, 1);
+		assertEquals(count, 3);
 	}
 }
