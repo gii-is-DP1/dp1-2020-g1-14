@@ -46,7 +46,7 @@
 				<spring:url value="/restaurantes/delete/{restaurantesId}" var="RestauranteUrl">
                         <spring:param name="restauranteId" value="${restaurante.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(restauranteUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(RestauranteUrl)}">Delete</a>
                 </td>
                 
                 
