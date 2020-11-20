@@ -43,7 +43,7 @@ public class ProductoController {
 	if(result.hasErrors())
 	{
 		modelMap.addAttribute("producto", producto);
-		return "proveedores/editProducto";
+		return "productos/editProducto";
 	}else {
 		productoService.save(producto);
 		modelMap.addAttribute("message", "Event successfully saved!");
