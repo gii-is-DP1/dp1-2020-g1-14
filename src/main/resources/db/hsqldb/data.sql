@@ -100,3 +100,7 @@ INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lácteos, Huevo y Gluten',6);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
+
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4);
