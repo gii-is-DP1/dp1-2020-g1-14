@@ -53,7 +53,7 @@ public class ProductoController {
 	}
 	@GetMapping(path="delete/{productoId}")
 	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap) {
-	String view="producto/listadoProducto";
+	String view="productos/listadoProducto";
 	Optional<Producto> producto=productoService.findProductoById(productoId);
 	if(producto.isPresent()) {
 		productoService.delete(producto.get());
