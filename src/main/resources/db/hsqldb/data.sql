@@ -101,6 +101,13 @@ INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lácteos, Huevo
 INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
 
+
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','pass1','2000-10-11',true,'6','954765812');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-1-13',true,'4','954357811');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','pass3','1999-08-10',false,'4','954736516');
+
+INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
+
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4);
