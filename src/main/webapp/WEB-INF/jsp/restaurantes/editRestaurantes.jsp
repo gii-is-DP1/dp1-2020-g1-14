@@ -6,16 +6,9 @@
 
 
 <petclinic:layout pageName="Restaurantes">
-<!--    <jsp:attribute name="customScript">
-  <script>
-            $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
-            });
-        </script>      
-    </jsp:attribute>-->  
     <jsp:body>
         <h2>Restaurantes</h2>
-		<form:form modelAttribute="Restaurante" class="form-horizontal">
+		<form:form modelAttribute="restaurantes" class="form-horizontal" action= "/restaurantes/save">
             <div class="form-group has-feedback">
             	<petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Tipo" name="tipo"/>
@@ -27,7 +20,7 @@
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${restaurante.id}"/>
+                    <input type="hidden" name="id" value="${restaurantes.id}"/>
                     <button class="btn btn-default" type="submit">Guardar Restaurante</button>
                 </div>
             </div>

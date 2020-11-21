@@ -16,7 +16,7 @@ public class RestauranteService {
 	
 	@Transactional
 	public int Restaurantscount() {
-		return (int)RestaurantRepo.count();
+		return (int) RestaurantRepo.count();
 	}
 	
 	@Transactional
@@ -24,12 +24,11 @@ public class RestauranteService {
 		return RestaurantRepo.findAll();
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Optional<Restaurante>findRestauranteById(int id){
 		return RestaurantRepo.findById(id);
 	}
 	
-	@Transactional
 	public void save(Restaurante restaurante) {
 		RestaurantRepo.save(restaurante);
 	}
