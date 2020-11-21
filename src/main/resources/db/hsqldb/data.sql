@@ -101,6 +101,8 @@ INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lácteos, Huevo
 INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
 
+INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
+INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','pass1','2000-10-11',true,'6','954765812');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-1-13',true,'4','954357811');
