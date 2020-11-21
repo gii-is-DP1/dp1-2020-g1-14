@@ -12,41 +12,41 @@
 	<spring:url value="/restaurantes/new" var="restauranteUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(restauranteUrl)}">New</a>
-    <table id="restaurantesTable" class="table table-striped">
+    <table id="restauranteTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Name</th>
-            <th style="width: 120px">tipo</th>
-            <th style="width: 120px">localizacion</th>
-            <th style="width: 120px">aforo maximo</th>
-            <th style="width: 120px">aforo restante</th>
-            <th style="width: 120px">actions</th>
+            <th style="width: 150px;">Nombre</th>
+            <th style="width: 120px">Tipo</th>
+            <th style="width: 120px">Localizacion</th>
+            <th style="width: 120px">Aforo maximo</th>
+            <th style="width: 120px">Aforo restante</th>
+            <th style="width: 120px">Actions</th>
             
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${restaurantes}" var="restaurante">
+        <c:forEach items="${restaurantes}" var="restaurantes">
             <tr>
                 <td>
-                    <c:out value="${restaurante.name}"/>
+                    <c:out value="${restaurantes.name}"/>
                 </td>
                 <td>
-                    <c:out value="${restaurante.tipo}"/>
+                    <c:out value="${restaurantes.tipo}"/>
                 </td>
                 <td>
-                    <c:out value="${restaurante.localizacion}"/>
+                    <c:out value="${restaurantes.localizacion}"/>
                 </td>
                 <td>
-                    <c:out value="${restaurante.aforomax}"/>
+                    <c:out value="${restaurantes.aforomax}"/>
                 </td>
                 <td>
-                    <c:out value="${restaurante.aforores}"/>
+                    <c:out value="${restaurantes.aforores}"/>
                 </td>
 				<td>
-				<spring:url value="/restaurantes/delete/{restaurantesId}" var="RestauranteUrl">
-                        <spring:param name="restauranteId" value="${restaurante.id}"/>
+				<spring:url value="/restaurantes/delete/{restaurantesId}" var="restauranteUrl">
+                        <spring:param name="restaurantesId" value="${restaurantes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(RestauranteUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(restauranteUrl)}">Delete</a>
                 </td>
                 
                 

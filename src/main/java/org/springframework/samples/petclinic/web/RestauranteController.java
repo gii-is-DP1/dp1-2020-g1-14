@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.web;
 import java.util.Optional;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Restaurante;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -41,24 +41,27 @@ public class RestauranteController {
 	public String salvarRestaurantes(@Valid Restaurante restaurante, BindingResult res, ModelMap modelMap) {
 		String vista = "restaurantes/listadoRestaurantes";
 		if(res.hasErrors()) {
-			modelMap.addAttribute("restaurantes", restaurante);
+			modelMap.addAttribute("restaurante", restaurante);
 			return "restaurantes/editRestaurantes";
 		}else {
 			restauranteService.save(restaurante);
 			modelMap.addAttribute("message", "Restaurante guardado con exito");
+			vista=listadoRestaurantes(modelMap);
 		}
 		return vista;
-		
 	}
+	
 	@GetMapping(path="/delete/{restaurantesId}")
-	public String borrarRestaurante(@PathParam("restaurantesId") int restauranteId, ModelMap modelMap) {
+	public String borrarRestaurante(@PathVariable("restaurantesId") int restaurantesId, ModelMap modelMap) {
 		String vista = "restaurantes/listadoRestaurantes";
-		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
+		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restaurantesId);
 		if(restaurante.isPresent()) {
 			restauranteService.delete(restaurante.get());
 			modelMap.addAttribute("message","Restaurante borrado con exito");
+			vista= listadoRestaurantes(modelMap);
 		}else {
 			modelMap.addAttribute("message","Restaurante no encontrado");
+			vista= listadoRestaurantes(modelMap);
 		}		
 		return vista;
 	}
