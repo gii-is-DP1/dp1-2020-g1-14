@@ -14,8 +14,8 @@ import lombok.Data;
 
 public class Proveedor extends NamedEntity{
     @NotNull
-    @NotEmpty
-    @Pattern(regexp="^([0-9]|7[1-9])[0-9]{8}$")
+    @NotEmpty(message="El número de teléfono es obligatorio.")
+    @Pattern(regexp="^([0-9]|7[1-9])[0-9]{8}$", message="Debe introducir un número de teléfono válido p.ej: '954678970', o en caso de teléfono móvil: '657908756'.")
 	private String tlf;
     
 }
