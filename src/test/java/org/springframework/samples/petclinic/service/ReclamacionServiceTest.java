@@ -17,6 +17,6 @@ public class ReclamacionServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = reclamacionService.reclamacionCount();
-		assertEquals(count, 0);
+		assertEquals(count, 2);
 	}
 }
