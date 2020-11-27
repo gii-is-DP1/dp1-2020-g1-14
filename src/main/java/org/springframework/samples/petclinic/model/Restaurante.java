@@ -1,7 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
@@ -18,5 +19,8 @@ public class Restaurante extends NamedEntity {
     private Integer aforomax;
     @Positive
     private Integer aforores;
+    @ManyToOne
+    @JoinColumn(name = "propietario_id")
+    private Propietario propietario;
 
 }
