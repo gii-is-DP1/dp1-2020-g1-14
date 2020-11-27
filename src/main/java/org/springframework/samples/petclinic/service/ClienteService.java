@@ -22,10 +22,13 @@ public class ClienteService {
         return clienteRepo.findAll();
         
     }
+    
     @Transactional(readOnly=true)
     public Optional<Cliente> findClienteById(int id) {
         return clienteRepo.findById(id);
     }
+    
+    @Transactional
     public void delete(Cliente cliente) {
         clienteRepo.delete(cliente);
     }
