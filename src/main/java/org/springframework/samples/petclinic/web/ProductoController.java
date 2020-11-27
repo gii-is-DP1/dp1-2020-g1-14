@@ -5,9 +5,11 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.service.ProductoService;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -45,7 +47,12 @@ public class ProductoController {
 		modelMap.addAttribute("producto", producto);
 		return "productos/editProducto";
 	}else {
-		productoService.save(producto);
+		try {
+			productoService.save(producto);
+		} catch (WrongDataProductosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		modelMap.addAttribute("message", "Event successfully saved!");
 		view=listadoProductos(modelMap);
 	}
@@ -65,4 +72,5 @@ public class ProductoController {
 	}
 	return view;
 }
+
 }
