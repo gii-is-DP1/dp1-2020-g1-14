@@ -97,7 +97,7 @@ INSERT INTO proveedor(id,name,tlf) VALUES (1,'Database','643981298');
 INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
-INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lácteos, Huevo y Gluten',6);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
 
