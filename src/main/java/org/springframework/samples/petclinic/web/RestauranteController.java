@@ -5,7 +5,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,8 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 	
+	private static final String VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM = "restaurantes/editRestaurantes";
+	
 	@Autowired
 	private RestauranteService restauranteService;
+	private PropietarioService propietarioService;
 	
 	@GetMapping()
 	public String listadoRestaurantes(ModelMap modelMap) {
@@ -36,6 +41,12 @@ public class RestauranteController {
 		modelMap.addAttribute("restaurantes", new Restaurante());
 		return view;
 	}
+	
+	/* METODO TODAVÍA SIN IMPLEMENTAR
+	 * @GetMapping(path = "/restuarantes/new")
+	public String initCreationForm(Propietario propietario, ModelMap model) {
+		Restaurante restaurante
+	}*/
 	
 	@PostMapping(path="/save")
 	public String salvarRestaurantes(@Valid Restaurante restaurante, BindingResult res, ModelMap modelMap) {
