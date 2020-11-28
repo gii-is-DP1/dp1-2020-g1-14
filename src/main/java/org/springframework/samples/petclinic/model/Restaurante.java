@@ -69,6 +69,4 @@ public class Restaurante extends NamedEntity {
 		super();
 		this.propietario = propietario;
 	}*/
-    
-
 }
