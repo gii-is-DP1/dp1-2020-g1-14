@@ -24,7 +24,7 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteService restauranteService;
-	private PropietarioService propietarioService;
+	//private PropietarioService propietarioService;
 	
 	@GetMapping()
 	public String listadoRestaurantes(ModelMap modelMap) {
@@ -37,12 +37,12 @@ public class RestauranteController {
 	@GetMapping(path = "/new")
 	public String crearRestaurantes(ModelMap modelMap) {
 		String view = "restaurantes/editRestaurantes";
-		modelMap.addAttribute("restaurantes", new Restaurante(propietarioService.findPropietarioById(1).get()));
+		modelMap.addAttribute("restaurante", new Restaurante(/*propietarioService.findPropietarioById(1).get()*/));
 		return view;
 	}
 	
 	@GetMapping(path = "/{restaurantesId}/edit")
-	public String initUpdateForm(@PathVariable("resteurantesId") int restauranteId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("restaurantesId") int restauranteId, ModelMap model) {
 		Restaurante restaurante = this.restauranteService.findRestauranteById(restauranteId).get();
 		model.addAttribute(restaurante);
 		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;

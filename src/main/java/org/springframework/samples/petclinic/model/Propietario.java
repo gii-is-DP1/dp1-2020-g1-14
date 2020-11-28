@@ -1,19 +1,11 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 
 
 @Entity
@@ -23,8 +15,8 @@ public class Propietario extends Usuario{
 	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "propietario")
-	private Set<Restaurante> restaurantes;
+	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "propietario")
+	private Set<Restaurante> restaurantes;*/
 
 	public String getDni() {
 		return dni;
@@ -34,7 +26,7 @@ public class Propietario extends Usuario{
 		this.dni = dni;
 	}
 
-	public void setRestaurantes(Set<Restaurante> restaurantes) {
+	/*public void setRestaurantes(Set<Restaurante> restaurantes) {
 		this.restaurantes = restaurantes;
 	}
 	
@@ -80,7 +72,7 @@ public class Propietario extends Usuario{
 			}
 		}
 		return null;
-	}
+	}*/
 	
 	
 
