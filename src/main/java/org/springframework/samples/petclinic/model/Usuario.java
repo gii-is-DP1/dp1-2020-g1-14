@@ -16,7 +16,6 @@ public class Usuario extends NamedEntity {
     @DateTimeFormat (pattern = "yyyy/MM/dd")
     private LocalDate rDate;
     
-    @NotNull
     @NotEmpty(message="El campo de la contraseña es obligatorio.")
     @Pattern(regexp="^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$", message="La contraseña debe tener 6 carácteres y contener al menos un número. ")
     private String password;
