@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -55,11 +56,8 @@ public class ProductoServiceTest {
 	}
 	@Test
 	@Transactional
-	public void shouldNotInsertProducto() {
-		Collection<Producto> productos = (Collection<Producto>) this.productoService.findAll();
-		int found = productos.size();
-		Optional<Producto> producto=productoService.findProductoById(1);
-
+	public void shouldThrowWrongDataProductosException() {
+		
 		Producto p = new Producto();
 		p.setName("ab");
 		p.setAlergenos("");
@@ -73,8 +71,9 @@ public class ProductoServiceTest {
 			//Wrong data!
 			e.printStackTrace();
 		}
-		productos = (Collection<Producto>) this.productoService.findAll();
-		assertThat(productos.size()).isEqualTo(found);
+		Assertions.assertThrows(WrongDataProductosException.class, ()->{
+			this.productoService.save(p);
+		});
 	}
 
 	@Test
