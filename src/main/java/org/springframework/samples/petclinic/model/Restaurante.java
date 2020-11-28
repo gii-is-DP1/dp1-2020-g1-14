@@ -27,6 +27,9 @@ public class Restaurante extends NamedEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante")
     private Set<Ingrediente> ingredientes;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante")
+	private Set<Reclamacion> reclamaciones;
+    
     public String getTipo() {
 		return tipo;
 	}

@@ -20,15 +20,14 @@ public class ReclamacionService {
 	public Iterable<Reclamacion> findAll() {
 		return reclamacionRepo.findAll();
 	    }
+
+    @Transactional(readOnly=true)
+    public Optional<Reclamacion> findReclamacionById(int id) {
+        return reclamacionRepo.findById(id);
+    }
 	
-	@Transactional(readOnly=true)
-	public Optional<Reclamacion> findReclamacionById(int id) {
-		return reclamacionRepo.findById(id);
-	    }
-	
-	public void delete(Reclamacion reclamacion) {
-		reclamacionRepo.delete(reclamacion);
+	public void save(Reclamacion reclamacion) {
+		reclamacionRepo.save(reclamacion);
 	}
 	
-
 }

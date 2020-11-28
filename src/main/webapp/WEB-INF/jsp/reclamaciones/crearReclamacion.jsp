@@ -11,8 +11,8 @@
         
         <form:form modelAttribute="reclamacion" class="form-horizontal" action="/reclamaciones/save">
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Fecha" name="fecha"/>
-                <petclinic:inputField label="Descripcion" name="Descripcion"/>
+                <c:out value = "Fecha: ${reclamacion.fecha} "> </c:out>
+                <petclinic:inputField label="Descripcion" name="descripcion"/>
             </div>
 	
             <div class="form-group">
