@@ -11,7 +11,7 @@
     <h2>Restaurantes</h2>
 	<spring:url value="/restaurantes/new" var="restauranteUrl">
                     </spring:url>
-                    <a href="${fn:escapeXml(restauranteUrl)}">New</a>
+                    <a href="${fn:escapeXml(restauranteUrl)}" class="btn btn-default">New</a>
     <table id="restauranteTable" class="table table-striped">
         <thead>
         <tr>
@@ -46,7 +46,11 @@
 				<spring:url value="/restaurantes/delete/{restaurantesId}" var="restauranteUrl">
                         <spring:param name="restaurantesId" value="${restaurantes.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(restauranteUrl)}">Delete</a>
+                    <a href="${fn:escapeXml(restauranteUrl)}" class="btn btn-default">Delete</a>
+                    <spring:url value="/restaurantes/{restaurantesId}/edit" var="restauranteUrl">
+        				<spring:param name="restaurantesId" value="${restaurantes.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(restaurantesUrl)}" class="btn btn-default">Edit</a>
                 </td>
                 
                 
