@@ -73,6 +73,8 @@ public class ProductoServiceTest {
 			//Wrong data!
 			e.printStackTrace();
 		}
+		productos = (Collection<Producto>) this.productoService.findAll();
+		assertThat(productos.size()).isEqualTo(found);
 	}
 
 	@Test

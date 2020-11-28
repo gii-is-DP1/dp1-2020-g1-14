@@ -17,18 +17,24 @@ public class ProveedorService {
 	public int proveedorCount() {
 		return (int) proveedorRepo.count();
 	}
+	
 	@Transactional
 	public Iterable<Proveedor> findAll() {
 		return proveedorRepo.findAll();
 		
 	}
+	
 	@Transactional(readOnly=true)
 	public Optional<Proveedor> findProveedorById(int id) {
 		return proveedorRepo.findById(id);
 	}
+	
+	@Transactional
 	public void save(Proveedor proveedor) {
 		proveedorRepo.save(proveedor);
 	}
+	
+	@Transactional
 	public void delete(Proveedor proveedor) {
 		proveedorRepo.delete(proveedor);
 	}

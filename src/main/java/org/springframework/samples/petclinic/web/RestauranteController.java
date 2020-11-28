@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.PropietarioService;
 import org.springframework.samples.petclinic.service.RestauranteService;
@@ -38,8 +37,28 @@ public class RestauranteController {
 	@GetMapping(path = "/new")
 	public String crearRestaurantes(ModelMap modelMap) {
 		String view = "restaurantes/editRestaurantes";
-		modelMap.addAttribute("restaurantes", new Restaurante());
+		modelMap.addAttribute("restaurantes", new Restaurante(propietarioService.findPropietarioById(1).get()));
 		return view;
+	}
+	
+	@GetMapping(path = "/{restaurantesId}/edit")
+	public String initUpdateForm(@PathVariable("resteurantesId") int restauranteId, ModelMap model) {
+		Restaurante restaurante = this.restauranteService.findRestauranteById(restauranteId).get();
+		model.addAttribute(restaurante);
+		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/{restaurantesId}/edit")
+	public String processUpdateOwnerForm(@Valid Restaurante restaurante, BindingResult result,
+			@PathVariable("restaurantesId") int restauranteId) {
+		if (result.hasErrors()) {
+			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			restaurante.setId(restauranteId);
+			this.restauranteService.save(restaurante);
+			return "redirect:/restaurantes/{restauranteId}";
+		}
 	}
 	
 	/* METODO TODAVÍA SIN IMPLEMENTAR
