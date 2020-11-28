@@ -4,12 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity
 public class Restaurante extends NamedEntity {
-    @NotNull
+    @NotBlank
 	private String tipo;
     @NotBlank
 	private String localizacion;
@@ -24,32 +23,50 @@ public class Restaurante extends NamedEntity {
     public String getTipo() {
 		return tipo;
 	}
+    
 	public String getLocalizacion() {
 		return localizacion;
 	}
+	
 	public int getAforomax() {
 		return aforomax;
 	}
+	
 	public int getAforores() {
 		return aforores;
 	}
+	
 	public Propietario getPropietario() {
 		return propietario;
 	}
+	
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
+	
 	public void setLocalizacion(String localizacion) {
 		this.localizacion = localizacion;
 	}
+	
 	public void setAforomax(int aforomax) {
 		this.aforomax = aforomax;
 	}
+	
 	public void setAforores(int aforores) {
 		this.aforores = aforores;
 		//aqui se podria hacer una resta entre el maximo y el numero de clientes con reserva
 	}
+	
 	public void setPropietario(Propietario propietario) {
+		this.propietario = propietario;
+	}
+	
+	public Restaurante() {
+		super();
+	}
+	
+	public Restaurante(Propietario propietario) {
+		super();
 		this.propietario = propietario;
 	}
     

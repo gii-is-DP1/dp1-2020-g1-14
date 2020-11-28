@@ -35,6 +35,7 @@ public class ProveedorController {
 		modelMap.addAttribute("proveedor", new Proveedor());
 		return view;
 	}
+	
 	@PostMapping(path="/save")
 	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
 	String view="proveedores/listadoProveedores";

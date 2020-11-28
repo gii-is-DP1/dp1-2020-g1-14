@@ -29,10 +29,12 @@ public class RestauranteService {
 		return RestaurantRepo.findById(id);
 	}
 	
+	@Transactional
 	public void save(Restaurante restaurante) {
 		RestaurantRepo.save(restaurante);
 	}
-
+	
+	@Transactional
 	public void delete(Restaurante restaurante) {
 		RestaurantRepo.delete(restaurante);
 		
