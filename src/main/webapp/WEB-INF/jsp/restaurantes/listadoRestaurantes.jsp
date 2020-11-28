@@ -50,7 +50,7 @@
                     <spring:url value="/restaurantes/{restaurantesId}/edit" var="restauranteUrl">
         				<spring:param name="restaurantesId" value="${restaurantes.id}"/>
     				</spring:url>
-    				<a href="${fn:escapeXml(restaurantesUrl)}" class="btn btn-default">Edit</a>
+    				<a href="${fn:escapeXml(restauranteUrl)}" class="btn btn-default">Edit</a>
                 </td>
                 
                 

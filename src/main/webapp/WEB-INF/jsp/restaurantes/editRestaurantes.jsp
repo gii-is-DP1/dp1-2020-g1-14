@@ -8,7 +8,7 @@
 <petclinic:layout pageName="Restaurantes">
     <jsp:body>
           <h2>Restaurantes</h2>
-		<form:form modelAttribute="restaurantes" class="form-horizontal" action= "/restaurantes/save" onsubmit="return validar()">
+		<form:form modelAttribute="restaurante" class="form-horizontal" action= "/restaurantes/save" onsubmit="return validar()">
             <div class="form-group has-feedback">
             	<petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Tipo" name="tipo"/>
@@ -38,53 +38,16 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${restaurantes.id}"/>
                     <c:choose>
-                    	<c:when test="${owner['new']}">
-                    		<button class="btn btn-default" type="submit">Add Owner</button>
+                    	<c:when test="${restaurantes['new']}">
+                    		<button class="btn btn-default" type="submit">Add Restaurante</button>
                     	</c:when>
                     	<c:otherwise>
-                    		<button class="btn btn-default" type="submit">Update Owner</button>
+                    		<button class="btn btn-default" type="submit">Update Restaurante</button>
                     	</c:otherwise>
                     </c:choose>
                 </div>
             </div>
-        </form:form>
-       <!-- esto esta por aquí para apollo
-        <h2>
-            <c:if test="${pet['new']}">New </c:if> Pet
-        </h2>
-        <form:form modelAttribute="pet"
-                   class="form-horizontal">
-            <input type="hidden" name="id" value="${pet.id}"/>
-            <div class="form-group has-feedback">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Owner</label>
-                    <div class="col-sm-10">
-                        <c:out value="${pet.owner.firstName} ${pet.owner.lastName}"/>
-                    </div>
-                </div>
-                <petclinic:inputField label="Name" name="name"/>
-                <petclinic:inputField label="Birth Date" name="birthDate"/>
-                <div class="control-group">
-                    <petclinic:selectField name="type" label="Type " names="${types}" size="5"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <c:choose>
-                        <c:when test="${pet['new']}">
-                            <button class="btn btn-default" type="submit">Add Pet</button>
-                        </c:when>
-                        <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Pet</button>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </div>
-        </form:form>
-        <c:if test="${!pet['new']}">
-        </c:if>-->
-
-       
+        </form:form>       
     </jsp:body>
 
 </petclinic:layout>

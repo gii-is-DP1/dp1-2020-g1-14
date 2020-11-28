@@ -1,13 +1,8 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SecondaryTable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
@@ -21,15 +16,10 @@ public class Restaurante extends NamedEntity {
     private int aforomax;
     @Positive
     private int aforores;
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "propietario_id")
-    private Propietario propietario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante")
-    private Set<Ingrediente> ingredientes;
+    private Propietario propietario;*/
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante")
-	private Set<Reclamacion> reclamaciones;
-    
     public String getTipo() {
 		return tipo;
 	}
@@ -46,9 +36,9 @@ public class Restaurante extends NamedEntity {
 		return aforores;
 	}
 	
-	public Propietario getPropietario() {
+	/*public Propietario getPropietario() {
 		return propietario;
-	}
+	}*/
 	
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
@@ -67,26 +57,16 @@ public class Restaurante extends NamedEntity {
 		//aqui se podria hacer una resta entre el maximo y el numero de clientes con reserva
 	}
 	
-	public void setPropietario(Propietario propietario) {
+	/*public void setPropietario(Propietario propietario) {
 		this.propietario = propietario;
-	}
+	}*/
 	
 	public Restaurante() {
 		super();
 	}
 	
-	public Restaurante(Propietario propietario) {
+	/*public Restaurante(Propietario propietario) {
 		super();
 		this.propietario = propietario;
-	}
-
-	public Set<Ingrediente> getIngredientes() {
-		return ingredientes;
-	}
-
-	public void setIngredientes(Set<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-    
-
+	}*/
 }
