@@ -24,7 +24,7 @@ public class Restaurante extends NamedEntity {
     @ManyToOne
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "propietario")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurante")
     private Set<Ingrediente> ingredientes;
 	
     public String getTipo() {
