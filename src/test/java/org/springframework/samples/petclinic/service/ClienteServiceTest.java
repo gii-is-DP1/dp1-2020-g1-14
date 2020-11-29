@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -18,10 +19,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 
@@ -60,8 +63,23 @@ public class ClienteServiceTest {
     	});
     }
     
-   
-    	
-   
+    /*
+    //Comprueba que el número de teléfono hace match con el regex establecido.
+    @Test
+	void shouldMatchTelephoneNumber() {
+		Optional<Cliente> clienteTlf = this.clienteService.findClienteById(1);
+		clienteTlf.get().setTlf("954987856");
+		assertThat(clienteTlf.get().getTlf().matches("^([0-9]|7[1-9])[0-9]{8}$"));
+		
+	}
     
+    //Comprueba que el campo del número de teléfono está vacío
+    @Test
+	void shouldTelephoneNumberFieldIsEmpty() {
+		Optional<Cliente> clienteTlf = this.clienteService.findClienteById(1);
+		clienteTlf.get().setTlf("");
+		assertThat(clienteTlf.get().getTlf().isEmpty());
+		
+	}
+   */
 }
