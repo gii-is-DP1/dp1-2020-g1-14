@@ -22,6 +22,14 @@ public class IngredienteController {
 	private IngredienteService ingService;
 	
 	@GetMapping()
+	public String listadoIngredientesPorRestaurante(ModelMap modelMap, int id) {
+		String vista = "ingredientes/listadoIngredientes";
+		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestaurante(id);
+		modelMap.addAttribute("ingredientes", ingredientes);
+		return vista;
+	}
+	
+	@GetMapping()
 	public String listadoIngredientes(ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
 		Iterable<Ingrediente> ingredientes = ingService.findAll();
