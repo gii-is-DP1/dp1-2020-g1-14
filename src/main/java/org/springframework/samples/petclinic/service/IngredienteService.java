@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Ingrediente;
-import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.repository.IngredienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +18,13 @@ public class IngredienteService {
 	public int ingredienteCount() {
 		return (int) ingRep.count();
 	}
-	
 	@Transactional
 	public Iterable<Ingrediente> findAll(){
 		return ingRep.findAll();
+	}
+	@Transactional
+	public Iterable<Ingrediente> findIngredientesByRestaurante(int id){
+		return ingRep.findByRestaurante(id);
 	}
 	
 	@Transactional(readOnly=true)
@@ -34,6 +37,7 @@ public class IngredienteService {
 		ingRep.save(ingrediente);
 	}
 	
+	@Transactional
 	public void delete(Ingrediente ingrediente) {
 		ingRep.delete(ingrediente);
 	}
