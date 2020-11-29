@@ -5,9 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Controller;
@@ -21,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/productos")
 public class ProductoController {
+	
+	public static final String VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM = "productos/editProducto";
 	
 	@Autowired
 	private ProductoService productoService;
@@ -72,5 +72,27 @@ public class ProductoController {
 	}
 	return view;
 }
-
+	@GetMapping(path = "/{productoId}/edit")
+	public String initUpdateForm(@PathVariable("productoId") int productoId, ModelMap model) {
+		Producto producto = this.productoService.findProductoById(productoId).get();
+		model.addAttribute(producto);
+		return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
+	}
+	@PostMapping(value="/{productoId}/edit")
+	public String processUpdateProductoForm(@Valid Producto producto, BindingResult result, @PathVariable("productoId" ) int productoId) {
+		if (result.hasErrors()) {
+			return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			producto.setId(productoId);
+			try {
+				this.productoService.save(producto);
+			} catch (WrongDataProductosException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return "redirect:/productos/{productoId}";
+		}
+	}
+	
 }
