@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductoServiceTest {
 	@Autowired
 	private ProductoService productoService;
-	
+		
 	@Test
 	public void testCountWithInitialData() {
 		int count = productoService.productoCount();
@@ -81,7 +81,6 @@ public class ProductoServiceTest {
 	public void shouldUpdateProducto() {
 		Optional<Producto> producto = this.productoService.findProductoById(1);
 		String newName = "Bizcocho";
-		
 		producto.get().setName("Bizcocho");
 		
 		String oldAlergeno = producto.get().getAlergenos();
