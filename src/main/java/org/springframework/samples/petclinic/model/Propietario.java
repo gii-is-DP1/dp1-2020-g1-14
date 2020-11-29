@@ -12,7 +12,7 @@ import javax.validation.constraints.Pattern;
 public class Propietario extends Usuario{
 	
 	@NotBlank(message="El número DNI es obligatorio.")
-	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
+	@Pattern(regexp="^[0-9]{8}[a-Z]{1}$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
 	
 	/*@OneToMany(cascade = CascadeType.ALL, mappedBy = "propietario")

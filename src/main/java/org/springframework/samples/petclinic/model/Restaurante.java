@@ -2,20 +2,21 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Restaurante extends NamedEntity {
-    @NotBlank
+
+	@NotBlank	
 	private String tipo;
     @NotBlank
-	private String localizacion;
+    private String localizacion;
     @Positive
     private int aforomax;
-    @Positive
+    @PositiveOrZero
     private int aforores;
     /*@ManyToOne
     @JoinColumn(name = "propietario_id")
