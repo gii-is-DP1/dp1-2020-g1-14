@@ -21,13 +21,13 @@ public class IngredienteController {
 	@Autowired
 	private IngredienteService ingService;
 	
-	@GetMapping()
+	/*@GetMapping()
 	public String listadoIngredientesPorRestaurante(ModelMap modelMap, int id) {
 		String vista = "ingredientes/listadoIngredientes";
 		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestaurante(id);
 		modelMap.addAttribute("ingredientes", ingredientes);
 		return vista;
-	}
+	}*/
 	
 	@GetMapping()
 	public String listadoIngredientes(ModelMap modelMap) {

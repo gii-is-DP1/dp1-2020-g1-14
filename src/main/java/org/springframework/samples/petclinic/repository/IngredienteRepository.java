@@ -9,6 +9,6 @@ import org.springframework.samples.petclinic.model.Ingrediente;
 
 public interface IngredienteRepository extends CrudRepository<Ingrediente, Integer>{
 
-	@Query("SELECT ingrediente FROM Ingrediente ingrediente WHERE id=:restaurante_id")
-	public Collection<Ingrediente> findByRestaurante(@Param("id") int id);
+	/*@Query("SELECT ingrediente FROM Ingrediente ingrediente WHERE id=:restaurante_id")
+	public Collection<Ingrediente> findByRestaurante(@Param("id") int id);*/
 }

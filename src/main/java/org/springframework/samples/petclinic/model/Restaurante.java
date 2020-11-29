@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -20,7 +21,8 @@ public class Restaurante extends NamedEntity {
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
     
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "gerente")
+   
+    @OneToOne(cascade = CascadeType.ALL)
     private Gerente gerente;
 	
     public String getTipo() {
