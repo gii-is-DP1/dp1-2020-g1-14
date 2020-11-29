@@ -11,7 +11,9 @@ import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,11 @@ public class RestauranteController {
 	private RestauranteService restauranteService;
 	//private PropietarioService propietarioService;
 	
+	/*@InitBinder("restaurante")
+	public void initRestauranteBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new RestauranteValidator());
+	}*/
+	
 	@GetMapping()
 	public String listadoRestaurantes(ModelMap modelMap) {
 		String vista = "restaurantes/listadoRestaurantes";
@@ -37,7 +44,7 @@ public class RestauranteController {
 	@GetMapping(path = "/new")
 	public String crearRestaurantes(ModelMap modelMap) {
 		String view = "restaurantes/editRestaurantes";
-		modelMap.addAttribute("restaurante", new Restaurante(/*propietarioService.findPropietarioById(1).get()*/));
+		modelMap.addAttribute("restaurante", new Restaurante());
 		return view;
 	}
 	
@@ -60,12 +67,6 @@ public class RestauranteController {
 			return "redirect:/restaurantes/{restauranteId}";
 		}
 	}
-	
-	/* METODO TODAVÍA SIN IMPLEMENTAR
-	 * @GetMapping(path = "/restuarantes/new")
-	public String initCreationForm(Propietario propietario, ModelMap model) {
-		Restaurante restaurante
-	}*/
 	
 	@PostMapping(path="/save")
 	public String salvarRestaurantes(@Valid Restaurante restaurante, BindingResult res, ModelMap modelMap) {

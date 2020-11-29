@@ -33,7 +33,7 @@ public class PropietarioServiceTest {
 		assertThat(propietario.get().getId()).isEqualTo(1);
 	}
 
-	/*@Test
+	@Test
 	void shouldUpdatePropietario() {
 		Optional<Propietario> propietario = this.propietarioService.findPropietarioById(1);
 		propietario.get().setName("editNombre");
@@ -44,7 +44,7 @@ public class PropietarioServiceTest {
 		assertThat(propietario.get().getPassword()).isEqualTo("editPass1");
 	}
 
-	@Test
+	/*@Test
 	@Transactional
 	void shouldNotUpdatePropietario() {
 		Optional<Propietario> propietario = this.propietarioService.findPropietarioById(1);
