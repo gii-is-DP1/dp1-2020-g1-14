@@ -62,24 +62,5 @@ public class ClienteServiceTest {
     		clienteService.checkSocio(cliente.get());
     	});
     }
-    
-    /*
-    //Comprueba que el número de teléfono hace match con el regex establecido.
-    @Test
-	void shouldMatchTelephoneNumber() {
-		Optional<Cliente> clienteTlf = this.clienteService.findClienteById(1);
-		clienteTlf.get().setTlf("954987856");
-		assertThat(clienteTlf.get().getTlf().matches("^([0-9]|7[1-9])[0-9]{8}$"));
-		
-	}
-    
-    //Comprueba que el campo del número de teléfono está vacío
-    @Test
-	void shouldTelephoneNumberFieldIsEmpty() {
-		Optional<Cliente> clienteTlf = this.clienteService.findClienteById(1);
-		clienteTlf.get().setTlf("");
-		assertThat(clienteTlf.get().getTlf().isEmpty());
-		
-	}
-   */
+
 }
