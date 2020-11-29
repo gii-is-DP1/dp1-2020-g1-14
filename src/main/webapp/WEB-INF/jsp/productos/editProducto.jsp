@@ -16,12 +16,22 @@
                 <petclinic:inputField label="Alergenos" name="alergenos"/>
             </div>
 	
+
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${producto.id}"/>
-                    <button class="btn btn-default" type="submit">Save Producto</button>
+                    <c:choose>
+                    	<c:when test="${producto['new']}">
+                    		<button class="btn btn-default" type="submit">Add Producto</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<button class="btn btn-default" type="submit">Update Producto</button>
+                    	</c:otherwise>
+                    </c:choose>
                 </div>
             </div>
+            
+            
         </form:form>
     </jsp:body>
 
