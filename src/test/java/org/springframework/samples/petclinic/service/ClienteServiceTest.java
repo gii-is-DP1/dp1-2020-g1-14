@@ -60,7 +60,7 @@ public class ClienteServiceTest {
     	});
     }
     
-    /*
+    
     	private Validator createValidator() {
     		LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
     	
@@ -69,19 +69,20 @@ public class ClienteServiceTest {
     	}
    
    
-	@Test
+	/*@Test
 	void CheckTelephoneIsNotEmpty() {
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Cliente telephoneNum = new Cliente();
 		telephoneNum.setTlf("");
 		Validator validator = createValidator();
 		Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(telephoneNum);
-		assertThat(constraintViolations.size()).isEqualTo(1);
+		assertThat(constraintViolations.size()).isEqualTo(2);
 		ConstraintViolation<Cliente> violation = constraintViolations.iterator().next();
+		
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("tlf");
 		assertThat(violation.getMessage()).isEqualTo("El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.");
-	}
-    */
+	}*/
+    
     	
    
     
