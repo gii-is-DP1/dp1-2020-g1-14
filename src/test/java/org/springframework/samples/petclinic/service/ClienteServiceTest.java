@@ -60,14 +60,14 @@ public class ClienteServiceTest {
     	});
     }
     
-    
+   
     	private Validator createValidator() {
     		LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
     	
     		localValidatorFactoryBean.afterPropertiesSet();
     		return localValidatorFactoryBean;
     	}
-   
+
    
 	/*@Test
 	void CheckTelephoneIsNotEmpty() {
@@ -82,7 +82,7 @@ public class ClienteServiceTest {
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("tlf");
 		assertThat(violation.getMessage()).isEqualTo("El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.");
 	}*/
-    
+
     	
    
     
