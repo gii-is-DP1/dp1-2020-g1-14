@@ -10,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,4 +46,6 @@ public class ProveedorServiceTest {
 		proveedores = (Collection<Proveedor>) this.proveedorService.findAll();
 		assertThat(proveedores.size()).isEqualTo(found+1);
 	}
+	
+	
 }

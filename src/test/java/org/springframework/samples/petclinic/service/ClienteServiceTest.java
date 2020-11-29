@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
@@ -18,10 +19,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 
@@ -59,31 +62,5 @@ public class ClienteServiceTest {
     		clienteService.checkSocio(cliente.get());
     	});
     }
-    
-   
-    	private Validator createValidator() {
-    		LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
-    	
-    		localValidatorFactoryBean.afterPropertiesSet();
-    		return localValidatorFactoryBean;
-    	}
 
-   
-	/*@Test
-	void CheckTelephoneIsNotEmpty() {
-		LocaleContextHolder.setLocale(Locale.ENGLISH);
-		Cliente telephoneNum = new Cliente();
-		telephoneNum.setTlf("");
-		Validator validator = createValidator();
-		Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(telephoneNum);
-		assertThat(constraintViolations.size()).isEqualTo(2);
-		ConstraintViolation<Cliente> violation = constraintViolations.iterator().next();
-		
-		assertThat(violation.getPropertyPath().toString()).isEqualTo("tlf");
-		assertThat(violation.getMessage()).isEqualTo("El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.");
-	}*/
-
-    	
-   
-    
 }
