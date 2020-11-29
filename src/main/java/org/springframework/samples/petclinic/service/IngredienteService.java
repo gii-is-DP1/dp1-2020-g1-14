@@ -22,10 +22,10 @@ public class IngredienteService {
 	public Iterable<Ingrediente> findAll(){
 		return ingRep.findAll();
 	}
-	@Transactional
+	/*@Transactional
 	public Iterable<Ingrediente> findIngredientesByRestaurante(int id){
 		return ingRep.findByRestaurante(id);
-	}
+	}*/
 	
 	@Transactional(readOnly=true)
 	public Optional<Ingrediente> findIngredienteById(int id) {
