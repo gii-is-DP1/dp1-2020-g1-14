@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-public class Reclamacion extends NamedEntity{
+public class Reclamacion extends BaseEntity{
 
 	@NotBlank(message="El campo no puede ser nulo o estar vacío")
 	private String descripcion;
