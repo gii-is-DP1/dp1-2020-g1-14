@@ -1,10 +1,15 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Ingrediente;
+import org.springframework.samples.petclinic.model.Medida;
 import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/ingredientes")
 public class IngredienteController {
 
+	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "ingredientes/editarIngrediente";
 	@Autowired
 	private IngredienteService ingService;
 	
@@ -40,6 +46,12 @@ public class IngredienteController {
 	@GetMapping(path="/new")
 	public String añadirIngrediente(ModelMap modelMap) {
 		String vista = "ingredientes/editarIngrediente";
+		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
+		ArrayList<String> medidas = new ArrayList<String>();
+		for(Medida medida: set) {
+			medidas.add(medida.toString());
+		}
+		modelMap.addAttribute("medidas", medidas);
 		modelMap.addAttribute("ingrediente", new Ingrediente());
 		return vista;
 	}
@@ -48,6 +60,12 @@ public class IngredienteController {
 	public String guardarIngrediente(@Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
 		if(result.hasErrors()) {
+			EnumSet<Medida> set = EnumSet.allOf(Medida.class);
+			ArrayList<String> medidas = new ArrayList<String>();
+			for(Medida medida: set) {
+				medidas.add(medida.toString());
+			}
+			modelMap.addAttribute("medidas", medidas);
 			modelMap.addAttribute("ingrediente", ingrediente);
 			return "ingredientes/editarIngrediente";
 		}else {
@@ -56,6 +74,32 @@ public class IngredienteController {
 			vista = listadoIngredientes(modelMap);
 		}
 		return vista;		
+	}
+	
+	@GetMapping(path = "/{ingredienteId}/edit")
+	public String initUpdateForm(@PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
+		Ingrediente ingrediente = this.ingService.findIngredienteById(ingredienteId).get();
+		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
+		ArrayList<String> medidas = new ArrayList<String>();
+		for(Medida medida: set) {
+			medidas.add(medida.toString());
+		}
+		model.addAttribute("medidas", medidas);
+		model.addAttribute(ingrediente);
+		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/{gerenteId}/edit")
+	public String processUpdateOwnerForm(@Valid Ingrediente ingrediente, BindingResult result,
+			@PathVariable("ingredienteId") int ingredienteId) {
+		if (result.hasErrors()) {
+			return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			ingrediente.setId(ingredienteId);
+			this.ingService.save(ingrediente);
+			return "redirect:/ingredientes/{ingredienteId}";
+		}
 	}
 	
 	@GetMapping(path="/delete/{ingredienteId}")

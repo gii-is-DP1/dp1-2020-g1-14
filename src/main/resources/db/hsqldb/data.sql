@@ -113,10 +113,13 @@ INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','pass4','2020-10-10',false,'6','954736516');
 
 INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
+INSERT INTO ingrediente(id,name,stock,medida) VALUES(2,'Cajas de tomates',5,'UNIDAD');
+INSERT INTO ingrediente(id,name,stock,medida) VALUES(3,'Harina',17,'KG');
 
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
+
 
 
 INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3);
@@ -128,4 +131,8 @@ INSERT INTO linea_pedido(id,cantidad) VALUES (1,12);
 INSERT INTO linea_pedido(id,cantidad) VALUES (2,12);
 INSERT INTO linea_pedido(id,cantidad) VALUES (3,12);
 INSERT INTO linea_pedido(id,cantidad) VALUES (4,12);
+
+INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(1,'nombre1','gerente1','2000-10-11','12345678F',1);
+INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(2,'nombre2','gerente2','2000-10-11','12345678G',2);
+
 

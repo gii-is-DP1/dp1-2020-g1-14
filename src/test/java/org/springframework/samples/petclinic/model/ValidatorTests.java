@@ -40,5 +40,23 @@ class ValidatorTests {
 		assertThat(violation.getPropertyPath().toString()).isEqualTo("firstName");
 		assertThat(violation.getMessage()).isEqualTo("must not be empty");
 	}
+	
+/*
+	@Test
+	void shouldMatchTelephoneNumber() {
 
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
+		Cliente clienteTlf = new Cliente();
+		clienteTlf.setTlf("954455654");
+		
+
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(clienteTlf);
+
+		assertThat(constraintViolations.size()).isEqualTo(1);
+		ConstraintViolation<Cliente> violation = constraintViolations.iterator().next();
+		assertThat(violation.getPropertyPath().toString()).isEqualTo("tlf");
+		assertThat(violation.getMessage()).isEqualTo("El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.");
+	}
+*/
 }

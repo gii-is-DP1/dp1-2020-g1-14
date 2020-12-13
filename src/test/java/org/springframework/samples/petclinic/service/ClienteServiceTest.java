@@ -3,7 +3,12 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
+
 import java.time.LocalDate;
+
+import java.util.Collection;
+import java.util.Locale;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -14,8 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Cliente;
+
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.stereotype.Service;
+
+import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.repository.ClienteRepository;
+import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -52,6 +66,7 @@ public class ClienteServiceTest {
     	});
     }
 
+
     @ParameterizedTest
     @CsvSource({"2020-03-11,12,true"
     	,"2020-02-13,10,false"})
@@ -80,4 +95,5 @@ public class ClienteServiceTest {
     		clienteService.checkSocio(c);
     	});
     }
+
 }

@@ -16,7 +16,12 @@ import javax.validation.Payload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
+
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
+
+import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
+import org.springframework.samples.petclinic.web.TelephoneNumberValidator;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,15 +65,18 @@ public class ClienteService {
     	return (int) noOfMonths;
     }
     
+
   /*  @Documented
-    @Constraint(validatedBy= TelephoneNumberValidator.class)
+
+    @Documented
+ @Constraint(validatedBy= TelephoneNumberValidator.class)
     @Target( { ElementType.METHOD, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
     public @interface TelephoneNumberConstraint{ 
     	String message() default "El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.";
     	Class<?>[] groups() default {};
     	Class<? extends Payload>[] payload() default {};
-    } */
 
+    } */
 
 }
