@@ -19,8 +19,7 @@ import org.springframework.samples.petclinic.repository.ClienteRepository;
 
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 
-import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
-import org.springframework.samples.petclinic.web.TelephoneNumberValidator;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

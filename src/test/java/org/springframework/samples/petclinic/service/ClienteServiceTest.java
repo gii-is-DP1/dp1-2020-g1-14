@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
-import org.springframework.samples.petclinic.service.exceptions.DoesNotMeetConditionsException;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
