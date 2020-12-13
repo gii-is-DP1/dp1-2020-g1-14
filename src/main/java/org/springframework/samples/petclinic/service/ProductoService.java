@@ -29,7 +29,7 @@ public class ProductoService {
 		return productoRepo.findById(id);
 	}
 	public void save(Producto producto) throws WrongDataProductosException {
-		if((producto.getName().length() < 3 || producto.getName().length() > 50) || producto.getPrecio() == 0) {
+		if((producto.getName().length() < 3 || producto.getName().length() > 50) || !producto.getAlergenos().matches("^[a-zA-Z,.!? ]*$")||producto.getPrecio() <= 0) {
 			throw new WrongDataProductosException();
 		}else
 		productoRepo.save(producto);

@@ -1,24 +1,33 @@
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+
+import org.springframework.samples.petclinic.service.RestauranteService.AforoResConstraint;
 
 @Entity
+//@AforoResConstraint(min = "aforores", max = "aforomax")
 public class Restaurante extends NamedEntity {
-    @NotBlank
+
+	@NotBlank	
 	private String tipo;
     @NotBlank
-	private String localizacion;
+    private String localizacion;
     @Positive
     private int aforomax;
-    @Positive
-    private int aforores;
+    @PositiveOrZero
+    private Integer aforores;
     /*@ManyToOne
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
+    
+   
+    @OneToOne(cascade = CascadeType.ALL)
+    private Gerente gerente;
 	
     public String getTipo() {
 		return tipo;

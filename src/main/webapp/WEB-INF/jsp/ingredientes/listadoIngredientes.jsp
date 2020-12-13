@@ -9,7 +9,10 @@
 
 <petclinic:layout pageName="ingredientes">
     <h2>Ingredientes</h2>
-
+	<spring:url value="/ingredientes/new" var="ingredienteUrl">
+                    </spring:url>
+                    <a href="${fn:escapeXml(ingredienteUrl)}" class="btn btn-default">New</a>
+                    
     <table id="ingredientesTable" class="table table-striped">
         <thead>
         <tr>
@@ -32,6 +35,10 @@
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(ingredienteUrl)}">Borrar</a>
+                	<spring:url value="/ingredientes/{ingredienteId}/edit" var="ingredienteUrl">
+                        <spring:param name="ingredienteId" value="${ingrediente.id}"/>
+                    </spring:url>
+                	<a href="${fn:escapeXml(ingredienteUrl)}">Editar</a>
                 </td>
             </tr>
         </c:forEach>

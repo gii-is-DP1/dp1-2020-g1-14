@@ -1,15 +1,15 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.Collection;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductoServiceTest {
 	@Autowired
 	private ProductoService productoService;
-	
+		
 	@Test
 	public void testCountWithInitialData() {
 		int count = productoService.productoCount();
-		assertEquals(count, 3);
+		assertEquals(count, 4);
 	}
 	
 	@Test
@@ -54,14 +54,15 @@ public class ProductoServiceTest {
 		productos = (Collection<Producto>) this.productoService.findAll();
 		assertThat(productos.size()).isEqualTo(found+1);
 	}
-	@Test
+	@ParameterizedTest
 	@Transactional
-	public void shouldThrowWrongDataProductosException() {
+	@CsvSource({"Bacalao, Pescado, 0.", "T,Frutos secos,5", "Tortilla,2Huevos,5"})
+	public void shouldThrowWrongDataProductosException(String name, String al, Double pr) {
 		
 		Producto p = new Producto();
-		p.setName("ab");
-		p.setAlergenos("");
-		p.setPrecio(0.);
+		p.setName(name);
+		p.setAlergenos(al);
+		p.setPrecio(pr);
 			
                                
                 
@@ -81,7 +82,6 @@ public class ProductoServiceTest {
 	public void shouldUpdateProducto() {
 		Optional<Producto> producto = this.productoService.findProductoById(1);
 		String newName = "Bizcocho";
-		
 		producto.get().setName("Bizcocho");
 		
 		String oldAlergeno = producto.get().getAlergenos();

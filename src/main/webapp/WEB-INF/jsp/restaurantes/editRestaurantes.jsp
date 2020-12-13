@@ -8,37 +8,20 @@
 <petclinic:layout pageName="Restaurantes">
     <jsp:body>
           <h2>Restaurantes</h2>
-		<form:form modelAttribute="restaurante" class="form-horizontal" action= "/restaurantes/save" onsubmit="return validar()">
+		<form:form modelAttribute="restaurante" class="form-horizontal" action= "/restaurantes/save">
             <div class="form-group has-feedback">
             	<petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Tipo" name="tipo"/>
                 <petclinic:inputField label="Localizacion" name="localizacion"/>
                 <petclinic:inputField label="Aforo Maximo" name="aforomax"/>
-                <petclinic:inputField label="Aforo Restante " name="aforores"/>
-                <script type="text/javascript">
-                	function validar(){
-                		var aforores = document.getElementById("aforores").value;
-                		var aforomax = document.getElementById("aforomax").value;
-                		var esMenor = true;
-                		var esCorrecto = true;
-                		if(aforores > aforomax){
-                			esMenor = false;
-                		}if(isNaN(aforores) || isNaN(aforomax)){
-                			esCorrecto = false
-                		}
-                		if(!esMenor) alert("El aforo restante no puede ser mayor al máximo");
-                		if(!esCorrecto) alert("El aforo debe ser un número");
-                		return esMenor || esCorrecto;
-                	}
-                </script>
-                
+                <petclinic:inputField label="Aforo Restante " name="aforores"/>                
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <input type="hidden" name="id" value="${restaurantes.id}"/>
+                    <input type="hidden" name="id" value="${restaurante.id}"/>
                     <c:choose>
-                    	<c:when test="${restaurantes['new']}">
+                    	<c:when test="${restaurante['new']}">
                     		<button class="btn btn-default" type="submit">Add Restaurante</button>
                     	</c:when>
                     	<c:otherwise>
