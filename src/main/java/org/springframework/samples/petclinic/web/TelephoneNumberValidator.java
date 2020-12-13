@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.web;
+/*package org.springframework.samples.petclinic.web;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -16,3 +16,4 @@ public class TelephoneNumberValidator implements ConstraintValidator<TelephoneNu
 	}
 
 }
+*/
