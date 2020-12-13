@@ -102,12 +102,13 @@ INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
 INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
 
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','pass1','2000-10-11',true,'12','954765812');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-1-13',true,'12','954357811');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-01-13',true,'12','954357811');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','pass3','1999-08-10',false,'11','954736516');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','pass4','2020-10-10',false,'6','954736516');
 
@@ -119,6 +120,19 @@ INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietari
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
 
+
+
+INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3);
+INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(2,'Calle B','EN_REPARTO','2020-04-14',20.4);
+INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(3,'Calle C','RECIBIDO','2020-11-19',16.4);
+INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(4,'Calle D','PROCESANDO','2020-09-03',11.5);
+
+INSERT INTO linea_pedido(id,cantidad) VALUES (1,12);
+INSERT INTO linea_pedido(id,cantidad) VALUES (2,12);
+INSERT INTO linea_pedido(id,cantidad) VALUES (3,12);
+INSERT INTO linea_pedido(id,cantidad) VALUES (4,12);
+
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(1,'nombre1','gerente1','2000-10-11','12345678F',1);
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(2,'nombre2','gerente2','2000-10-11','12345678G',2);
+
 
