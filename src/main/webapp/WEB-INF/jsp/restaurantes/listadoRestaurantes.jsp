@@ -15,7 +15,7 @@
     <table id="restauranteTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Nombre</th>
+            <th style="width: 150px">Nombre</th>
             <th style="width: 120px">Tipo</th>
             <th style="width: 120px">Localizacion</th>
             <th style="width: 120px">Aforo maximo</th>
