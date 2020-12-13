@@ -7,7 +7,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import org.springframework.samples.petclinic.service.RestauranteService.AforoResConstraint;
+
 @Entity
+//@AforoResConstraint(min = "aforores", max = "aforomax")
 public class Restaurante extends NamedEntity {
 
 	@NotBlank	
@@ -17,7 +20,7 @@ public class Restaurante extends NamedEntity {
     @Positive
     private int aforomax;
     @PositiveOrZero
-    private int aforores;
+    private Integer aforores;
     /*@ManyToOne
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
