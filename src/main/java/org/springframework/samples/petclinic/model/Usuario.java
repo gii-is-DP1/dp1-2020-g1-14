@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.sun.istack.NotNull;
+
 
 
 @MappedSuperclass
