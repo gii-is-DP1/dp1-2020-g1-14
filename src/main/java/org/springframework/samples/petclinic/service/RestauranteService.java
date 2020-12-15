@@ -54,8 +54,8 @@ public class RestauranteService {
 	@Retention(RetentionPolicy.RUNTIME)
 	public @interface AforoResConstraint{
 		String message() default "El aforo restante no puede ser mayor que el máximo";
-		String min();
-		String max();
+		String afRes();
+		String afMax();
 		Class<?>[] groups() default {};
 	    Class<? extends Payload>[] payload() default {};
 		
