@@ -10,7 +10,7 @@ import javax.validation.constraints.PositiveOrZero;
 import org.springframework.samples.petclinic.service.RestauranteService.AforoResConstraint;
 
 @Entity
-//@AforoResConstraint(min = "aforores", max = "aforomax")
+@AforoResConstraint(afRes = "aforores", afMax = "aforomax")
 public class Restaurante extends NamedEntity {
 
 	@NotBlank	
