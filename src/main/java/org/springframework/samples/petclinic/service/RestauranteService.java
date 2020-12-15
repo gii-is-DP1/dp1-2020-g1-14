@@ -60,4 +60,5 @@ public class RestauranteService {
 	    Class<? extends Payload>[] payload() default {};
 		
 	}
+
 }

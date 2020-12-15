@@ -6,7 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="gerentes">
-    <jsp:body>
+    <body onload="VerRestaurante()">
         <h2>Gerentes</h2>
         
         <form:form modelAttribute="gerente" class="form-horizontal" action="/gerentes/save">
@@ -16,8 +16,13 @@
                 <petclinic:inputField label="Contraseña" name="password"/>
                 <c:choose>
                     	<c:when test="${gerente['new']}">
-                    		<petclinic:selectField label="Restaurante" name="restaurante" names="${restaurantes}" size="${fn:length(restaurantes)}"/>
+                    		<petclinic:selectField label="Restaurante" name="restaurante" names="${nombres}" size="${fn:length(nombres)}"/>
                     	</c:when>
+                    	<c:otherwise>
+                    	<div id="script">
+                    		<petclinic:selectField label="Restaurante" name="restaurante" names="${nombres}" size="${fn:length(nombres)}"/>
+                    		</div>
+                    	</c:otherwise>
                     </c:choose>
             </div>
 	
@@ -28,6 +33,12 @@
                 </div>
             </div>
         </form:form>
-    </jsp:body>
+    </body>
+
 
 </petclinic:layout>
+<script type="text/javascript">
+  function VerRestaurante() {
+    document.getElementById('script').style.display = "none";
+  } 
+</script>
