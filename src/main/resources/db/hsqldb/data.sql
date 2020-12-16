@@ -135,4 +135,8 @@ INSERT INTO linea_pedido(id,cantidad) VALUES (4,12);
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(1,'nombre1','gerente1','2000-10-11','12345678F',1);
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(2,'nombre2','gerente2','2000-10-11','12345678G',2);
 
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
+
 
