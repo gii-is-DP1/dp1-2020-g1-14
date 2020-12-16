@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -20,13 +23,15 @@ public class Restaurante extends NamedEntity {
     @Positive
     private int aforomax;
     @PositiveOrZero
-    private Integer aforores;
+    private int aforores;
     /*@ManyToOne
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
     
-   
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany
+    private Set<Reserva> reservas;
+
+	@OneToOne(cascade = CascadeType.ALL)
     private Gerente gerente;
 	
     public String getTipo() {
@@ -78,4 +83,21 @@ public class Restaurante extends NamedEntity {
 		super();
 		this.propietario = propietario;
 	}*/
+	
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public Gerente getGerente() {
+		return gerente;
+	}
+
+	public void setGerente(Gerente gerente) {
+		this.gerente = gerente;
+	}
+	
 }
