@@ -21,6 +21,12 @@ public class ReservaValidator implements Validator {
 		Boolean evento = reserva.getEvento();
 		Integer nPers = reserva.getnPersonas();
 		
+		//fecha validator
+		LocalDate fecha = reserva.getFecha();
+		if(fecha.isBefore(LocalDate.now())) {
+			errors.rejectValue("fecha", REQUIRED+"  Introduzca una fecha válida",REQUIRED+"  Introduzca una fecha válida");
+		}
+		
 		// evento validation
 		if(evento==null) {
 			errors.rejectValue("evento", REQUIRED+"es necesario indicar si es evento", REQUIRED+"es necesario indicar si es evento");
@@ -36,12 +42,20 @@ public class ReservaValidator implements Validator {
 			errors.rejectValue("horaFin", REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin",REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin");
 		}
 		
+		if(HI.isBefore(LocalTime.now())) {
+			errors.rejectValue("horaInicio", REQUIRED+"  Introduzca una hora válida",REQUIRED+"  Introduzca una hora válida");
+		}
+		
+		if(HF.isBefore(LocalTime.now())) {
+			errors.rejectValue("horaFin", REQUIRED+"  Introduzca una hora válida",REQUIRED+"  Introduzca una hora válida");
+		}
+		
 		// Aforo validation
 		Restaurante res = reserva.getRestaurante();
 		if(res == null) {
 			
 		}else if (nPers>res.getAforores()) {
-			errors.rejectValue("nPers", REQUIRED+"no hay aforo suficiente", REQUIRED+"no hay aforo suficiente");
+			errors.rejectValue("nPers", REQUIRED+"  no hay aforo suficiente", REQUIRED+"  no hay aforo suficiente");
 		}
 
 			
