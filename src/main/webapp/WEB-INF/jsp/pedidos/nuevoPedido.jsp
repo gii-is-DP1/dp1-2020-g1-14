@@ -10,11 +10,19 @@
         <h2>Pedidos</h2>
         
         <form:form modelAttribute="pedido" class="form-horizontal" action="/pedidos/order">
+
             <div class="form-group has-feedback">
+          
                 <petclinic:inputField label="adress" name="adress"/>
                 <petclinic:inputField label="estado" name="estado"/>
-                <petclinic:inputField label="orderDate" name="orderDate"/>
+                <c:out value = "orderDate: ${pedido.orderDate} "> </c:out>
                 <petclinic:inputField label="price" name="price"/>
+                <select multiple name="productos" id="productos">
+                	<option selected> Selecionar productos</option>
+                	<c:forEach var="producto" items="${productos}">
+                		<option value="${producto.name}">${producto.name}</option>
+                	</c:forEach>
+               </select>
                 
             </div>
 	
@@ -26,5 +34,5 @@
             </div>
         </form:form>
     </jsp:body>
-
+ 
 </petclinic:layout>
