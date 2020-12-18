@@ -1,15 +1,18 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-
 
 import com.sun.istack.NotNull;
-import lombok.Data;
 
-@Data
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 public class Cliente extends Usuario {
 	
@@ -22,4 +25,9 @@ public class Cliente extends Usuario {
     private String tlf;
     
     private int numPedidos;
+    
+    
+    @OneToMany(mappedBy="cliente")
+    private List<Pedido> pedido;
+    
 }

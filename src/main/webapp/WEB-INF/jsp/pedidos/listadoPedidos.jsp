@@ -15,10 +15,13 @@
     <table id="pedidoTable" class="table table-striped">
         <thead>
         <tr>
+        	<th style="width: 150px;">Cliente</th>
             <th style="width: 150px;">Adress</th>
             <th style="width: 120px">Estado</th>
             <th style="width: 120px">Fecha</th>
             <th style="width: 120px">Price</th>
+            <th style="width: 120px">Productos</th>
+            <th style="width: 120px">Cantidad</th>
             <th style="width: 120px">Actions</th>
             
         </tr>
@@ -26,6 +29,9 @@
         <tbody>
         <c:forEach items="${pedidos}" var="pedido">
             <tr>
+            	<td>
+                    <c:out value="${pedido.cliente.name}"/>
+                </td>
                 <td>
                     <c:out value="${pedido.adress}"/>
                 </td>
@@ -38,15 +44,24 @@
                 <td>
                     <c:out value="${pedido.price}"/>
                 </td>
+                <td>
+            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
+                        <c:out value="${lineaPedido.producto.name} "/>
+                    </c:forEach>
+            	</td>
+            	<td>
+            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
+                        <c:out value="${lineaPedido.cantidad} "/>
+                    </c:forEach>
 				<td>
 				<spring:url value="/pedidos/cancel/{pedidoId}" var="pedidoUrl">
                         <spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(pedidoUrl)}">Cancelar</a>
                 </td>
-                
-                
-                
+              </tr>
+        </c:forEach>  
+          
       
 <!--
                 <td> 
@@ -57,8 +72,7 @@
                 </td> 
 -->
                 
-            </tr>
-        </c:forEach>
+            
        
         </tbody>
     </table>
