@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/reservas")
+//@RequestMapping("restaurantes/{restauranteId}/reservas")
 public class ReservaController {
 	
 private static final String VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM = "reservas/editReservas";
@@ -41,20 +42,6 @@ private static final String VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM = "reservas
 		modelMap.addAttribute("reservas", reservas);
 		return vista;
 	}
-	
-	/*@GetMapping(path = "/new")
-	public String crearReservas(@Valid Reserva reserva, BindingResult result, ModelMap modelMap) {
-		String view = "reservas/editReservas";
-		modelMap.addAttribute("reserva", new Reserva());
-		return view;
-		if (result.hasErrors()) {
-			modelMap.put("reserva", reserva);
-			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			return "redirect:/reservas/editReservas";
-		}
-	}*/
 	
 	@GetMapping(value = "/new")
 	public String initCreationForm(ModelMap modelMap) {
