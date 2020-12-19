@@ -63,7 +63,7 @@ public class ReservaServiceTest {
 	
 	@ParameterizedTest
 	@Transactional
-	@CsvSource({"1,2020-04-23,12:00,13:00,false,5"/*,1"*/,"1,2020-04-23,12:00,13:00,false,13"/*,1"*/,"1,2020-04-23,12:00,13:00,true,13"/*,1"*/})
+	@CsvSource({"4,2020-04-23,12:00,13:00,false,5"/*,1"*/,"5,2020-04-23,12:00,13:00,false,13"/*,1"*/,"6,2020-04-23,12:00,13:00,true,13"/*,1"*/})
 	public void shouldCreateReserva(Integer id, LocalDate fecha, LocalTime horaI, LocalTime horaF, Boolean evento, Integer nPersonas/*, Integer idRes*/) {
 		
 		//Restaurante res = new Restaurante();
@@ -89,7 +89,7 @@ public class ReservaServiceTest {
 	
 	@ParameterizedTest
 	@Transactional
-	@CsvSource({"1,2020-04-23,12:00,13:00,true,5"/*,1"*/,"1,2020-04-23,14:00,13:00,false,5"/*,1"*/})
+	@CsvSource({"4,2020-04-23,12:00,13:00,true,5"/*,1"*/,"5,2020-04-23,14:00,13:00,false,5"/*,1"*/})
 	public void shouldNotCreateReserva(Integer id, LocalDate fecha, LocalTime horaI, LocalTime horaF, Boolean evento, Integer nPersonas/*, Integer idRes*/) {
 		
 		//Restaurante res = new Restaurante();
