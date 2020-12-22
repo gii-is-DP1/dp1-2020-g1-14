@@ -35,5 +35,8 @@ public class Usuario extends NamedEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    
+    public Usuario() {
+    	this.rDate = LocalDate.now();
+    }
 }

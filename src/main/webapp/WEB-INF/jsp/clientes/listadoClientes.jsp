@@ -9,7 +9,10 @@
 
 
 <petclinic:layout pageName="clientes">
-    <h2>Socios</h2>
+    <h2>Clientes</h2>
+    <spring:url value="/clientes/new" var="clienteUrl">
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">New cliente</a>
     <table id="clienteTable" class="table table-striped">
         <thead>
         <tr>
@@ -23,7 +26,7 @@
         </thead>
         <tbody>
         <c:forEach items="${clientes}" var="cliente">
-        <c:if test="${cliente.esSocio == true }">
+        
             <tr>
                 <td>
                     <c:out value="${cliente.name}"/>
@@ -43,9 +46,10 @@
 				<spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${cliente.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(clienteUrl)}">Delete</a>
+                    <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Delete</a>
                 </td>
                 
+            
                 
                 
       
@@ -59,7 +63,7 @@
 -->
                 
             </tr>
-            </c:if>
+            
         </c:forEach>
        
         </tbody>

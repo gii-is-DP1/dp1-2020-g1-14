@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
@@ -76,7 +77,24 @@ public class ProductoServiceTest {
 			this.productoService.save(p);
 		});
 	}
-
+	
+	@ParameterizedTest
+	@CsvSource({"Bacalao, Pescado, 10."})
+	@Transactional
+	public void shouldDeleteProducto(String name, String al, Double pr) throws WrongDataProductosException {
+		Producto p = new Producto();
+		p.setName(name);
+		p.setAlergenos(al);
+		p.setPrecio(pr);
+		this.productoService.save(p);
+		
+		Collection<Producto> elementoAñadido = (Collection<Producto>) this.productoService.findAll(); //5
+		int found = elementoAñadido.size(); //5
+		this.productoService.delete(p); //4
+		Collection<Producto> elementoEliminado = (Collection<Producto>) this.productoService.findAll();
+		assertThat(elementoEliminado.size()).isEqualTo(found-1);
+    	
+	}
 	@Test
 	@Transactional
 	public void shouldUpdateProducto() {
