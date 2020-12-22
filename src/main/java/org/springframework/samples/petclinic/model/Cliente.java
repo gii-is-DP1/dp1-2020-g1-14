@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
@@ -27,7 +28,8 @@ public class Cliente extends Usuario {
     private int numPedidos;
     
     
-    @OneToMany(mappedBy="cliente")
+    @OneToMany(mappedBy="cliente", cascade= CascadeType.ALL)
     private List<Pedido> pedido;
     
+   
 }

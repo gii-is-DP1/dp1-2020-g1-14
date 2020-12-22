@@ -38,6 +38,10 @@ public class ClienteService {
         return clienteRepo.findAll();
         
     }
+    @Transactional
+    public void save(Cliente cliente) {
+    	clienteRepo.save(cliente);
+    }
     
     @Transactional(readOnly=true)
     public Optional<Cliente> findClienteById(int id) {
