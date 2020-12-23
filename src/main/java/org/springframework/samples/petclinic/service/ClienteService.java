@@ -1,26 +1,15 @@
 package org.springframework.samples.petclinic.service;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Optional;
-
-import javax.validation.Constraint;
-import javax.validation.Payload;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
-
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
-
-
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,5 +70,8 @@ public class ClienteService {
     	Class<? extends Payload>[] payload() default {};
 
     } */
+    public Collection<Cliente> findSocios() {
+    	return clienteRepo.findSocios();
+    }
 
 }

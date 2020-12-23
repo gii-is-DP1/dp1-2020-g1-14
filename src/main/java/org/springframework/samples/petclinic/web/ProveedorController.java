@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/proveedores")
 public class ProveedorController {
 	
+	public static final String VIEWS_PROVEEDORES_CREATE_OR_UPDATE_FORM = "proveedores/editProveedor";
 	@Autowired
 	private ProveedorService proveedorService;
 	@GetMapping()
@@ -64,5 +65,23 @@ public class ProveedorController {
 	}
 	return view;
 }
+	@GetMapping(path="/{proveedorId/edit") 
+	public String initUpdateForm(@PathVariable("proveedorId") int proveedorId, ModelMap model) {
+		Proveedor proveedor = this.proveedorService.findProveedorById(proveedorId).get();
+		model.addAttribute(proveedor);
+		return VIEWS_PROVEEDORES_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value="/{proveedorId/edit}")
+	public String processUpdateProveedorForm(@Valid Proveedor proveedor, BindingResult result, @PathVariable("proveedorId") int proveedorId) {
+		if(result.hasErrors()) {
+			return VIEWS_PROVEEDORES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			proveedor.setId(proveedorId);
+			this.proveedorService.save(proveedor);
+		}
+		return "redirect:/proveedor/{proveedorId}";
+	}
 }
 

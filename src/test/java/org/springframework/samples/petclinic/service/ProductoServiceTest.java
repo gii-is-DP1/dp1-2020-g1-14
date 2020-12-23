@@ -88,9 +88,9 @@ public class ProductoServiceTest {
 		p.setPrecio(pr);
 		this.productoService.save(p);
 		
-		Collection<Producto> elementoAñadido = (Collection<Producto>) this.productoService.findAll(); //5
-		int found = elementoAñadido.size(); //5
-		this.productoService.delete(p); //4
+		Collection<Producto> elementoAñadido = (Collection<Producto>) this.productoService.findAll(); 
+		int found = elementoAñadido.size(); 
+		this.productoService.delete(p); 
 		Collection<Producto> elementoEliminado = (Collection<Producto>) this.productoService.findAll();
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
     	
