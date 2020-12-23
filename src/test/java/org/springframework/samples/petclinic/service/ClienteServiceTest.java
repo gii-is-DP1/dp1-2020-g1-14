@@ -148,4 +148,13 @@ public class ClienteServiceTest {
     	assertThat(cliente.get().getTlf()).isEqualTo("954765812");
     }
     
+    @Test
+    @Transactional
+    public void shouldFindAllSocios() {
+    	Collection<Cliente> socios = this.clienteService.findSocios();
+    	Collection<Cliente> clientes = (Collection<Cliente>) this.clienteService.findAll();
+    	int nSocios = (int) clientes.stream().filter(x->x.getEsSocio()==true).count();
+    	assertThat(socios.size()).isEqualTo(nSocios);
+    }
+    
 }

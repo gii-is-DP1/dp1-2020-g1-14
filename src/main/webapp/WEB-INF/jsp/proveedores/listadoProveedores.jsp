@@ -35,6 +35,11 @@
                         <spring:param name="proveedorId" value="${proveedor.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(proveedorUrl)}">Delete</a>
+                    
+                     <spring:url value="/proveedores/{proveedorId}/edit" var="proveedorUrl">
+        				<spring:param name="proveedorId" value="${proveedor.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(proveedorUrl)}" class="btn btn-default">Edit</a>
                 </td>
                 
                 
