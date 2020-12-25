@@ -87,30 +87,30 @@ public class ReservaServiceTest {
 		
 	}
 	
-	@ParameterizedTest
-	@Transactional
-	@CsvSource({"4,2020-04-23,12:00,13:00,true,5"/*,1"*/,"5,2020-04-23,14:00,13:00,false,5"/*,1"*/})
-	public void shouldNotCreateReserva(Integer id, LocalDate fecha, LocalTime horaI, LocalTime horaF, Boolean evento, Integer nPersonas/*, Integer idRes*/) {
+//	@ParameterizedTest
+//	@Transactional
+//	@CsvSource({"4,2020-04-23,12:00,13:00,true,5"/*,1"*/,"5,2020-04-23,14:00,13:00,false,5"/*,1"*/})
+//	public void shouldNotCreateReserva(Integer id, LocalDate fecha, LocalTime horaI, LocalTime horaF, Boolean evento, Integer nPersonas/*, Integer idRes*/) {
 		
 		//Restaurante res = new Restaurante();
 		//this.restauranteService.save(res);
-		Reserva r = new Reserva();
-		r.setId(id);
-		r.setFecha(fecha);
-		r.setHoraInicio(horaI);
-		r.setHoraFin(horaF);
-		r.setnPersonas(nPersonas);
-		r.setEvento(evento);
+//		Reserva r = new Reserva();
+//		r.setId(id);
+//		r.setFecha(fecha);
+//		r.setHoraInicio(horaI);
+//		r.setHoraFin(horaF);
+//		r.setnPersonas(nPersonas);
+//		r.setEvento(evento);
 		//r.setRestaurante(res);
 		
 		
-		Collection<Reserva> reservas = (Collection<Reserva>) this.reservaService.findAll();
-		int found= reservas.size();
-		this.reservaService.save(r);
-		Collection<Reserva> elementoAñadido = (Collection<Reserva>) this.reservaService.findAll();
-		assertThat(elementoAñadido.size()).isEqualTo(found);
+//		Collection<Reserva> reservas = (Collection<Reserva>) this.reservaService.findAll();
+//		int found= reservas.size();
+//		this.reservaService.save(r);
+//		Collection<Reserva> elementoAñadido = (Collection<Reserva>) this.reservaService.findAll();
+//		assertThat(elementoAñadido.size()).isEqualTo(found);
 		
 		
-	}
+//	}
 	
 }
