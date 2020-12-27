@@ -50,20 +50,20 @@ public class ProductoControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private Producto pizza;
+	private Producto tarta;
 	
 	@BeforeEach
 	void setup() {
 		
-		this.pizza = new Producto();
-		this.pizza.setAlergenos("Leche");
-		this.pizza.setId(TEST_PRODUCTO_ID);
-		this.pizza.setName("Pizza");
-		this.pizza.setPrecio(6.50);
-		given(this.productoService.findProductoById(TEST_PRODUCTO_ID)).willReturn(Optional.of(pizza));
+		this.tarta = new Producto();
+		this.tarta.setAlergenos("Lacteos, Huevo y Gluten");
+		this.tarta.setId(TEST_PRODUCTO_ID);
+		this.tarta.setName("Tarta");
+		this.tarta.setPrecio(6.0);
+		given(this.productoService.findProductoById(TEST_PRODUCTO_ID)).willReturn(Optional.of(tarta));
 		
 }
-	//INSERT TESTS
+	//CREATION TESTS
 	
 	@WithMockUser(value = "spring")
     @Test
@@ -72,28 +72,25 @@ public class ProductoControllerTest {
 			.andExpect(view().name("productos/editProducto"));
 }
 	
-/*
+	
 	@WithMockUser(value = "spring")
-	@Test
-	void testProcessCreationFormSuccess() throws Exception{
-		mockMvc.perform(post("/productos")
-				.param("name", "Macarrones con Queso")
-				.param("alergenos", "Queso")
-				.with(csrf())
-				.param("precio", "7.70"))
-				.andExpect(status().is3xxRedirection());
-	}
-*/	
+    @Test
+    void testProcessCreationFormSuccess() throws Exception {
+		mockMvc.perform(post("/productos/new").param("name", "Macarrones con Queso").param("alergenos", "Queso")
+						.with(csrf())
+						.param("precio", "6.0"))
+			.andExpect(status().is2xxSuccessful());
+}
 	
 	
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception{
 		mockMvc.perform(post("/productos/save")
+				.with(csrf())
 				.param("name", "Macarrones con Queso")
 				.param("alergenos", "Queso")
-				.with(csrf())
-				.param("precio", "fgrthfdthrty5465464y4hggrt4ghr"))
+				.param("precio", "dfgdfght5y897q34thdfg"))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeHasErrors("producto"))
 		.andExpect(model().attributeHasFieldErrors("producto", "precio"))
@@ -101,13 +98,14 @@ public class ProductoControllerTest {
 	}
 	
 	
-	//Test listar productos
+	//TEST LISTAR PRODUCTOS
 	@WithMockUser(value = "spring")
     @Test
     void testListadoProducto() throws Exception {
 		mockMvc.perform(get("/productos")).andExpect(status().isOk()).andExpect(model().attributeExists("productos"))
 		.andExpect(status().is2xxSuccessful()).andExpect(view().name("productos/listadoProductos"));
 	}
+	
 	
 	//UPDATE TESTS
 	
@@ -116,9 +114,9 @@ public class ProductoControllerTest {
 	void testInitUpdateProductForm() throws Exception {
 			mockMvc.perform(get("/productos/{productoId}/edit", TEST_PRODUCTO_ID)).andExpect(status().isOk())
 					.andExpect(model().attributeExists("producto"))
-					.andExpect(model().attribute("producto", hasProperty("name", is("Pizza"))))
-					.andExpect(model().attribute("producto", hasProperty("precio", is(6.50))))
-					.andExpect(model().attribute("producto", hasProperty("alergenos", is("Leche"))))
+					.andExpect(model().attribute("producto", hasProperty("name", is("Tarta"))))
+					.andExpect(model().attribute("producto", hasProperty("precio", is(6.0))))
+					.andExpect(model().attribute("producto", hasProperty("alergenos", is("Lacteos, Huevo y Gluten"))))
 					.andExpect(view().name("productos/editProducto"));
 }
 	
@@ -129,9 +127,9 @@ public class ProductoControllerTest {
 		void testProcessUpdateProductoFormSuccess() throws Exception {
 			mockMvc.perform(post("/productos/{productoId}/edit", TEST_PRODUCTO_ID)
 								.with(csrf())
-								.param("name", "Pizza")
-								.param("alergenos", "Leche")
-								.param("precio", "6.50"))
+								.param("name", "Macarrones con Queso")
+								.param("alergenos", "Queso")
+								.param("precio", "7.70"))
 								.andExpect(status().is3xxRedirection())
 					.andExpect(view().name("redirect:/productos/{productoId}"));
 		}
@@ -144,9 +142,9 @@ public class ProductoControllerTest {
 		void testProcessUpdateProductoFormHasErrors() throws Exception{
 			mockMvc.perform(post("/productos/{productoId}/edit", TEST_PRODUCTO_ID)
 					.with(csrf())
-					.param("name", "Pizza")
-					.param("alergenos", "Leche")
-					.param("precio", "jsdfhusdhfusdfnvcudshfhryuhvnvb"))
+					.param("name", "Macarrones con Queso")
+					.param("alergenos", "Queso")
+					.param("precio", "dfgdfght5y897q34thdfg"))
 			.andExpect(status().isOk())
 			.andExpect(model().attributeHasErrors("producto"))
 			.andExpect(model().attributeHasFieldErrors("producto", "precio"))
@@ -155,10 +153,9 @@ public class ProductoControllerTest {
 	
 	
 	
+
 	
-	
-	
-	
+
 	
 	
 	

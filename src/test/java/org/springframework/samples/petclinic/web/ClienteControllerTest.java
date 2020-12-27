@@ -72,8 +72,8 @@ public class ClienteControllerTest {
 		mockMvc.perform(get("/clientes/new")).andExpect(status().isOk()).andExpect(model().attributeExists("cliente"))
 			.andExpect(view().name("clientes/editCliente"));
 }
-	*/
-	
+
+*/	
 	
 	
 	
