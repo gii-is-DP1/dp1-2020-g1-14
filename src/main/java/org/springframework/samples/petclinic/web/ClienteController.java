@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -62,6 +63,14 @@ public class ClienteController {
     }
     return view;
 }
+    @GetMapping(path="/socios")
+    public String listadoSocios(ModelMap modelMap) {
+    	String vista="clientes/listadoSocios";
+    	Iterable<Cliente> clientes = clienteService.findSocios();
+    	modelMap.addAttribute("clientes", clientes);
+    	return vista;
+    	
+    }
        
     
 }
