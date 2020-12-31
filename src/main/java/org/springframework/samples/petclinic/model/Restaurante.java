@@ -4,6 +4,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
@@ -30,6 +31,9 @@ public class Restaurante extends NamedEntity {
     
     @OneToMany
     private Set<Reserva> reservas;
+    
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private Set<Ingrediente> ingredientes;
 
 	@OneToOne(cascade = CascadeType.ALL)
     private Gerente gerente;
@@ -98,6 +102,14 @@ public class Restaurante extends NamedEntity {
 
 	public void setGerente(Gerente gerente) {
 		this.gerente = gerente;
+	}
+
+	public Set<Ingrediente> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngredientes(Set<Ingrediente> ingredientes) {
+		this.ingredientes = ingredientes;
 	}
 	
 }
