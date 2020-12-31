@@ -112,15 +112,14 @@ INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','pass3','1999-08-10',false,'11','954736516');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','pass4','2020-10-10',false,'6','954736516');
 
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(2,'Cajas de tomates',5,'UNIDAD');
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(3,'Harina',17,'KG');
 
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
 
-
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(1,'Nata',10,'L', 1);
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2);
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(3,'Harina',17,'KG', 3);
 
 INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3);
 INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(2,'Calle B','EN_REPARTO','2020-04-14',20.4);
