@@ -33,6 +33,9 @@ public class Restaurante extends NamedEntity {
     private Set<Reserva> reservas;
     
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private Set<Reclamacion> reclamaciones;
+    
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
     private Set<Ingrediente> ingredientes;
 
 	@OneToOne(cascade = CascadeType.ALL)
@@ -106,6 +109,11 @@ public class Restaurante extends NamedEntity {
 
 	public Set<Ingrediente> getIngredientes() {
 		return ingredientes;
+	}
+	
+
+	public Set<Reclamacion> getReclamaciones() {
+		return reclamaciones;
 	}
 
 	public void setIngredientes(Set<Ingrediente> ingredientes) {

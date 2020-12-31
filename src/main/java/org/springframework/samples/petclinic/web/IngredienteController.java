@@ -27,35 +27,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/restaurantes/{restaurantesId}/ingredientes")
 public class IngredienteController {
 
-	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "ingredientes/editarIngrediente";
+	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "/restaurantes/{restaurantesId}/ingredientes/editarIngrediente";
 	@Autowired
 	private IngredienteService ingService;
 	@Autowired
 	private RestauranteService resService;
 	
-	/*@GetMapping()
-	public String listadoIngredientesPorRestaurante(ModelMap modelMap, int id) {
-		String vista = "ingredientes/listadoIngredientes";
-		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestaurante(id);
-		modelMap.addAttribute("ingredientes", ingredientes);
-		return vista;
-	}*/
-	
 	@GetMapping()
 	public String listadoIngredientes(@PathVariable("restaurantesId") int restauranteId, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
-		System.out.println("id del restaurante: " + restauranteId);
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		System.out.println(restaurante.getName());
 		Set<Ingrediente> ingredientes = restaurante.getIngredientes();
-		System.out.println(ingredientes.toString());
-//		Iterable<Ingrediente> ingredientes = ingService.findIngredienteByRestaurante(restauranteId);
 		modelMap.addAttribute("ingredientes", ingredientes);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		return vista;
 	}
 	
 	@GetMapping(path="/new")
-	public String añadirIngrediente(ModelMap modelMap) {
+	public String añadirIngrediente(@PathVariable("restaurantesId") int restauranteId,ModelMap modelMap) {
 		String vista = "ingredientes/editarIngrediente";
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 		ArrayList<String> medidas = new ArrayList<String>();
@@ -63,6 +52,7 @@ public class IngredienteController {
 			medidas.add(medida.toString());
 		}
 		modelMap.addAttribute("medidas", medidas);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("ingrediente", new Ingrediente());
 		return vista;
 	}
@@ -77,8 +67,9 @@ public class IngredienteController {
 				medidas.add(medida.toString());
 			}
 			modelMap.addAttribute("medidas", medidas);
+			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("ingrediente", ingrediente);
-			return "ingredientes/editarIngrediente";
+			return "restaurantes/"+restauranteId+"/ingredientes/editarIngrediente";
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");

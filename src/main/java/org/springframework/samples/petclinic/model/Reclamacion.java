@@ -20,7 +20,7 @@ public class Reclamacion extends BaseEntity{
 	private LocalDate fecha;
 	
 	@ManyToOne
-	@JoinColumn(name = "restaurante_id")
+	//@JoinColumn(name = "restaurante_id")
 	private Restaurante restaurante;
 
 	public String getDescripcion() {
