@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Cliente;
-
+import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.stereotype.Service;
 
@@ -94,5 +94,67 @@ public class ClienteServiceTest {
     		clienteService.checkSocio(c);
     	});
     }
-
+    @Test
+    @Transactional
+    public void shouldInsertCliente() {
+    	Collection<Cliente> clientes = (Collection<Cliente>) this.clienteService.findAll();
+    	int found = clientes.size();
+    	Optional<Cliente> cliente = clienteService.findClienteById(1);
+    	
+    	Cliente c = new Cliente();
+    	c.setName("Pepe");
+    	c.setrDate(LocalDate.now());
+    	c.setEsSocio(true);
+    	c.setPassword("asdas3343");
+    	c.setNumPedidos(12);
+    	c.setTlf("954764582");
+    	
+    	this.clienteService.save(c);
+    	assertThat(cliente.get().getId().longValue()).isNotEqualTo(0);
+    	clientes= (Collection<Cliente>) this.clienteService.findAll();
+    	assertThat(clientes.size()).isEqualTo(found+1);
+    	
+    	
+    	}
+    @Test
+    @Transactional
+    public void shouldDeleteCliente() {
+    	
+    	Cliente c = new Cliente();
+    	c.setName("Pepe");
+    	c.setrDate(LocalDate.now());
+    	c.setEsSocio(true);
+    	c.setPassword("asdas3343");
+    	c.setNumPedidos(12);
+    	c.setTlf("954764582");
+    	
+    	this.clienteService.save(c);
+    	
+    	Collection <Cliente> elementoAñadido = (Collection<Cliente>) this.clienteService.findAll(); //5
+		int found = elementoAñadido.size(); //5
+		this.clienteService.delete(c); //4
+		Collection<Cliente> elementoEliminado = (Collection<Cliente>) this.clienteService.findAll();
+		assertThat(elementoEliminado.size()).isEqualTo(found-1);
+    	
+    }
+    
+    @Test
+    @Transactional
+    public void shouldFindClienteWithCorrectId() {
+    	Optional<Cliente> cliente = this.clienteService.findClienteById(1);
+    	assertThat(cliente.get().getName()).isEqualTo("Juan");
+    	assertThat(cliente.get().getrDate()).isEqualTo("2000-10-11");
+    	assertThat(cliente.get().getNumPedidos()).isEqualTo(12);
+    	assertThat(cliente.get().getTlf()).isEqualTo("954765812");
+    }
+    
+    @Test
+    @Transactional
+    public void shouldFindAllSocios() {
+    	Collection<Cliente> socios = this.clienteService.findSocios();
+    	Collection<Cliente> clientes = (Collection<Cliente>) this.clienteService.findAll();
+    	int nSocios = (int) clientes.stream().filter(x->x.getEsSocio()==true).count();
+    	assertThat(socios.size()).isEqualTo(nSocios);
+    }
+    
 }

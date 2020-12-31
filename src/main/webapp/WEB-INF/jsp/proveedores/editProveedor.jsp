@@ -18,7 +18,14 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${proveedor.id}"/>
-                    <button class="btn btn-default" type="submit">Save Proveedor</button>
+                    <c:choose>
+                    	<c:when test="${proveedor['new']}">
+                    		<button class="btn btn-default" type="submit">Add proveedor</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<button class="btn btn-default" type="submit">Update proveedor</button>
+                    	</c:otherwise>
+                    </c:choose>
                 </div>
             </div>
         </form:form>

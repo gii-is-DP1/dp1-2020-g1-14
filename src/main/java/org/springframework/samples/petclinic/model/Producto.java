@@ -1,18 +1,26 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
 import com.sun.istack.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name="producto")
 public class Producto extends NamedEntity {
 	
 	@NotNull
@@ -23,5 +31,13 @@ public class Producto extends NamedEntity {
 	
 	@ManyToMany
 	private Set<Ingrediente> ingredientes;
+	/*
+	@OneToOne
+	@JoinColumn(name="linea_pedido_id")
+	private LineaPedido lineaPedido;
+	*/
+	@OneToMany(mappedBy="producto",cascade = CascadeType.ALL)
+	private List<LineaPedido> lineaPedido;
 
+	
 }

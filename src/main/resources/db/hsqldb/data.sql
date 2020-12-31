@@ -99,11 +99,6 @@ INSERT INTO proveedor(id,name,tlf) VALUES (1,'Database','643981298');
 INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
-INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
-
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
@@ -117,21 +112,44 @@ INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietari
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
 
+
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(1,'Nata',10,'L', 1);
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2);
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(3,'Harina',17,'KG', 3);
 
-INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3);
-INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(2,'Calle B','EN_REPARTO','2020-04-14',20.4);
-INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(3,'Calle C','RECIBIDO','2020-11-19',16.4);
-INSERT INTO pedido(id,adress,estado,order_date,price) VALUES(4,'Calle D','PROCESANDO','2020-09-03',11.5);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
+INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
 
-INSERT INTO linea_pedido(id,cantidad) VALUES (1,12);
-INSERT INTO linea_pedido(id,cantidad) VALUES (2,12);
-INSERT INTO linea_pedido(id,cantidad) VALUES (3,12);
-INSERT INTO linea_pedido(id,cantidad) VALUES (4,12);
+
+/*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
+INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (5,3,1,2);
+----------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(2,'Calle B','EN_REPARTO','2020-04-14',20.4,2);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (2,1,2,4);
+
+INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(3,'Calle C','RECIBIDO','2020-11-19',16.4,3);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (3,13,3,2);
+
+INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(4,'Calle D','PROCESANDO','2020-09-03',11.5,4);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
+
+
+
+
+
 
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(1,'nombre1','gerente1','2000-10-11','12345678F',1);
 INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(2,'nombre2','gerente2','2000-10-11','12345678G',2);
+
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
+
+
 
 

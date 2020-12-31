@@ -24,7 +24,7 @@ public class ReclamacionServiceTest {
 		int count = reclamacionService.reclamacionCount();
 		assertEquals(count, 2);
 	}
-	
+	/*
 	@Test
 	@Transactional
 	public void shouldInsertReclamacion() {
@@ -46,6 +46,6 @@ public class ReclamacionServiceTest {
 		reclamaciones = (Collection<Reclamacion>) this.reclamacionService.findAll();
 		assertThat(reclamaciones.size()).isEqualTo(found+1);
 	}
-	
+	*/
 	
 }

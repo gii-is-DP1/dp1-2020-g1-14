@@ -4,29 +4,42 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+//@ReservaConstraint(Event = "evento", nPersons = "nPersonas")
 public class Reserva extends BaseEntity{
 	
-	@NotNull
+	/*@NotNull*/
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate fecha;
-	@NotNull
+	/*@NotNull*/
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime horaInicio;
-	@NotNull
+	/*@NotNull*/
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime horaFin;
-	@NotNull
-	private Boolean evento;
-	@NotNull
-	@DecimalMin(value="1", inclusive=true)
+	//@NotNull
+	private boolean evento;
+	/*@NotNull
+	@DecimalMin(value="1", inclusive=true)*/
 	private Integer nPersonas;
 	
+	@ManyToOne(optional=true)
+	private Restaurante restaurante;
+	
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
+
 	public Reserva() {
 		super();
 	}
@@ -36,7 +49,7 @@ public class Reserva extends BaseEntity{
 	}
 
 	public void setFecha(LocalDate fecha) {
-		fecha = fecha;
+		this.fecha = fecha;
 	}
 
 	public LocalTime getHoraInicio() {
@@ -44,7 +57,7 @@ public class Reserva extends BaseEntity{
 	}
 
 	public void setHoraInicio(LocalTime horaInicio) {
-		horaInicio = horaInicio;
+		this.horaInicio = horaInicio;
 	}
 
 	public LocalTime getHoraFin() {
@@ -52,7 +65,7 @@ public class Reserva extends BaseEntity{
 	}
 
 	public void setHoraFin(LocalTime horaFin) {
-		horaFin = horaFin;
+		this.horaFin = horaFin;
 	}
 
 	public Boolean getEvento() {
@@ -70,6 +83,8 @@ public class Reserva extends BaseEntity{
 	public void setnPersonas(Integer nPersonas) {
 		this.nPersonas = nPersonas;
 	}
+	
+	
 	
 	
 	
