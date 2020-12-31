@@ -99,8 +99,6 @@ INSERT INTO proveedor(id,name,tlf) VALUES (1,'Database','643981298');
 INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
-INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
-INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','pass1','2000-10-11',true,'12','954765812');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-01-13',true,'12','954357811');
@@ -111,6 +109,9 @@ INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
+
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(1,'2020-10-28','Mal trato por parte del camarero.',1);
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(2,'2020-11-15','Comida en mal estado.',2);
 
 
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(1,'Nata',10,'L', 1);

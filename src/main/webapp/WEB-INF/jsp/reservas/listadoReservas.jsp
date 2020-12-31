@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
-	<spring:url value="/reservas/new" var="reservaUrl">
+	<spring:url value="/restaurantes/${restauranteId}/reservas/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
     <table id="reservaTable" class="table table-striped">
@@ -28,29 +28,29 @@
         <c:forEach items="${reservas}" var="reservas">
             <tr>
                 <td>
-                    <c:out value="${reservas.fecha}"/>
+                    <c:out value="${reserva.fecha}"/>
                 </td>
                 <td>
-                    <c:out value="${reservas.horaInicio}"/>
+                    <c:out value="${reserva.horaInicio}"/>
                 </td>
                 <td>
-                    <c:out value="${reservas.horaFin}"/>
+                    <c:out value="${reserva.horaFin}"/>
                 </td>
                 <td>
-                    <c:out value="${reservas.evento}"/>
+                    <c:out value="${reserva.evento}"/>
                 </td>
                 <td>
-                    <c:out value="${reservas.nPersonas}"/>
+                    <c:out value="${reserva.nPersonas}"/>
                 </td>
 				<td>
-				<spring:url value="/reservas/delete/{reservasId}" var="reservaUrl">
+				<spring:url value="restaurantes/${restaurantesId}/reservas/delete/{reservasId}" var="reservaUrl">
                         <spring:param name="reservasId" value="${reservas.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
-                    <spring:url value="/reservas/{reservasId}/edit" var="reservaUrl">
+                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Borrar</a>
+                    <spring:url value="/restaurantes/${restauranteId}/reservas/{reservasId}/edit" var="reservaUrl">
         				<spring:param name="reservasId" value="${reservas.id}"/>
     				</spring:url>
-    				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Edit</a>
+    				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Editar</a>
                 </td>
                 
                 

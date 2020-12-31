@@ -10,9 +10,6 @@
 <petclinic:layout pageName="reclamaciones">
     <h2>Reclamaciones</h2>
 
-<spring:url value="/reclamaciones/new" var="reclamacionUrl">
-                    </spring:url>
-                    <a href="${fn:escapeXml(reclamacionUrl)}">New</a>
     <table id="reclamacionesTable" class="table table-striped">
         <thead>
         <tr>
@@ -30,7 +27,7 @@
                 </td>
                 <td>
                     <c:out value="${reclamacion.descripcion}"/>
-                </td>
+                </td>        
             </tr>
         </c:forEach>
         </tbody>
