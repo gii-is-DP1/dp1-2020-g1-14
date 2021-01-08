@@ -5,11 +5,10 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Reserva;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ReservaService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedPetNameException;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,14 +20,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/reservas")
-//@RequestMapping("restaurantes/{restauranteId}/reservas")
+@RequestMapping("restaurantes/{restauranteId}/reservas")
 public class ReservaController {
 	
 private static final String VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM = "reservas/editReservas";
 	
 	@Autowired
 	private ReservaService reservaService;
+	@Autowired
+	private RestauranteService restauranteService;
 	
 	@InitBinder("reserva")
 	public void initReservaBinder(WebDataBinder dataBinder) {
@@ -36,77 +36,56 @@ private static final String VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM = "reservas
 	}
 	
 	@GetMapping()
-	public String listadoReservas(ModelMap modelMap) {
+	public String listadoReservas(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
-		Iterable<Reserva> reservas= reservaService.findAll();
-		modelMap.addAttribute("reservas", reservas);
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		//Iterable<Reserva> reservas= restaurante.getReservas();
+		modelMap.addAttribute("restaurante", restaurante);
+		//modelMap.addAttribute("reservas", reservas);
 		return vista;
 	}
 	
 	@GetMapping(value = "/new")
-	public String initCreationForm(ModelMap modelMap) {
-		Reserva reserva = new Reserva();
-		modelMap.put("reserva", reserva);
-		//modelMap.addAttribute("reserva", new Reserva());
+	public String initCreationForm(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
+		modelMap.addAttribute("reserva", new Reserva());
+		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
 		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
 	}
-
-	@PostMapping(value = "/new")
-	public String processCreationForm(@Valid Reserva reserva, BindingResult result, ModelMap modelMap) {		
-		if (result.hasErrors()) {
-			modelMap.put("reserva", reserva);
-			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-		}else {
-        	this.reservaService.save(reserva);
-			return "redirect:/reservas/{reservaId}";
-		}
-	}
 	
-	@GetMapping(path = "/{reservasId}/edit")
-	public String initUpdateForm(@PathVariable("reservasId") int reservaId, ModelMap model) {
+	@GetMapping(path = "/{reservaId}/edit")
+	public String initUpdateForm(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		Reserva reserva = this.reservaService.findReservaById(reservaId).get();
-		model.addAttribute(reserva);
+		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+		modelMap.addAttribute(reserva);
 		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-	}
-	
-	@PostMapping(value = "/{reservasId}/edit")
-	public String processUpdateReservaForm(@Valid Reserva reserva, BindingResult result, @PathVariable("reservasId") int reservaId,ModelMap modelMap) {
-		if (result.hasErrors()) {
-			modelMap.put("reserva", reserva);
-			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			reserva.setId(reservaId);
-			this.reservaService.save(reserva);
-			return "redirect:/reservas/{reservaId}";
-		}
 	}
 	
 	@PostMapping(path="/save")
-	public String salvarReservas(@Valid Reserva reserva, BindingResult res, ModelMap modelMap) {
+	public String salvarReservas(@PathVariable("restauranteId") int restauranteId, @Valid Reserva reserva, BindingResult res, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
 		if(res.hasErrors()) {
 			modelMap.addAttribute("reserva", reserva);
-			return "reservas/editReservas";
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
 		}else {
 			reservaService.save(reserva);
 			modelMap.addAttribute("message", "Reserva guardado con exito");
-			vista=listadoReservas(modelMap);
+			vista=listadoReservas(restauranteId, modelMap);
+			return vista;
 		}
-		return vista;
 	}
 	
-	@GetMapping(path="/delete/{reservasId}")
-	public String borrarReserva(@PathVariable("reservasId") int reservasId, ModelMap modelMap) {
+	@GetMapping(path="/delete/{reservaId}")
+	public String borrarReserva(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
-		Optional<Reserva> reserva = reservaService.findReservaById(reservasId);
+		Optional<Reserva> reserva = reservaService.findReservaById(reservaId);
 		if(reserva.isPresent()) {
 			reservaService.delete(reserva.get());
 			modelMap.addAttribute("message","Reserva borrada con exito");
-			vista= listadoReservas(modelMap);
+			vista= listadoReservas(restauranteId, modelMap);
 		}else {
 			modelMap.addAttribute("message","Reserva no encontrada");
-			vista= listadoReservas(modelMap);
+			vista= listadoReservas(restauranteId, modelMap);
 		}		
 		return vista;
 	}

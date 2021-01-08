@@ -111,14 +111,14 @@ INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
 INSERT INTO ingrediente(id,name,stock,medida) VALUES(2,'Cajas de tomates',5,'UNIDAD');
 INSERT INTO ingrediente(id,name,stock,medida) VALUES(3,'Harina',17,'KG');
 
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25/*,1*/);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax/*,aforores,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25/*,25,1*/);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax/*,aforores,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30/*,20,1*/);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax/*,aforores,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20/*,4,1*/);
 
-INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(3,'Mejillones','Moluscos',12.90,2);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(4,'Cacahuetes','Frutos secos',5,3);
 
 
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------

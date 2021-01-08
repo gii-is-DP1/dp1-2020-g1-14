@@ -20,6 +20,9 @@ public class ReservaValidator implements Validator {
 		Reserva reserva = (Reserva) target;
 		Boolean evento = reserva.getEvento();
 		Integer nPersonas = reserva.getnPersonas();
+		Restaurante res = reserva.getRestaurante();
+		LocalTime HI = reserva.getHoraInicio();
+		LocalTime HF = reserva.getHoraFin();
 		
 		//fecha validator
 		LocalDate fecha = reserva.getFecha();
@@ -32,6 +35,17 @@ public class ReservaValidator implements Validator {
 			errors.rejectValue("nPersonas", REQUIRED+"  es necesario indicar el número de personas", REQUIRED+"  es necesario indicar el número de personas");
 		}
 		
+		Integer aforores=0;
+		for(Reserva r:res.getReservas()) {
+			if(HI.isAfter(r.getHoraInicio()) && HI.isBefore(r.getHoraFin()) || HF.isAfter(r.getHoraInicio()) && HF.isBefore(r.getHoraFin())) {
+				aforores += r.getnPersonas();
+			}
+		}
+		
+		if(aforores+nPersonas>res.getAforomax()) {
+			errors.rejectValue("nPersonas", REQUIRED+"  no hay suficiente aforo disponoble", REQUIRED+"  no hay suficiente aforo disponoble");
+		}
+		
 		// evento validation
 		if(evento==null) {
 			errors.rejectValue("evento", REQUIRED+"es necesario indicar si es evento", REQUIRED+"es necesario indicar si es evento");
@@ -40,10 +54,7 @@ public class ReservaValidator implements Validator {
 			errors.rejectValue("nPersonas", REQUIRED+"   Si es un evento, debe haber 10 personas o más", REQUIRED+"   Si es un evento, debe haber 10 personas o más");
 		}
 		
-		// hora validation
-		LocalTime HI = reserva.getHoraInicio();
-		LocalTime HF = reserva.getHoraFin();
-		
+		// hora validation	
 		if(HI==null || HI.isBefore(LocalTime.now()) && fecha.isEqual(LocalDate.now())) {
 			errors.rejectValue("horaInicio", REQUIRED+"  Introduzca una hora válida",REQUIRED+"  Introduzca una hora válida");
 		}
@@ -56,12 +67,12 @@ public class ReservaValidator implements Validator {
 			errors.rejectValue("horaFin", REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin",REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin");
 		}
 		// Aforo validation
-		Restaurante res = reserva.getRestaurante();
+		/*Restaurante res = reserva.getRestaurante();
 		if(res == null) {
 			
 		}else if (nPersonas>res.getAforores()) {
 			errors.rejectValue("nPersonas", REQUIRED+"  No hay aforo suficiente", REQUIRED+"  No hay aforo suficiente");
-		}
+		}*/
 
 			
 	}

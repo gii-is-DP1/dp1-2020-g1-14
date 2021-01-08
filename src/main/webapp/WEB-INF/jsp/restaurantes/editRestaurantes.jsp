@@ -14,7 +14,7 @@
                 <petclinic:inputField label="Tipo" name="tipo"/>
                 <petclinic:inputField label="Localizacion" name="localizacion"/>
                 <petclinic:inputField label="Aforo Maximo" name="aforomax"/>
-                <petclinic:inputField label="Aforo Restante " name="aforores"/>                
+                <!--<petclinic:inputField label="Aforo Restante " name="aforores"/>-->                
             </div>
 
             <div class="form-group">

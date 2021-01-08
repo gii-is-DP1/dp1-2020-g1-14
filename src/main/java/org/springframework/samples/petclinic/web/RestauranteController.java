@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/restaurantes")
@@ -95,5 +96,12 @@ public class RestauranteController {
 			vista= listadoRestaurantes(modelMap);
 		}		
 		return vista;
+	}
+	
+	@GetMapping("/{restaurantesId}")
+	public ModelAndView showOwner(@PathVariable("restaurantesId") int restaurantesId) {
+		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
+		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restaurantesId).get());
+		return mav;
 	}
 }
