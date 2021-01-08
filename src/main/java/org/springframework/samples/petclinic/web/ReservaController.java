@@ -25,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 
-@RequestMapping("/restaurantes/{restauranteId}/reservas")
+@RequestMapping("restaurantes/{restauranteId}/reservas")
 public class ReservaController {
 	
-private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "/restaurantes/{restauranteId}/reservas/editReservas";
+private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/editReservas";
 	
 	@Autowired
 	private ReservaService reservaService;
