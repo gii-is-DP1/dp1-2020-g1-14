@@ -51,8 +51,8 @@ public class PedidoService {
 			return total;
 	}
 	
-	public Iterable<Producto> getAllProductos() {
+	/*public Iterable<Producto> getAllProductos() {
 		return pedidoRepo.getAllProductos();
-	}
+	}*/
 
 }

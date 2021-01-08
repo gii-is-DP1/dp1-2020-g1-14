@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class Reserva extends BaseEntity{
 	@DecimalMin(value="1", inclusive=true)*/
 	private Integer nPersonas;
 	
-	@ManyToOne(optional=true)
+	@ManyToOne
 	private Restaurante restaurante;
 	
 	public Restaurante getRestaurante() {

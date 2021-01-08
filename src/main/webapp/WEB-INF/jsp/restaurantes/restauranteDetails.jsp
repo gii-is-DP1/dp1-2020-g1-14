@@ -18,19 +18,15 @@
             <th>Localización</th>
             <td><c:out value="${restaurante.localizacion}"/></td>
         </tr>
-        <tr>
-            <th>Aforo Restante</th>
-            <td><c:out value="${restaurante.aforoRes}"/></td>
-        </tr>
     </table>
 
-    <spring:url value="{restauranteId}/reserva/new" var="reservaUrl">
-        <spring:param name="restauranteId" value="${restaurante.id}"/>
+    <spring:url value="{restaurantesId}/reservas/new" var="reservaUrl">
+        <spring:param name="restaurantesId" value="${restaurante.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Realizar Reserva</a>
 
-    <spring:url value="{restauranteId}/pedido/new" var="pedidoUrl">
-        <spring:param name="restauranteId" value="${restaurante.id}"/>
+    <spring:url value="{restaurantesId}/pedido/new" var="pedidoUrl">
+        <spring:param name="restaurantesId" value="${restaurante.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidoUrl)}" class="btn btn-default">Realizar Pedido</a>
 

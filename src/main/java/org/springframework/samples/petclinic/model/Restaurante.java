@@ -23,23 +23,29 @@ public class Restaurante extends NamedEntity {
     private String localizacion;
     @Positive
     private int aforomax;
-    @PositiveOrZero
-    private int aforores;
+    /*@PositiveOrZero
+    private int aforores;*/
     /*@ManyToOne
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
     
-    @OneToMany
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
     private Set<Reserva> reservas;
     
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+
+    private Set<Producto> productos;
+
     private Set<Reclamacion> reclamaciones;
     
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
     private Set<Ingrediente> ingredientes;
 
+
 	@OneToOne(cascade = CascadeType.ALL)
     private Gerente gerente;
+	
+	
 	
     public String getTipo() {
 		return tipo;
@@ -53,9 +59,9 @@ public class Restaurante extends NamedEntity {
 		return aforomax;
 	}
 	
-	public int getAforores() {
+	/*public int getAforores() {
 		return aforores;
-	}
+	}*/
 	
 	/*public Propietario getPropietario() {
 		return propietario;
@@ -73,10 +79,10 @@ public class Restaurante extends NamedEntity {
 		this.aforomax = aforomax;
 	}
 	
-	public void setAforores(int aforores) {
+	/*public void setAforores(int aforores) {
 		this.aforores = aforores;
 		//aqui se podria hacer una resta entre el maximo y el numero de clientes con reserva
-	}
+	}*/
 	
 	/*public void setPropietario(Propietario propietario) {
 		this.propietario = propietario;
@@ -97,6 +103,18 @@ public class Restaurante extends NamedEntity {
 
 	public void setReservas(Set<Reserva> reservas) {
 		this.reservas = reservas;
+	}
+	
+	public void addReserva(Reserva reserva) {
+		this.reservas.add(reserva);
+	}
+	
+	public Set<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Set<Producto> productos) {
+		this.productos = productos;
 	}
 
 	public Gerente getGerente() {
