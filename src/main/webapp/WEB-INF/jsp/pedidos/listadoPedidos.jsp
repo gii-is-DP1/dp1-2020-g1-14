@@ -9,9 +9,11 @@
 
 <petclinic:layout pageName="pedidos">
     <h2>Pedidos</h2>
-	<spring:url value="/pedidos/new" var="pedidoUrl">
+    
+    <spring:url value="/pedidos/new" var="pedidoUrl">
                     </spring:url>
-                    <a href="${fn:escapeXml(pedidoUrl)}">Nuevo pedido</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">New order</a>
+	
     <table id="pedidoTable" class="table table-striped">
         <thead>
         <tr>
@@ -23,6 +25,7 @@
             <th style="width: 120px">Productos</th>
             <th style="width: 120px">Cantidad</th>
             <th style="width: 120px">Actions</th>
+            <th style="width: 120px">Cancel</th>
             
         </tr>
         </thead>
@@ -54,10 +57,17 @@
                         <c:out value="${lineaPedido.cantidad} "/>
                     </c:forEach>
 				<td>
-				<spring:url value="/pedidos/cancel/{pedidoId}" var="pedidoUrl">
+				
+                  <spring:url  value="/lineaPedidos/new" var="lineaPedidosUrl">
+                    </spring:url>
+                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New lineaPedido</a> 
+                    
+                </td>
+                <td>
+                <spring:url value="/pedidos/cancel/{pedidoId}" var="pedidoUrl">
                         <spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(pedidoUrl)}">Cancelar</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Cancel</a>
                 </td>
               </tr>
         </c:forEach>  

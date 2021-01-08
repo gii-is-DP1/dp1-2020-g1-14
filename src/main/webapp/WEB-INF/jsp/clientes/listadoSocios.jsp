@@ -9,13 +9,13 @@
 
 
 <petclinic:layout pageName="clientes">
-    <h2>Clientes</h2>
+    <h2>Socios</h2>
     <spring:url value="/clientes/new" var="clienteUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">New cliente</a>
-    <spring:url value="/clientes/socios" var="clienteUrl">
+     <spring:url value="/clientes" var="clienteUrl">
                     </spring:url>
-                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">Socios</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">Clientes</a>
     <table id="clienteTable" class="table table-striped">
         <thead>
         <tr>

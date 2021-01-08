@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.Pedido;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
 import org.springframework.samples.petclinic.service.exceptions.MinOrderPriceException;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
@@ -28,13 +31,34 @@ public class PedidoServiceTest {
 	@Autowired
 	private PedidoService pedidoService;
 	private ProductoService productoService;
-	private LineaPedidoService lineaPedidoService;	
+
 	@Test
 	public void testCountWithInitalData() {
 		int count = pedidoService.pedidoCount();
 		assertEquals(count,4);
 	}
-	
+	/*
+	@Test
+	@Transactional
+	public void shouldInsertPedido() {
+		Collection<Pedido> pedidos = (Collection<Pedido>) this.pedidoService.findAll();
+		int found = pedidos.size();
+		Optional<Pedido> pedido=pedidoService.findPedidoById(1);
+		
+		Pedido p = new Pedido();
+		p.setPrice(22.);
+		p.setOrderDate(LocalDate.now());
+		p.setAdress("Calle B");
+		p.setEstado(Estado.EN_REPARTO);
+		
+		this.pedidoService.save(p);
+		
+		assertThat(pedido.get().getId().longValue()).isNotEqualTo(0);
+		pedidos = (Collection<Pedido>) this.pedidoService.findAll();
+		assertThat(pedidos.size()).isEqualTo(found+1);
+		
+	}
+	*/
 	@ParameterizedTest
 	@Transactional
 	@CsvSource({"5,PROCESANDO,12,2020-10-04,A","6,PREPARANDO,12,2020-10-05,B"})
@@ -53,11 +77,22 @@ public class PedidoServiceTest {
 		
 		
 		Collection <Pedido> elementoAñadido = (Collection<Pedido>) this.pedidoService.findAll(); //5
-		int found = elementoAñadido.size(); //5
+		int found = elementoAñadido.size();  //5
 		this.pedidoService.delete(p); //4
 		Collection<Pedido> elementoEliminado = (Collection<Pedido>) this.pedidoService.findAll();
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
-		            //5                 //3
+		                          //4            //4
+		
+	}
+	
+	@Test
+	@Transactional
+	public void shouldFindPedidoWithCorrectId() {
+		Optional<Pedido> pedido = this.pedidoService.findPedidoById(1);
+		assertThat(pedido.get().getAdress()).isEqualTo("Calle A");
+		assertThat(pedido.get().getEstado()).isEqualByComparingTo(Estado.PROCESANDO);
+		assertThat(pedido.get().getOrderDate()).isEqualTo("2020-08-13");
+		assertThat(pedido.get().getPrice()).isEqualTo(17.3);
 		
 	}
 
@@ -131,5 +166,15 @@ public class PedidoServiceTest {
     		pedidoService.getTotalPrice(2);
     	});
 	}
+	
+	@Test
+	public void getAllProductsTest() {
+		Collection<Producto> productos = (Collection<Producto>) pedidoService.getAllProductos();
+		int tamaño = productos.size();
+		Integer productosL = (int) productos.stream().count();
+	
+		assertThat(tamaño).isEqualTo(productosL);
+	}
+	
 
 }

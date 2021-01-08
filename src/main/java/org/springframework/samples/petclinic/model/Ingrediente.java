@@ -20,7 +20,7 @@ public class Ingrediente extends NamedEntity {
 	private Medida medida;
 
 	@ManyToOne
-	@JoinColumn(name = "restaurante_id")
+//	@JoinColumn(name = "restaurante_id")
 	private Restaurante restaurante;
 	
 	@ManyToMany

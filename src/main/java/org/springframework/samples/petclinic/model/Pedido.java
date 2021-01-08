@@ -25,7 +25,7 @@ import lombok.Setter;
 @Table(name="pedido")
 public class Pedido extends BaseEntity {
 	
-	@NotNull(message="El campo no puede estar vacío")
+	//@NotNull(message="El campo no puede estar vacío")
 	@Min(value=10, message="El precio debe de ser mayor a 10")
 	private Double price;
 	
@@ -51,6 +51,7 @@ public class Pedido extends BaseEntity {
 	public Pedido() {
 		super();
 		this.orderDate = LocalDate.now();
+		this.estado =  estado.PROCESANDO;
 	}
 	
 }

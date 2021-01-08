@@ -19,7 +19,7 @@
             <th style="width: 120px">Hora Inicio</th>
             <th style="width: 120px">Hora Fin</th>
             <th style="width: 120px">Evento</th>
-            <th style="width: 120px">Nº Personas</th>
+            <th style="width: 120px">NÂº Personas</th>
             <th style="width: 120px">Acciones</th>
             
         </tr>
@@ -50,21 +50,8 @@
                     <spring:url value="reservas/{reservaId}/edit" var="reservaUrl">
         				<spring:param name="reservaId" value="${reserva.id}"/>
     				</spring:url>
-    				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Edit</a>
-                </td>
-                
-                
-                
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
+    				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Editar</a>
+                </td>           
             </tr>
         </c:forEach>
        

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="Reclamaciones">
     <jsp:body>
@@ -18,7 +18,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${reclamacion.id}"/>
-                    <button class="btn btn-default" type="submit">Save Reclamacion</button>
+                    <button class="btn btn-default" type="submit">Guardar Reclamacion</button>
                 </div>
             </div>
         </form:form>
