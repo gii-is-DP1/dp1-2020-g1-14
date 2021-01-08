@@ -37,9 +37,7 @@ public class IngredienteController {
 	public String listadoIngredientes(@PathVariable("restaurantesId") int restauranteId, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		Set<Ingrediente> ingredientes = restaurante.getIngredientes();
-		modelMap.addAttribute("ingredientes", ingredientes);
-		modelMap.addAttribute("restauranteId", restauranteId);
+		modelMap.addAttribute("restaurante", restaurante);
 		return vista;
 	}
 	
@@ -52,14 +50,15 @@ public class IngredienteController {
 			medidas.add(medida.toString());
 		}
 		modelMap.addAttribute("medidas", medidas);
-		modelMap.addAttribute("restauranteId", restauranteId);
+		modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 		modelMap.addAttribute("ingrediente", new Ingrediente());
+		
+		
 		return vista;
 	}
 	
 	@PostMapping(path="/save")
 	public String guardarIngrediente(@PathVariable("restaurantesId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
-		String vista = "ingredientes/listadoIngredientes";
 		if(result.hasErrors()) {
 			EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 			ArrayList<String> medidas = new ArrayList<String>();
@@ -67,16 +66,16 @@ public class IngredienteController {
 				medidas.add(medida.toString());
 			}
 			modelMap.addAttribute("medidas", medidas);
-			modelMap.addAttribute("restauranteId", restauranteId);
+			modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 			modelMap.addAttribute("ingrediente", ingrediente);
-			return "restaurantes/"+restauranteId+"/ingredientes/editarIngrediente";
+			return "ingredientes/editarIngrediente";
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
-			vista = listadoIngredientes(restauranteId, modelMap);
-//			vista = "redirect:/restaurantes/{restauranteId}/ingredientes";
+			String vista = listadoIngredientes(restauranteId, modelMap);
+			return vista;	
 		}
-		return vista;		
+			
 	}
 	
 	@GetMapping(path = "/{ingredienteId}/edit")
