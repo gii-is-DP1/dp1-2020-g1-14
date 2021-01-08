@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.PedidoService;
-import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
+import org.springframework.samples.petclinic.service.exceptions.MinOrderPriceException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class PedidoController {
 		
 	}
 	
+	
 	@GetMapping(path="/new")
 	public String nuevoPedido(ModelMap modelMap) {
 		String view="pedidos/nuevoPedido";
@@ -46,11 +48,13 @@ public class PedidoController {
 	@PostMapping(path="/order")
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap) {
 		String view ="pedidos/listadoPedidos";
+		/*Double precio = pedidoService.getTotalPrice(pedido.getId());*/
 		if(result.hasErrors())
 		{
 			modelMap.addAttribute("pedido",pedido);
 			return "pedidos/nuevoPedido";
 		}else {
+			/*pedido.setPrice(precio);*/
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message","Pedido encargado con éxito");
 			view=listadoPedidos(modelMap);
