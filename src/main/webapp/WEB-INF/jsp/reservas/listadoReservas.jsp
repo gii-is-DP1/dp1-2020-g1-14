@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
-	<spring:url value="reservas/new" var="reservaUrl">
+	<spring:url value="/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
     <table id="reservaTable" class="table table-striped">
@@ -19,7 +19,7 @@
             <th style="width: 120px">Hora Inicio</th>
             <th style="width: 120px">Hora Fin</th>
             <th style="width: 120px">Evento</th>
-            <th style="width: 120px">NÂº Personas</th>
+            <th style="width: 120px">Nº Personas</th>
             <th style="width: 120px">Acciones</th>
             
         </tr>
