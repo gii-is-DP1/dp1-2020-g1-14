@@ -33,9 +33,9 @@ public class Restaurante extends NamedEntity {
     private Set<Reserva> reservas;
     
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
-
     private Set<Producto> productos;
-
+    
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
     private Set<Reclamacion> reclamaciones;
     
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
