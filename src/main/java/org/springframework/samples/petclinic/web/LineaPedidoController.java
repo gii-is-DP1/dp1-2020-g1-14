@@ -8,22 +8,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
+import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/lineaPedidos")
+@RequestMapping("/pedidos/{pedidoId}/lineaPedidos")
 public class LineaPedidoController {
 	
 	@Autowired
 	private LineaPedidoService lineaPedidoService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private ProductoService productoService;
 	
+	@ModelAttribute("nombres")
+	public Iterable<Producto> findAllProductos() {
+		return this.productoService.findAll();
+	}
 	
+	/*@InitBinder("productos") 
+	public void initProductoBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(new ProductoValidator());
+		
+	}
+	*/
 	@GetMapping()
 	public String listadoLineaPedidos(ModelMap modelMap) {
 		String vista ="lineaPedidos/listadoLineaPedidos";
@@ -32,8 +51,9 @@ public class LineaPedidoController {
 		return vista;
 	}
 	@GetMapping(path="/new")
-	public String crearLineaPedido(ModelMap modelMap) {
+	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId) {
 		String view ="lineaPedidos/editLineaPedido";
+		modelMap.addAttribute("pedido", pedidoService.findPedidoById(pedidoId).get());
 		modelMap.addAttribute("lineaPedido", new LineaPedido());
 		return view;
 	}

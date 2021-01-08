@@ -2,11 +2,13 @@ package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -40,7 +42,7 @@ public class Pedido extends BaseEntity {
 	private Estado estado;
 	
 	
-	@OneToMany(mappedBy="pedido", cascade= CascadeType.ALL)
+	@OneToMany(mappedBy="pedido", cascade= CascadeType.ALL, fetch= FetchType.EAGER)
 	private List<LineaPedido> lineaPedido;
 	
 	@ManyToOne

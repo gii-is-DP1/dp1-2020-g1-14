@@ -58,7 +58,7 @@
                     </c:forEach>
 				<td>
 				
-                  <spring:url  value="/lineaPedidos/new" var="lineaPedidosUrl">
+                  <spring:url  value="/pedidos/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New lineaPedido</a> 
                     
