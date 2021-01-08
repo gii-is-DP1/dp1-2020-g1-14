@@ -125,13 +125,6 @@ INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(1,'Nata',10,
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2);
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(3,'Harina',17,'KG', 3);
 
-INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
-
-
-
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
 INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);
