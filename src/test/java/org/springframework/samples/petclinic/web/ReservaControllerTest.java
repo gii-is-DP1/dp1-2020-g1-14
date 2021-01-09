@@ -74,8 +74,10 @@ public class ReservaControllerTest {
 		reserva.setEvento(false);
 		reserva.setnPersonas(5);
 		//reserva.setRestaurante(restaurante);
-		given(this.reservaService.findReservaById(1).get()).willReturn(reserva);
+		
 		given(this.restauranteService.findRestauranteById(1).get()).willReturn(restaurante);
+		given(this.reservaService.findReservaById(1).get()).willReturn(reserva);
+		
 
 	}
     
