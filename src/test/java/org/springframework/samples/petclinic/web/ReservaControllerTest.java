@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,8 +76,8 @@ public class ReservaControllerTest {
 		reserva.setnPersonas(5);
 		//reserva.setRestaurante(restaurante);
 		
-		given(this.restauranteService.findRestauranteById(1).get()).willReturn(restaurante);
-		given(this.reservaService.findReservaById(1).get()).willReturn(reserva);
+		given(this.restauranteService.findRestauranteById(1)).willReturn(Optional.of(restaurante));
+		given(this.reservaService.findReservaById(1)).willReturn(Optional.of(reserva));
 		
 
 	}
@@ -96,7 +97,7 @@ public class ReservaControllerTest {
 						.param("horaFin", "13:00")
 						.param("evento", "false")
 						.param("nPersonas", "5"))
-			.andExpect(status().is3xxRedirection());
+			.andExpect(status().isOk());
     }
     
 	@WithMockUser(value = "spring")
@@ -116,7 +117,7 @@ public class ReservaControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testInitUpdateOwnerForm() throws Exception {
+	void testInitUpdateReservaForm() throws Exception {
 		mockMvc.perform(get("/restaurantes/{restauranteId}/reservas/{reservasId}/edit", 1, 1)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("reserva"))
 				.andExpect(model().attribute("reserva", hasProperty("fecha", is("20/12/28"))))
@@ -129,7 +130,7 @@ public class ReservaControllerTest {
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateOwnerFormSuccess() throws Exception {
+	void testProcessUpdateReservaFormSuccess() throws Exception {
 		mockMvc.perform(post("/restaurantes/{restauranteId}/reservas/{reservasId}/edit", 1, 1)
 							.with(csrf())
 							.param("fecha", "20/12/30")
@@ -137,13 +138,13 @@ public class ReservaControllerTest {
 							.param("horaFin", "15:00")
 							.param("evento", "true")
 							.param("nPersonas", "12"))
-				.andExpect(status().is3xxRedirection())
+				.andExpect(status().isOk())
 				.andExpect(view().name("redirect:/reservas/{reservasId}"));
 	}
 	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateOwnerFormHasErrors() throws Exception {
+	void testProcessUpdateReservaFormHasErrors() throws Exception {
 		mockMvc.perform(post("/restaurantes/{restauranteId}/reservas/{reservasId}/edit", 1, 1)
 							.with(csrf())
 							.param("fecha", "20/12/28")
