@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.web;
 
 import static org.hamcrest.Matchers.hasProperty;
 
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -13,7 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.Optional;
 
-import org.assertj.core.util.Lists;
+
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +24,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.ProductoService;
-import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -55,11 +54,11 @@ public class ProductoControllerTest {
 	@BeforeEach
 	void setup() {
 		
-		this.tarta = new Producto();
-		this.tarta.setAlergenos("Lacteos, Huevo y Gluten");
-		this.tarta.setId(TEST_PRODUCTO_ID);
-		this.tarta.setName("Tarta");
-		this.tarta.setPrecio(6.0);
+		tarta = new Producto();
+		tarta.setAlergenos("Lacteos, Huevo y Gluten");
+		tarta.setId(TEST_PRODUCTO_ID);
+		tarta.setName("Tarta");
+		tarta.setPrecio(6.0);
 		given(this.productoService.findProductoById(TEST_PRODUCTO_ID)).willReturn(Optional.of(tarta));
 		
 }
@@ -151,13 +150,7 @@ public class ProductoControllerTest {
 			.andExpect(view().name("productos/editProducto"));
 		}
 	
-	
-	
 
-	
-
-	
-	
 	
 	
 	
