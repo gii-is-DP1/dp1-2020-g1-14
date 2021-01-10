@@ -99,7 +99,7 @@ public class RestauranteController {
 	}
 	
 	@GetMapping("/{restaurantesId}")
-	public ModelAndView showOwner(@PathVariable("restaurantesId") int restaurantesId) {
+	public ModelAndView showRestaurante(@PathVariable("restaurantesId") int restaurantesId) {
 		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
 		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restaurantesId).get());
 		return mav;
