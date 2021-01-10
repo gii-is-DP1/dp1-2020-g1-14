@@ -69,7 +69,7 @@ public class ReservaControllerTest {
 		
 		reserva = new Reserva();
 		reserva.setId(1);
-		reserva.setFecha(LocalDate.of(20, 12, 28));
+		reserva.setFecha(LocalDate.of(2020, 12, 28));
 		reserva.setHoraInicio(LocalTime.of(12, 00));
 		reserva.setHoraFin(LocalTime.of(13, 00));
 		reserva.setEvento(false);
@@ -97,17 +97,19 @@ public class ReservaControllerTest {
 						.param("horaFin", "13:00")
 						.param("evento", "false")
 						.param("nPersonas", "5"))
-			.andExpect(status().isOk());
+			.andExpect(status().is2xxSuccessful());
     }
     
 	@WithMockUser(value = "spring")
 	@Test
 	void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/restaurantes/{restauranteId}/reservas/new", 1)
+		mockMvc.perform(post("/restaurantes/{restauranteId}/reservas/save", 1)
 							.with(csrf())
 							.param("fecha", "20/12/28")
 							.param("horaInicio", "12:00")
-							.param("horaFin", "13:00"))
+							.param("horaFin", "13:00")
+							.param("evento", "error")
+							.param("nPersonas", "error"))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("reserva"))
 				.andExpect(model().attributeHasFieldErrors("reserva", "evento"))
@@ -120,11 +122,11 @@ public class ReservaControllerTest {
 	void testInitUpdateReservaForm() throws Exception {
 		mockMvc.perform(get("/restaurantes/{restauranteId}/reservas/{reservasId}/edit", 1, 1)).andExpect(status().isOk())
 				.andExpect(model().attributeExists("reserva"))
-				.andExpect(model().attribute("reserva", hasProperty("fecha", is("20/12/28"))))
-				.andExpect(model().attribute("reserva", hasProperty("horaInicio", is("12:00"))))
-				.andExpect(model().attribute("reserva", hasProperty("horaFin", is("13:00"))))
-				.andExpect(model().attribute("reserva", hasProperty("evento", is("false"))))
-				.andExpect(model().attribute("reserva", hasProperty("nPersonas", is("5"))))
+				.andExpect(model().attribute("reserva", hasProperty("fecha", is(LocalDate.of(2020, 12, 28)))))
+				.andExpect(model().attribute("reserva", hasProperty("horaInicio", is(LocalTime.of(12, 00)))))
+				.andExpect(model().attribute("reserva", hasProperty("horaFin", is(LocalTime.of(13, 00)))))
+				.andExpect(model().attribute("reserva", hasProperty("evento", is(false))))
+				.andExpect(model().attribute("reserva", hasProperty("nPersonas", is(5))))
 				.andExpect(view().name("reservas/editReservas"));
 	}
 	
@@ -138,8 +140,7 @@ public class ReservaControllerTest {
 							.param("horaFin", "15:00")
 							.param("evento", "true")
 							.param("nPersonas", "12"))
-				.andExpect(status().isOk())
-				.andExpect(view().name("redirect:/reservas/{reservasId}"));
+				.andExpect(status().is2xxSuccessful());
 	}
 	
 	@WithMockUser(value = "spring")
