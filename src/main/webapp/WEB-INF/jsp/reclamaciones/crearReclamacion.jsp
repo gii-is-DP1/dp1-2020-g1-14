@@ -9,7 +9,7 @@
     <jsp:body>
         <h2>Reclamaciones</h2>
         
-        <form:form modelAttribute="reclamacion" class="form-horizontal" action="/reclamaciones/save">
+        <form:form modelAttribute="reclamacion" class="form-horizontal" action="/restaurantes/${restauranteId}/reclamaciones/save">
             <div class="form-group has-feedback">
                 <c:out value = "Fecha: ${reclamacion.fecha} "> </c:out>
                 <petclinic:inputField label="Descripcion" name="descripcion"/>

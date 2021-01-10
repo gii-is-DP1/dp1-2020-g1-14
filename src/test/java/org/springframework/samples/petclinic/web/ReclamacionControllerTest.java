@@ -10,10 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.assertj.core.util.Lists;
-import org.hamcrest.beans.HasProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,30 +22,30 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Medida;
-import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Reclamacion;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
-import org.springframework.samples.petclinic.service.IngredienteService;
+import org.springframework.samples.petclinic.service.ReclamacionService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=IngredienteController.class,
+@WebMvcTest(controllers=ReclamacionController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-public class IngredienteControllerTest {
 
-	private static final int TEST_INGREDIENTE_ID = 1;
+public class ReclamacionControllerTest {
+
+	private static final int TEST_RECLAMACION_ID = 1;
 	private static final int TEST_RESTAURANTE_ID = 1;
 	
 	@Autowired
-	private IngredienteController ingredienteController;
+	ReclamacionController reclamacionController;
 	
 	@MockBean
-	private IngredienteService ingredienteService;
+	private ReclamacionService reclamacionService;
 	
 	@MockBean
 	private RestauranteService restauranteService;
@@ -56,7 +56,7 @@ public class IngredienteControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private Ingrediente ingrediente;
+	private Reclamacion reclamacion;
 	private Restaurante restaurante;
 	
 	@BeforeEach
@@ -69,67 +69,48 @@ public class IngredienteControllerTest {
 		restaurante.setTipo("Italiano");
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante));
 		
-		ingrediente = new Ingrediente();
-		ingrediente.setId(TEST_INGREDIENTE_ID);
-		ingrediente.setName("Leche");
-		ingrediente.setStock(50);
-		ingrediente.setMedida(Medida.L);
-		ingrediente.setRestaurante(restaurante);
-		given(this.ingredienteService.findIngredienteById(TEST_INGREDIENTE_ID)).willReturn(Optional.of(ingrediente));
+		reclamacion = new Reclamacion();
+		reclamacion.setId(TEST_RECLAMACION_ID);
+		reclamacion.setDescripcion("Reclamacion de prueba");
+		reclamacion.setRestaurante(restaurante);
+		given(this.reclamacionService.findReclamacionById(TEST_RECLAMACION_ID)).willReturn(Optional.of(reclamacion));
 	}
 	
 	@WithMockUser(value = "spring")
     @Test
     void testProcessListSuccess() throws Exception {
-		given(this.ingredienteService.findAll()).willReturn(Lists.newArrayList(ingrediente, new Ingrediente()));
+		given(this.reclamacionService.findAll()).willReturn(Lists.newArrayList(reclamacion, new Reclamacion()));
 
-		mockMvc.perform(get("/restaurantes/{restauranteId}/ingredientes", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(view().name("ingredientes/listadoIngredientes"));
+		mockMvc.perform(get("/restaurantes/{restauranteId}/reclamaciones", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(view().name("reclamaciones/listadoReclamaciones"));
 	}
 	
 	@WithMockUser(value = "spring")
     @Test
     void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/restaurantes/{restauranteId}/ingredientes/new", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("ingrediente"))
-				.andExpect(view().name("ingredientes/editarIngrediente"));
+		mockMvc.perform(get("/restaurantes/{restauranteId}/reclamaciones/new", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("reclamacion"))
+				.andExpect(view().name("reclamaciones/crearReclamacion"));
 	}
 	
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/new", TEST_RESTAURANTE_ID)
-						.param("Name", "Harina")
-						.param("Medida", "KG")
-						.with(csrf())//QUE ES ESTO, PARA QUE SIRVE
-						.param("restaurante", "Prueba")
-						.param("stock", "30"))
-						.andExpect(status().isOk());
+		mockMvc.perform(post("/restaurantes/{restauranteId}/reclamaciones/new", TEST_RESTAURANTE_ID)
+				.param("descripcion", "Hola buenas tardes")
+				.with(csrf())
+				.param("restaurante", "Prueba"))
+				.andExpect(status().isOk());
 	}
 	
+	//NO BINDINGRESULT FOR ATTRIBUTE RECLAMACION
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormHasErrors() throws Exception {
-	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save", TEST_RESTAURANTE_ID)
-						.with(csrf())
-						.param("Name", "Harina")
-						.param("Medida", "error")
-						.param("stock", "no"))
-			.andExpect(status().isOk())
-			.andExpect(model().attributeHasErrors("ingrediente"))
-			.andExpect(model().attributeHasFieldErrors("ingrediente", "Medida"))
-			.andExpect(model().attributeHasFieldErrors("ingrediente", "stock"))
-			.andExpect(view().name("ingredientes/editarIngrediente"));
-	}
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testInitUpdateIngredienteForm() throws Exception {
-		mockMvc.perform(get("/restaurantes/{restauranteId}/ingredientes/{ingredienteId}/edit", TEST_RESTAURANTE_ID, TEST_INGREDIENTE_ID))
+		mockMvc.perform(post("/restaurantes/{restauranteId}/reclamaciones/save", TEST_RESTAURANTE_ID)
+				.with(csrf())
+				.param("descripcion", ""))
 				.andExpect(status().isOk())
-				.andExpect(model().attributeExists("ingrediente"))
-				.andExpect(model().attribute("ingrediente", hasProperty("name", is("Leche"))))
-				.andExpect(model().attribute("ingrediente", hasProperty("medida", is(Medida.L))))
-				.andExpect(model().attribute("ingrediente", hasProperty("stock", is(50.))))
-				.andExpect(view().name("/restaurantes/{restaurantesId}/ingredientes/editarIngrediente"));
+				.andExpect(model().attributeHasErrors("reclamacion"))
+				.andExpect(model().attributeHasFieldErrors("reclamacion", "descripcion"))
+				.andExpect(view().name("reclamaciones/crearReclamacion"));
 	}
-	//¿COMOS SE HACE EL CONTROLADOR DEL DELETE?
 }

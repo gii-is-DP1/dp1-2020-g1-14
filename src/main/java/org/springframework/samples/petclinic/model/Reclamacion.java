@@ -27,6 +27,7 @@ public class Reclamacion extends BaseEntity{
 		return descripcion;
 	}
 
+	@NotBlank
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
