@@ -48,7 +48,7 @@ public class ReclamacionController {
 	{
 		modelMap.addAttribute("reclamacion", reclamacion);
 		modelMap.addAttribute("restauranteId", restauranteId);
-		return "restaurantes/"+restauranteId+"/reclamaciones/crearReclamacion";
+		return "/reclamaciones/crearReclamacion";
 		
 	}else {
 		reclamacionService.save(reclamacion);
