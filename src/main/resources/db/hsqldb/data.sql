@@ -152,6 +152,10 @@ INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
 
+INSERT INTO oferta(id,descripcion) VALUES(1,'Oferta numero 1');
+INSERT INTO oferta(id,descripcion) VALUES(2,'Oferta numero 2');
+INSERT INTO oferta(id,descripcion) VALUES(3,'Oferta numero 3');
+INSERT INTO oferta(id,descripcion) VALUES(4,'Oferta numero 4');
 
 
 

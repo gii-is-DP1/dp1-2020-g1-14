@@ -97,7 +97,7 @@ public class ProductoServiceTest {
 	}
 	@Test
 	@Transactional
-	public void shouldUpdateProducto() {
+	public void shouldUpdateProducto() throws WrongDataProductosException {
 		Optional<Producto> producto = this.productoService.findProductoById(1);
 		String newName = "Bizcocho";
 		producto.get().setName("Bizcocho");
@@ -112,6 +112,7 @@ public class ProductoServiceTest {
 		
 		producto.get().setPrecio(newPrecio);
 		
+		this.productoService.save(producto.get());
 		producto = this.productoService.findProductoById(1);
 		assertThat(producto.get().getName()).isEqualTo(newName);
 		assertThat(producto.get().getAlergenos()).isEqualTo(newAlergeno);
