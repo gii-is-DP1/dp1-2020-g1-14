@@ -91,18 +91,18 @@ public class IngredienteController {
 		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value = "/{gerenteId}/edit")
-	public String processUpdateOwnerForm(@Valid Ingrediente ingrediente, BindingResult result,
-			@PathVariable("ingredienteId") int ingredienteId) {
-		if (result.hasErrors()) {
-			return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			ingrediente.setId(ingredienteId);
-			this.ingService.save(ingrediente);
-			return "redirect:/ingredientes/{ingredienteId}";
-		}
-	}
+//	@PostMapping(value = "/{ingredienteId}/edit")
+//	public String processUpdateOwnerForm(@Valid Ingrediente ingrediente, BindingResult result,
+//			@PathVariable("ingredienteId") int ingredienteId) {
+//		if (result.hasErrors()) {
+//			return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
+//		}
+//		else {
+//			ingrediente.setId(ingredienteId);
+//			this.ingService.save(ingrediente);
+//			return "redirect:/ingredientes/{ingredienteId}";
+//		}
+//	}
 	
 	@GetMapping(path="/delete/{ingredienteId}")
 	public String borrarIngrediente(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int id, ModelMap modelMap) {
