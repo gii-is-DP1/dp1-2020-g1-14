@@ -53,7 +53,8 @@ public class ReservaServiceTest {
 		nuevaReserva.setHoraInicio(LocalTime.now());
 		nuevaReserva.setHoraFin(LocalTime.of(22, 00));
 		nuevaReserva.setnPersonas(12);
-		nuevaReserva.setEvento(true);       
+		nuevaReserva.setEvento(true);      
+		nuevaReserva.setRestaurante(restauranteService.findRestauranteById(1).get());
         this.reservaService.save(nuevaReserva);
 		assertThat(reserva.get().getId().longValue()).isNotEqualTo(0);
 

@@ -19,7 +19,6 @@
             <th style="width: 120px">Tipo</th>
             <th style="width: 120px">Localizacion</th>
             <th style="width: 120px">Aforo maximo</th>
-            <th style="width: 120px">Aforo restante</th>
             <th style="width: 120px">Actions</th>
             
         </tr>
@@ -27,8 +26,11 @@
         <tbody>
         <c:forEach items="${restaurantes}" var="restaurantes">
             <tr>
-                <td>
-                    <c:out value="${restaurantes.name}"/>
+            	<td>
+                    <spring:url value="/restaurantes/{restaurantesId}" var="restauranteUrl">
+                        <spring:param name="restaurantesId" value="${restaurantes.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(restauranteUrl)}"><c:out value="${restaurantes.name}"/></a>
                 </td>
                 <td>
                     <c:out value="${restaurantes.tipo}"/>
@@ -38,9 +40,6 @@
                 </td>
                 <td>
                     <c:out value="${restaurantes.aforomax}"/>
-                </td>
-                <td>
-                    <c:out value="${restaurantes.aforores}"/>
                 </td>
 				<td>
 				<spring:url value="/restaurantes/delete/{restaurantesId}" var="restauranteUrl">

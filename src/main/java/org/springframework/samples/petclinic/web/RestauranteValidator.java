@@ -15,14 +15,14 @@ public class RestauranteValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		Restaurante restaurante = (Restaurante) target;
 		Integer max = restaurante.getAforomax();
-		Integer res = restaurante.getAforores();
+		//Integer res = restaurante.getAforores();
 		String tipo = restaurante.getTipo();
 		String name = restaurante.getName();
 		String loc = restaurante.getLocalizacion();
 		
-		if(res > max) {
+		/*if(res > max) {
 			errors.rejectValue("aforoRes", "El aforo restante debe ser menor que el maximo");
-		}
+		}*/
 		/*if(tipo.contains("1") || tipo.contains("2") ||tipo.contains("3") ||tipo.contains("4") ||tipo.contains("5") ||tipo.contains("6") ||tipo.contains("7") ||tipo.contains("8") ||tipo.contains("9") ||tipo.contains("0")) {
 			errors.rejectValue("tipo", "El tipo no puede contener numeros");
 		}

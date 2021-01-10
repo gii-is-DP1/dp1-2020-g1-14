@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Gerente;
-import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Restaurante;
-import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,4 +66,38 @@ public class GerenteServiceTest {
 		assertThat(gerente.getName()).isEqualTo(newName);
 		assertThat(gerente.getPassword()).isEqualTo(newPassword);
 	}
+	
+	@Test
+	@Transactional
+	public void shouldDeleteGerente() {
+		Gerente g = new Gerente();
+		g.setName("Juan");
+		g.setPassword("contraseña2");
+		g.setrDate(LocalDate.now());
+		g.setDni("34788543H");
+		g.setRestaurante(restauranteService.findRestauranteById(2).get());
+		
+		try {
+			this.gerenteService.save(g);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Collection<Gerente> gerenteAdded = (Collection<Gerente>) this.gerenteService.findAll();
+		int found = gerenteAdded.size();
+		this.gerenteService.delete(g);
+		Collection<Gerente> gerenteDeleted = (Collection<Gerente>) this.gerenteService.findAll();
+		assertThat(gerenteDeleted.size()).isEqualTo(found-1);
+	}
+	
+	 @Test
+	 @Transactional
+	 public void shouldFindGerenteWithCorrectId() {
+		 Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
+		 assertThat(gerente.get().getName()).isEqualTo("nombre1");
+		 assertThat(gerente.get().getPassword()).isEqualTo("gerente1");
+		 assertThat(gerente.get().getrDate()).isEqualTo("2000-10-11");
+		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
+		 assertThat(gerente.get().getRestaurante().getId()).isEqualTo(1);
+	 }
+	
 }

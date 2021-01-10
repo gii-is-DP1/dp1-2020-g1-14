@@ -81,8 +81,8 @@ public class PedidoController {
 	}
 	return view;
 }
-	@ModelAttribute("productos")
+	/*@ModelAttribute("productos")
 	public Iterable<Producto> producto() {
 		return this.pedidoService.getAllProductos();
-	}
+	}*/
 }

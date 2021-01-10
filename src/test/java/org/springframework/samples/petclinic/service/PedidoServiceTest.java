@@ -167,14 +167,14 @@ public class PedidoServiceTest {
     	});
 	}
 	
-	@Test
+/*	@Test
 	public void getAllProductsTest() {
 		Collection<Producto> productos = (Collection<Producto>) pedidoService.getAllProductos();
 		int tamaño = productos.size();
 		Integer productosL = (int) productos.stream().count();
 	
 		assertThat(tamaño).isEqualTo(productosL);
-	}
+	}*/
 	
 
 }
