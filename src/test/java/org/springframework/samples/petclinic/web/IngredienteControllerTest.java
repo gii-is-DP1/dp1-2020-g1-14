@@ -99,7 +99,7 @@ public class IngredienteControllerTest {
 	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/new", TEST_RESTAURANTE_ID)
 						.param("Name", "Harina")
 						.param("Medida", "KG")
-						.with(csrf())//QUE ES ESTO, PARA QUE SIRVE
+						.with(csrf())
 						.param("restaurante", "Prueba")
 						.param("stock", "30"))
 						.andExpect(status().isOk());
@@ -131,5 +131,4 @@ public class IngredienteControllerTest {
 				.andExpect(model().attribute("ingrediente", hasProperty("stock", is(50.))))
 				.andExpect(view().name("/restaurantes/{restaurantesId}/ingredientes/editarIngrediente"));
 	}
-	//¿COMOS SE HACE EL CONTROLADOR DEL DELETE?
 }

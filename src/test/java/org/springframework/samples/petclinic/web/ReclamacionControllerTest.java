@@ -101,7 +101,6 @@ public class ReclamacionControllerTest {
 				.andExpect(status().isOk());
 	}
 	
-	//NO BINDINGRESULT FOR ATTRIBUTE RECLAMACION
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormHasErrors() throws Exception {
@@ -111,6 +110,6 @@ public class ReclamacionControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("reclamacion"))
 				.andExpect(model().attributeHasFieldErrors("reclamacion", "descripcion"))
-				.andExpect(view().name("reclamaciones/crearReclamacion"));
+				.andExpect(view().name("/reclamaciones/crearReclamacion"));
 	}
 }
