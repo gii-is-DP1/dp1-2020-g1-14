@@ -102,10 +102,11 @@ INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
 INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','pass1','2000-10-11',true,'12','954765812');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','pass2','1998-01-13',true,'12','954357811');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','pass3','1999-08-10',false,'11','954736516');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','pass4','2020-10-10',false,'6','954736516');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','passsssss1','2000-10-11',true,'12','954765812');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','passssss2','1998-01-13',true,'12','954357811');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','passssssss3','1999-08-10',false,'11','954736516');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','passsssss4','2020-10-10',false,'6','954736516');
+INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (5,'Paco','passssssss4','2000-10-10',false,'12','934587516');
 
 INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
 INSERT INTO ingrediente(id,name,stock,medida) VALUES(2,'Cajas de tomates',5,'UNIDAD');

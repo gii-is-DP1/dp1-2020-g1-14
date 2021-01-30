@@ -39,7 +39,7 @@ public class ClienteServiceTest {
     @Test
     public void testCountWithInitalData() {
         int count = clienteService.clienteCount();
-        assertEquals(count,4);
+        assertEquals(count,5);
     }
     //Comprobamos que un cliente que cumple las condiciones para ser socio y se cambia su valor de false a true.
     @Test
@@ -67,7 +67,7 @@ public class ClienteServiceTest {
 
 
     @ParameterizedTest
-    @CsvSource({"2020-03-11,12,true"
+    @CsvSource({"2020-03-11,12,false"
     	,"2020-02-13,10,false"})
     public void checkSocioTestParameterized(LocalDate fecha, int nPedidos, Boolean esSocio) throws CantBeAMemberException {
     	Cliente c = new Cliente();

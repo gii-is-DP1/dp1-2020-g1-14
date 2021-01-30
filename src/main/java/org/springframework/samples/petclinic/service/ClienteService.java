@@ -41,11 +41,12 @@ public class ClienteService {
     public void delete(Cliente cliente) {
         clienteRepo.delete(cliente);
     }
-    @Transactional
+    
     public Cliente checkSocio(Cliente cliente) throws CantBeAMemberException {
     	YearMonth startMonth = YearMonth.of(cliente.getrDate().getYear(), cliente.getrDate().getMonthValue());
     	Integer numPed = cliente.getNumPedidos();
-    	if(monthDiff(startMonth) < 6 || numPed < 10) {
+    	Boolean socio = cliente.getEsSocio();
+    	if(monthDiff(startMonth) < 6 || numPed < 10 || socio == true) {
     		throw new CantBeAMemberException();
     	}else
     	cliente.setEsSocio(true);

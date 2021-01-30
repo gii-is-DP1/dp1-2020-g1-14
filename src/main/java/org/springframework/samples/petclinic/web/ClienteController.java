@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -71,6 +72,23 @@ public class ClienteController {
     	return vista;
     	
     }
-       
-    
+   
+    @GetMapping(path="/upgrade/{clienteId}") 
+    public String upgradeCliente(@PathVariable("clienteId") int clienteId, ModelMap modelMap)  {
+    	String view = "clientes/listadoClientes";
+    	Optional<Cliente> cliente = clienteService.findClienteById(clienteId);
+    	try {
+			clienteService.checkSocio(cliente.get());
+		} catch (CantBeAMemberException e) {
+			// TODO Auto-generated catch block
+			modelMap.addAttribute("message","No cumple las condiciones necesarias o ya es socio");
+			view=listadoClientes(modelMap);
+			return view;
+		}
+        modelMap.addAttribute("cliente", cliente);
+        modelMap.addAttribute("message", "Convertido a socio con éxito");
+        view= listadoClientes(modelMap);
+        return view;
+  
+    }
 }
