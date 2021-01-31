@@ -69,6 +69,13 @@
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Cancel</a>
                 </td>
+                
+                <td>
+                <spring:url value="/pedidos/refresh/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Refresca</a>
+                </td>
               </tr>
         </c:forEach>  
           

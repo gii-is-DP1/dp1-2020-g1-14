@@ -43,11 +43,11 @@ public class PedidoService {
 		pedidoRepo.delete(pedido);
 	}
 	
-	public Double getTotalPrice(int id) throws MinOrderPriceException{
+	public Double getTotalPrice(int id) /*throws MinOrderPriceException*/{
 		Double total =pedidoRepo.getTotalPrice(id);
-		if(total < 10) {
+		/*if(total < 10) {
 			throw new MinOrderPriceException();
-		}else
+		}else*/
 			return total;
 	}
 	

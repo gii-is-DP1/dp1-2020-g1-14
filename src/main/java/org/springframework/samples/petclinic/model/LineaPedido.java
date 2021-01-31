@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -25,7 +26,7 @@ public class LineaPedido extends BaseEntity {
 	*/
 	
 	@ManyToOne
-	@JoinColumn(name="producto_id",nullable=true,updatable= false)
+	@JoinColumn(name="producto_id")
 	private Producto producto;
 	
 
