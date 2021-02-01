@@ -1,12 +1,19 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Oferta extends BaseEntity {
 	@NotNull
 	private String descripcion;
@@ -15,6 +22,12 @@ public class Oferta extends BaseEntity {
 	@JoinColumn(name="productoId")
 	private Producto producto;
 	*/
+	
+	
+	private Double descuento;
+	
+	private Boolean exclusivo;
+	
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -22,5 +35,9 @@ public class Oferta extends BaseEntity {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
+	
+	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	private List<Pedido> pedidos;
+	
 
 }

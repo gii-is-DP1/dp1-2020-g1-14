@@ -50,7 +50,9 @@ public class Pedido extends BaseEntity {
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="oferta_id")
+	private Oferta oferta;
 	
 	private Boolean checkea;
 
