@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@Controller
 @RequestMapping("restaurantes/{restauranteId}/reservas")
 public class ReservaController {
 	
@@ -40,6 +42,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 	@InitBinder("reserva")
 	public void initReservaBinder(WebDataBinder dataBinder) {
 		dataBinder.setValidator(new ReservaValidator());
+		log.info("inicializando DataBinder");
 	}
 	
 	@GetMapping()
@@ -47,6 +50,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 		String vista = "reservas/listadoReservas";
 		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 		modelMap.addAttribute("restaurante", restaurante);
+		log.info("listando reserva de un restaurante");
 		return vista;
 	}
 	
@@ -54,6 +58,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 	public String initCreationForm(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		modelMap.addAttribute("reserva", new Reserva());
 		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+		log.info("inicializando creación de reserva en un restaurante");
 		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -62,6 +67,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 		Reserva reserva = this.reservaService.findReservaById(reservaId).get();
 		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
 		modelMap.addAttribute(reserva);
+		log.info("inicializando edición de una reserva");
 		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -71,11 +77,13 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 		if(res.hasErrors()) {
 			modelMap.addAttribute("reserva", reserva);
 			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			log.warn("error de validacion");
 			return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
 		}else {
 			reservaService.save(reserva);
 			modelMap.addAttribute("message", "Reserva guardado con exito");
 			vista=listadoReservas(restauranteId, modelMap);
+			log.info("Reserva guardada");
 			return vista;
 		}
 	}
@@ -88,9 +96,11 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 			reservaService.delete(reserva.get());
 			modelMap.addAttribute("message","Reserva borrada con exito");
 			vista= listadoReservas(restauranteId, modelMap);
+			log.info("reserva eliminada");
 		}else {
 			modelMap.addAttribute("message","Reserva no encontrada");
 			vista= listadoReservas(restauranteId, modelMap);
+			log.warn("reserva no encontrada");
 		}		
 		return vista;
 	}
