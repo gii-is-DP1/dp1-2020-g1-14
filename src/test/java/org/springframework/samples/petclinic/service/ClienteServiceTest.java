@@ -29,7 +29,7 @@ public class ClienteServiceTest {
     @Test
     public void testCountWithInitalData() {
         int count = clienteService.clienteCount();
-        assertEquals(count,4);
+        assertEquals(count,4); 
     }
     //Comprobamos que un cliente que cumple las condiciones para ser socio y se cambia su valor de false a true.
     @Test
