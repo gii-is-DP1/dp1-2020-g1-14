@@ -100,6 +100,9 @@ INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
 
+
+
+
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente1','cliente1',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (10,'cliente1','cliente');
 INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*1,'Juan','pass1','2000-10-11',*/true,'12','954765812','cliente1');

@@ -46,7 +46,30 @@
                         <spring:param name="clienteId" value="${cliente.id}"/>
                     </spring:url>
                     <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Delete</a>
+
+                    
+                    <spring:url value="/clientes/upgrade/{clienteId}" var="clienteUrl">
+                        <spring:param name="clienteId" value="${cliente.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Hacerlo socio</a>
+                </td>
+             
+            
+                
+                
+      
+<!--
+                <td> 
+                    <c:out value="${owner.user.username}"/> 
+                </td>
+                <td> 
+                   <c:out value="${owner.user.password}"/> 
+                </td> 
+-->
+                
+
                 </td>               
+
             </tr>
         </c:forEach>
         </tbody>
