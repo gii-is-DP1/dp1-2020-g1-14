@@ -5,8 +5,16 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+
 import javax.persistence.FetchType;
+
+
+import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
+
+
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -37,7 +45,11 @@ public class Producto extends NamedEntity {
 	@JoinColumn(name="linea_pedido_id")
 	private LineaPedido lineaPedido;
 	*/
-	@OneToMany(mappedBy="producto",cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	
+	@ManyToOne
+    private Restaurante restaurante;
+	
+	@OneToMany(mappedBy="producto",cascade = CascadeType.ALL)
 	private List<LineaPedido> lineaPedido;
 	/*
 	@OneToOne(mappedBy="producto")

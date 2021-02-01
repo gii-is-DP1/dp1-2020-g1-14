@@ -99,8 +99,6 @@ INSERT INTO proveedor(id,name,tlf) VALUES (1,'Database','643981298');
 INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
-INSERT INTO reclamacion(id,fecha,descripcion) VALUES(1,'2020-10-28','Mal trato por parte del camarero.');
-INSERT INTO reclamacion(id,fecha,descripcion) VALUES(2,'2020-11-15','Comida en mal estado.');
 
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','passsssss1','2000-10-11',true,'12','954765812');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','passssss2','1998-01-13',true,'12','954357811');
@@ -108,19 +106,25 @@ INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','passsssss4','2020-10-10',false,'6','954736516');
 INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (5,'Paco','passssssss4','2000-10-10',false,'12','934587516');
 
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(1,'Nata',10,'L');
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(2,'Cajas de tomates',5,'UNIDAD');
-INSERT INTO ingrediente(id,name,stock,medida) VALUES(3,'Harina',17,'KG');
 
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,25/*,1*/);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,20/*,1*/);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,aforores/*,propietario_id*/) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,4/*,1*/);
 
-INSERT INTO producto(id,name,alergenos,precio) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(2,'Ensalada','Pescado',8);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(3,'Mejillones','Moluscos',12.90);
-INSERT INTO producto(id,name,alergenos,precio) VALUES(4,'Cacahuetes','Frutos secos',5);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20);
 
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(3,'Mejillones','Moluscos',12.90,2);
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(4,'Cacahuetes','Frutos secos',5,3);
+
+
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(1,'2020-10-28','Mal trato por parte del camarero.',1);
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(2,'2020-11-15','Comida en mal estado.',2);
+
+
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(1,'Nata',10,'L', 1);
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2);
+INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(3,'Harina',17,'KG', 3);
 
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
 INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(1,'Calle A','PROCESANDO','2020-08-13',17.3,1);
@@ -136,9 +140,6 @@ INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (3,13,3,2);
 
 INSERT INTO pedido(id,adress,estado,order_date,price,cliente_id) VALUES(4,'Calle D','PROCESANDO','2020-09-03',11.5,4);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
-
-
-
 
 
 

@@ -1,8 +1,10 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -10,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Medida;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.IngredienteService;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,31 +24,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/ingredientes")
+@RequestMapping("/restaurantes/{restaurantesId}/ingredientes")
 public class IngredienteController {
 
-	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "ingredientes/editarIngrediente";
+	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "/restaurantes/{restaurantesId}/ingredientes/editarIngrediente";
 	@Autowired
 	private IngredienteService ingService;
-	
-	/*@GetMapping()
-	public String listadoIngredientesPorRestaurante(ModelMap modelMap, int id) {
-		String vista = "ingredientes/listadoIngredientes";
-		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestaurante(id);
-		modelMap.addAttribute("ingredientes", ingredientes);
-		return vista;
-	}*/
+	@Autowired
+	private RestauranteService resService;
 	
 	@GetMapping()
-	public String listadoIngredientes(ModelMap modelMap) {
+	public String listadoIngredientes(@PathVariable("restaurantesId") int restauranteId, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
-		Iterable<Ingrediente> ingredientes = ingService.findAll();
-		modelMap.addAttribute("ingredientes", ingredientes);
+		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
+		modelMap.addAttribute("restaurante", restaurante);
 		return vista;
 	}
 	
 	@GetMapping(path="/new")
-	public String añadirIngrediente(ModelMap modelMap) {
+	public String añadirIngrediente(@PathVariable("restaurantesId") int restauranteId,ModelMap modelMap) {
 		String vista = "ingredientes/editarIngrediente";
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 		ArrayList<String> medidas = new ArrayList<String>();
@@ -52,13 +50,15 @@ public class IngredienteController {
 			medidas.add(medida.toString());
 		}
 		modelMap.addAttribute("medidas", medidas);
+		modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 		modelMap.addAttribute("ingrediente", new Ingrediente());
+		
+		
 		return vista;
 	}
 	
 	@PostMapping(path="/save")
-	public String guardarIngrediente(@Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
-		String vista = "ingredientes/listadoIngredientes";
+	public String guardarIngrediente(@PathVariable("restaurantesId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
 		if(result.hasErrors()) {
 			EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 			ArrayList<String> medidas = new ArrayList<String>();
@@ -66,14 +66,16 @@ public class IngredienteController {
 				medidas.add(medida.toString());
 			}
 			modelMap.addAttribute("medidas", medidas);
+			modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 			modelMap.addAttribute("ingrediente", ingrediente);
 			return "ingredientes/editarIngrediente";
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
-			vista = listadoIngredientes(modelMap);
+			String vista = listadoIngredientes(restauranteId, modelMap);
+			return vista;	
 		}
-		return vista;		
+			
 	}
 	
 	@GetMapping(path = "/{ingredienteId}/edit")
@@ -89,21 +91,21 @@ public class IngredienteController {
 		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value = "/{gerenteId}/edit")
-	public String processUpdateOwnerForm(@Valid Ingrediente ingrediente, BindingResult result,
-			@PathVariable("ingredienteId") int ingredienteId) {
-		if (result.hasErrors()) {
-			return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			ingrediente.setId(ingredienteId);
-			this.ingService.save(ingrediente);
-			return "redirect:/ingredientes/{ingredienteId}";
-		}
-	}
+//	@PostMapping(value = "/{ingredienteId}/edit")
+//	public String processUpdateOwnerForm(@Valid Ingrediente ingrediente, BindingResult result,
+//			@PathVariable("ingredienteId") int ingredienteId) {
+//		if (result.hasErrors()) {
+//			return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
+//		}
+//		else {
+//			ingrediente.setId(ingredienteId);
+//			this.ingService.save(ingrediente);
+//			return "redirect:/ingredientes/{ingredienteId}";
+//		}
+//	}
 	
 	@GetMapping(path="/delete/{ingredienteId}")
-	public String borrarIngrediente(@PathVariable("ingredienteId") int id, ModelMap modelMap) {
+	public String borrarIngrediente(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int id, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
 		Optional<Ingrediente> ingrediente = ingService.findIngredienteById(id);
 		if(ingrediente.isPresent()) {
@@ -112,7 +114,8 @@ public class IngredienteController {
 		}else {
 			modelMap.addAttribute("message","Event not found!");
 		}
-		vista = listadoIngredientes(modelMap);
+		vista = listadoIngredientes(restauranteId, modelMap);
+//		vista = "redirect:/restaurantes/{restauranteId}/ingredientes";
 		return vista;
 	}
 }

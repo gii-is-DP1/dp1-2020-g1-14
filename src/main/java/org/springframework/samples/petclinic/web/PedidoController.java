@@ -103,9 +103,10 @@ public class PedidoController {
 	}
 	return view;
 }
-	@ModelAttribute("productos")
+	/*@ModelAttribute("productos")
 	public Iterable<Producto> producto() {
 		return this.pedidoService.getAllProductos();
+
 	}
 	@GetMapping(path="/refresh/{pedidoId}")
 	public String refreshPrice(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap) {
@@ -119,5 +120,8 @@ public class PedidoController {
 		log.info("Precios actualizados con éxito");
 		return view;
 	}
+
+
+	}*/
 
 }

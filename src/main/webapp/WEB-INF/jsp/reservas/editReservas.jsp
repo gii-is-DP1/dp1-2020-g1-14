@@ -15,7 +15,7 @@
     </jsp:attribute>
     <jsp:body>
           <h2>Reservas</h2>
-		<form:form modelAttribute="reserva" class="form-horizontal" action= "/reservas/save">
+		<form:form modelAttribute="reserva" class="form-horizontal" action= "/restaurantes/${restaurante.id}/reservas/save" >
             <div class="form-group has-feedback">
             
             	<petclinic:inputField label="Fecha" name="fecha"/>
@@ -27,7 +27,7 @@
         				<label class="col-sm-2 control-label">Hora Inicio</label>
 
         				<div class="col-sm-10">
-        					<input type="time" name="horaInicio">
+        					<input type="time" name="horaInicio" value="00:00">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
@@ -46,7 +46,7 @@
         				<label class="col-sm-2 control-label">Hora Fin</label>
 
         				<div class="col-sm-10">
-        					<input type="time" name="horaFin">
+        					<input type="time" name="horaFin" value="00:00">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
@@ -81,13 +81,15 @@
     				</div>
 				</spring:bind>
 				
-                <petclinic:inputField label="Nº Personas" name="nPersonas"/>        
+                <petclinic:inputField label="Nº Personas" name="nPersonas"/>
+                      
                         
             </div>
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${reserva.id}"/>
+                    <input type="hidden" name="restaurante" value="${restaurante}"/> 
                     <c:choose>
                     	<c:when test="${reserva['new']}">
                     		<button class="btn btn-default" type="submit">Add reserva</button>

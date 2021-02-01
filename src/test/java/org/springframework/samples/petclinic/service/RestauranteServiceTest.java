@@ -45,7 +45,7 @@ public class RestauranteServiceTest {
 		nuevoRestaurante.setTipo("Mexicano");
 		nuevoRestaurante.setLocalizacion("Calle de prueba");
 		nuevoRestaurante.setAforomax(25);
-		nuevoRestaurante.setAforores(nuevoRestaurante.getAforomax());       
+		//nuevoRestaurante.setAforores(nuevoRestaurante.getAforomax());       
         this.restauranteService.save(nuevoRestaurante);
 		assertThat(restaurante.get().getId().longValue()).isNotEqualTo(0);
 

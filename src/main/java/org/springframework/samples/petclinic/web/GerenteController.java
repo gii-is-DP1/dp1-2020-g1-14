@@ -71,7 +71,6 @@ public class GerenteController {
 	String view="gerentes/listadoGerentes";
 	if(result.hasErrors())
 	{
-		System.out.println(result.toString());
 		Iterable<Restaurante> restaurantesIt = restauranteService.findAll();
 		ArrayList<Integer> restaurantes = new ArrayList<>();
 		for(Restaurante restaurante: restaurantesIt) {
