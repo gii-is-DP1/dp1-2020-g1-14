@@ -3,14 +3,11 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
-
 import java.time.LocalDate;
-
 import java.util.Collection;
-import java.util.Locale;
-
 import java.util.Optional;
 
+import org.springframework.samples.petclinic.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,16 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.stereotype.Service;
-
-import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.repository.ClienteRepository;
-import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
@@ -39,7 +29,7 @@ public class ClienteServiceTest {
     @Test
     public void testCountWithInitalData() {
         int count = clienteService.clienteCount();
-        assertEquals(count,5);
+        assertEquals(count,4);
     }
     //Comprobamos que un cliente que cumple las condiciones para ser socio y se cambia su valor de false a true.
     @Test
@@ -70,6 +60,7 @@ public class ClienteServiceTest {
     @CsvSource({"2020-03-11,12,false"
     	,"2020-02-13,10,false"})
     public void checkSocioTestParameterized(LocalDate fecha, int nPedidos, Boolean esSocio) throws CantBeAMemberException {
+    	
     	Cliente c = new Cliente();
     	c.setEsSocio(esSocio);
     	c.setNumPedidos(nPedidos);
@@ -101,12 +92,17 @@ public class ClienteServiceTest {
     	int found = clientes.size();
     	Optional<Cliente> cliente = clienteService.findClienteById(1);
     	
+    	User s = new User();
+    	s.setUsername("cliente5");
+    	s.setPassword("asdjasoipdad234");
+    	s.setEnabled(true);
+    	s.setrDate(LocalDate.now());
+    	
     	Cliente c = new Cliente();
-    	c.getUser().setrDate(LocalDate.now());
+    	c.setUser(s);
     	c.setEsSocio(true);
-    	c.getUser().setPassword("asdas3343");
-    	c.setNumPedidos(12);
-    	c.setTlf("954764582");
+    	c.setNumPedidos(10);
+    	c.setTlf("954356912");
     	
     	this.clienteService.save(c);
     	assertThat(cliente.get().getId().longValue()).isNotEqualTo(0);
@@ -114,13 +110,21 @@ public class ClienteServiceTest {
     	assertThat(clientes.size()).isEqualTo(found+1);
     	
     	
+    	
     	}
     @Test
     @Transactional
     public void shouldDeleteCliente() {
     	
+    	User s = new User();
+    	s.setUsername("cliente5");
+    	s.setPassword("asdjasoipdad234");
+    	s.setEnabled(true);
+    	s.setrDate(LocalDate.now());
+    	
+    	
     	Cliente c = new Cliente();
-    	c.getUser().setrDate(LocalDate.now());
+    	c.setUser(s);
     	c.setEsSocio(true);
     	c.getUser().setPassword("asdas3343");
     	c.setNumPedidos(12);
@@ -140,7 +144,7 @@ public class ClienteServiceTest {
     @Transactional
     public void shouldFindClienteWithCorrectId() {
     	Optional<Cliente> cliente = this.clienteService.findClienteById(1);
-    	assertThat(cliente.get().getUser().getrDate()).isEqualTo("2000-10-11");
+    	assertThat(cliente.get().getUser().getrDate()).isEqualTo("2020-01-01");
     	assertThat(cliente.get().getNumPedidos()).isEqualTo(12);
     	assertThat(cliente.get().getTlf()).isEqualTo("954765812");
     }
