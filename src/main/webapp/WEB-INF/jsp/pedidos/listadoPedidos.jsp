@@ -12,7 +12,10 @@
     
     <spring:url value="/pedidos/new" var="pedidoUrl">
                     </spring:url>
-                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">New order</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Nuevo pedido</a>
+     <spring:url value="/pedidos" var="pedidoUrl">
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Lista pedidos</a>
 	
     <table id="pedidoTable" class="table table-striped">
         <thead>
@@ -24,8 +27,14 @@
             <th style="width: 120px">Price</th>
             <th style="width: 120px">Productos</th>
             <th style="width: 120px">Cantidad</th>
-            <th style="width: 120px">Actions</th>
-            <th style="width: 120px">Cancel</th>
+            <th style="width: 120px">Añadir producto</th>
+            <th style="width: 120px">Cancelar</th>
+            <th style="width: 120px">Actualizar</th>
+            <th style="width: 120px">Hacer pedido</th>
+            <th style="width: 120px">Preparando</th>
+            <th style="width: 120px">En reparto</th>
+            <th style="width: 120px">Recibido</th>
+            <th style="width: 120px">¿Actualizado?</th>
             
         </tr>
         </thead>
@@ -60,7 +69,7 @@
 				
                   <spring:url  value="/pedidos/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
                     </spring:url>
-                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New lineaPedido</a> 
+                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">Añade producto</a> 
                     
                 </td>
                 <td>
@@ -68,6 +77,8 @@
                         <spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Cancel</a>
+                    
+                    
                 </td>
                 
                 <td>
@@ -75,6 +86,38 @@
                         <spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Refresca</a>
+                </td>
+                
+                 <td>
+                <spring:url value="/pedidos/verify/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Confirmar pedido</a>
+                </td>     
+                
+                <td>
+                <spring:url value="/pedidos/preparando/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Preparando</a>
+                </td>
+                
+                <td>
+                <spring:url value="/pedidos/reparto/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">En Reparto</a>
+                </td>
+                
+                <td>
+                <spring:url value="/pedidos/recibido/{pedidoId}" var="pedidoUrl">
+                        <spring:param name="pedidoId" value="${pedido.id}"/>
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Recibido</a>
+                </td> 
+                   
+                   <td>
+                    <c:out value="${pedido.checkea}"/>
                 </td>
               </tr>
         </c:forEach>  

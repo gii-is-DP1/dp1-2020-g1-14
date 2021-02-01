@@ -19,7 +19,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${lineaPedido.id}"/>
-                    <input type="hidden" name="pedido" value="${pedido.id}"/>
+                    <input type="hidden" name="pedido" value="${pedido.id}"/> 
                     <button class="btn btn-default" type="submit">Save lineaPedido</button>
                 </div>
             </div>

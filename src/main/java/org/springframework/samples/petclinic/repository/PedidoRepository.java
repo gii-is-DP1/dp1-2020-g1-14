@@ -15,5 +15,6 @@ public interface PedidoRepository extends CrudRepository<Pedido,Integer> {
 	public Double getTotalPrice(@Param("id") int id);
 	
 	@Query("SELECT p FROM Producto p")
-	public Iterable<Producto> findByRestaurante();
+	public Iterable<Producto> getAllProductos();
+	
 }

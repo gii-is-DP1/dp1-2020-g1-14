@@ -51,4 +51,5 @@ public class WelcomeController {
 		  model.put("Group", "G1-14");
 	    return "welcome";
 	  }
+	  
 }

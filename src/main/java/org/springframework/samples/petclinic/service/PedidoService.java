@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 import java.util.Optional;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.Pedido;
@@ -13,46 +14,67 @@ import org.springframework.samples.petclinic.service.exceptions.MinOrderPriceExc
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ch.qos.logback.classic.Logger;
+
 @Service
 public class PedidoService {
+
+	private static final Logger log = (Logger) LoggerFactory.getLogger(PedidoService.class);
+
 	@Autowired
 	private PedidoRepository pedidoRepo;
-	
+
 	@Transactional
 	public int pedidoCount() {
+
+		log.info("Contando el número total de elementos");
 		return (int) pedidoRepo.count();
 	}
-	
+
 	@Transactional
 	public Iterable<Pedido> findAll() {
+
+		log.info("Buscando todos los elementos");
 		return pedidoRepo.findAll();
 	}
-	@Transactional(readOnly=true)
+
+	@Transactional(readOnly = true)
 	public Optional<Pedido> findPedidoById(int id) {
+
+		log.info("Devolviendo elemento por su id");
 		return pedidoRepo.findById(id);
 	}
-	
+
 	public void save(Pedido pedido) {
+
+		log.info("Guardando elemento");
 		pedidoRepo.save(pedido);
 	}
-	
+
 	public void delete(Pedido pedido) throws CantCancelOrderException {
-		if(pedido.getEstado() == Estado.EN_REPARTO || pedido.getEstado() == Estado.RECIBIDO) {
+		if (pedido.getEstado() == Estado.EN_REPARTO || pedido.getEstado() == Estado.RECIBIDO) {
+
+			log.error("No se puede cancelar el pedido debido al estado en el que se encuentra");
 			throw new CantCancelOrderException();
-		}else 
+		} else
+
+			log.info("Eliminado un elemento");
 		pedidoRepo.delete(pedido);
 	}
-	
-	public Double getTotalPrice(int id) /*throws MinOrderPriceException*/{
-		Double total =pedidoRepo.getTotalPrice(id);
-		/*if(total < 10) {
-			throw new MinOrderPriceException();
-		}else*/
-			return total;
+
+	public Double getTotalPrice(int id) /* throws MinOrderPriceException */ {
+		Double total = pedidoRepo.getTotalPrice(id);
+		/*
+		 * if(total < 10) { throw new MinOrderPriceException(); }else
+		 */
+		log.info("Obteniendo el precio total de un pedido");
+		return total;
 	}
-	
-	/*public Iterable<Producto> getAllProductos() {
+
+	public Iterable<Producto> getAllProductos() {
+
+		log.info("Obteniendo todos los productos");
 		return pedidoRepo.getAllProductos();
-	}*/
+	}
 
 }
