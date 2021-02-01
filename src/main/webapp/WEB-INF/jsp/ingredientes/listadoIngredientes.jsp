@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="ingredientes">
     <h2>Ingredientes</h2>
-	<spring:url value="/restaurantes/${restauranteId}/ingredientes/new" var="ingredienteUrl">
+	<spring:url value="/restaurantes/${restaurante.id}/ingredientes/new" var="ingredienteUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(ingredienteUrl)}" class="btn btn-default">New</a>
                     
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${ingredientes}" var="ingrediente">
+        <c:forEach items="${restaurante.ingredientes}" var="ingrediente">
             <tr>
                 <td>
                     <c:out value="${ingrediente.name}"/>
@@ -31,11 +31,11 @@
                     <c:out value="${ingrediente.stock} ${ingrediente.medida}"/>
                 </td>
                 <td>
-                    <spring:url value="/ingredientes/delete/{ingredienteId}" var="ingredienteUrl">
+                    <spring:url value="/restaurantes/${restaurante.id}/ingredientes/delete/{ingredienteId}" var="ingredienteUrl">
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(ingredienteUrl)}">Borrar</a>
-                	<spring:url value="/ingredientes/{ingredienteId}/edit" var="ingredienteUrl">
+                	<spring:url value="/restaurantes/${restaurante.id}/ingredientes/{ingredienteId}/edit" var="ingredienteUrl">
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(ingredienteUrl)}">Editar</a>

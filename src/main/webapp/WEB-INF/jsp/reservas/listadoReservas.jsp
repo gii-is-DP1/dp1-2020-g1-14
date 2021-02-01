@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
-	<spring:url value="/new" var="reservaUrl">
+	<spring:url value="new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
     <table id="reservaTable" class="table table-striped">
@@ -43,7 +43,7 @@
                     <c:out value="${reserva.nPersonas}"/>
                 </td>
 				<td>
-				<spring:url value="reservas/delete/{reservaId}" var="reservaUrl">
+				<spring:url value="delete/{reservaId}" var="reservaUrl">
                         <spring:param name="reservaId" value="${reserva.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>

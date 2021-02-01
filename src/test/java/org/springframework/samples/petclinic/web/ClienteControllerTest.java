@@ -66,14 +66,7 @@ public class ClienteControllerTest {
 	}
 	
 	//CREATION TESTS
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/clientes/new")).andExpect(status().isOk()).andExpect(model().attributeExists("cliente"))
-			.andExpect(view().name("clientes/editCliente"));
-}
-	
+
 	
 	@WithMockUser(value = "spring")
     @Test

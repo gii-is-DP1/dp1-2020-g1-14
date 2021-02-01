@@ -78,6 +78,7 @@ public class ProveedorServiceTest {
 		String newTlf = "954345485";
 		proveedor.get().setTlf(newTlf);
 		
+		this.proveedorService.save(proveedor.get());
 		proveedor = this.proveedorService.findProveedorById(1);
 		assertThat(proveedor.get().getName()).isEqualTo(newName);
 		assertThat(proveedor.get().getTlf()).isEqualTo(newTlf);

@@ -9,12 +9,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
-
-import org.springframework.samples.petclinic.service.RestauranteService.AforoResConstraint;
 
 @Entity
-@AforoResConstraint(afRes = "aforores", afMax = "aforomax")
+//@AforoResConstraint(afRes = "aforores", afMax = "aforomax")
 public class Restaurante extends NamedEntity {
 
 	@NotBlank	
