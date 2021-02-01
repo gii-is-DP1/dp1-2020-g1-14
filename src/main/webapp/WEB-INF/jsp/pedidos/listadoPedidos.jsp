@@ -33,7 +33,7 @@
         <c:forEach items="${pedidos}" var="pedido">
             <tr>
             	<td>
-                    <c:out value="${pedido.cliente.name}"/>
+                    <c:out value="${pedido.cliente.user.username}"/>
                 </td>
                 <td>
                     <c:out value="${pedido.adress}"/>

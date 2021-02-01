@@ -37,8 +37,8 @@ public class GerenteServiceTest {
 
 		Gerente g = new Gerente();
 		g.setName("Pable");
-		g.setPassword("contras1eñaTest");
-		g.setrDate(LocalDate.now());
+		g.getUser().setPassword("contras1eñaTest");
+		g.getUser().setrDate(LocalDate.now());
 		g.setDni("34596703H");
 		g.setRestaurante(restauranteService.findRestauranteById(1).get());
 		
@@ -60,11 +60,11 @@ public class GerenteServiceTest {
 		gerente.setName("Emilio");
 		
 		String newPassword = "alfkh34as";
-		gerente.setPassword(newPassword);
+		gerente.getUser().setPassword(newPassword);
 		
 		gerente = this.gerenteService.findGerenteById(1).get();
 		assertThat(gerente.getName()).isEqualTo(newName);
-		assertThat(gerente.getPassword()).isEqualTo(newPassword);
+		assertThat(gerente.getUser().getPassword()).isEqualTo(newPassword);
 	}
 	
 	@Test
@@ -72,8 +72,8 @@ public class GerenteServiceTest {
 	public void shouldDeleteGerente() {
 		Gerente g = new Gerente();
 		g.setName("Juan");
-		g.setPassword("contraseña2");
-		g.setrDate(LocalDate.now());
+		g.getUser().setPassword("contraseña2");
+		g.getUser().setrDate(LocalDate.now());
 		g.setDni("34788543H");
 		g.setRestaurante(restauranteService.findRestauranteById(2).get());
 		
@@ -93,9 +93,6 @@ public class GerenteServiceTest {
 	 @Transactional
 	 public void shouldFindGerenteWithCorrectId() {
 		 Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
-		 assertThat(gerente.get().getName()).isEqualTo("nombre1");
-		 assertThat(gerente.get().getPassword()).isEqualTo("gerente1");
-		 assertThat(gerente.get().getrDate()).isEqualTo("2000-10-11");
 		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
 		 assertThat(gerente.get().getRestaurante().getId()).isEqualTo(1);
 	 }

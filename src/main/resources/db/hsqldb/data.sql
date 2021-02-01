@@ -1,30 +1,30 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
-INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('admin1','4dm1n',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('owner1','0wn3r',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
 -- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('vet1','v3t',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 -- USUARIO DE HEGOA--
-INSERT INTO users(username,password,enabled) VALUES ('hegriaher','funky',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (4,'hegriaher','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('hegriaher','funky',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (4,'hegriaher','admin');
 -- USUARIO DE JAIME--
-INSERT INTO users(username,password,enabled) VALUES ('jairamlar','erpepe',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'jairamlar','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('jairamlar','erpepe',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (5,'jairamlar','admin');
 -- USUARIO DE CANDELA--
-INSERT INTO users(username,password,enabled) VALUES ('canjorbus','jazzy',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'canjorbus','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('canjorbus','jazzy',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (6,'canjorbus','admin');
 -- USUARIO DE JACOBO--
-INSERT INTO users(username,password,enabled) VALUES ('jacgarvel','adecarry',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (7,'jacgarvel','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('jacgarvel','adecarry',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (7,'jacgarvel','admin');
 -- USUARIO DE JOSE LUIS--
-INSERT INTO users(username,password,enabled) VALUES ('josaloroc','tiri',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'josaloroc','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('josaloroc','tiri',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (8,'josaloroc','admin');
 --USUARIO DE BADAYCO--
-INSERT INTO users(username,password,enabled) VALUES ('badrijher','fos',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (9,'badrijher','owner');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('badrijher','fos',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (9,'badrijher','admin');
 
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
@@ -100,11 +100,21 @@ INSERT INTO proveedor(id,name,tlf) VALUES (2,'Yinyenhonyi','649983623');
 INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
 
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (1,'Juan','passsssss1','2000-10-11',true,'12','954765812');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (2,'Francisco','passssss2','1998-01-13',true,'12','954357811');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (3,'Javier','passssssss3','1999-08-10',false,'11','954736516');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (4,'Juan','passsssss4','2020-10-10',false,'6','954736516');
-INSERT INTO cliente(id,name,password,r_Date,es_Socio,num_Pedidos,tlf) VALUES (5,'Paco','passssssss4','2000-10-10',false,'12','934587516');
+
+
+
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente1','cliente1',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (10,'cliente1','cliente');
+INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*1,'Juan','pass1','2000-10-11',*/true,'12','954765812','cliente1');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente2','cliente2',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (11,'cliente2','cliente');
+INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*2,'Francisco','pass2','1998-01-13',*/true,'12','954357811','cliente2');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente3','cliente3',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (12,'cliente3','cliente');
+INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*3,'Javier','pass3','1999-08-10',*/false,'11','954736516','cliente3');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente4','cliente4',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (13,'cliente4','cliente');
+INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*4,'Juan','pass4','2020-10-10',*/false,'6','954736516','cliente4');
 
 
 
@@ -144,10 +154,12 @@ INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
 
 
 
-
-
-INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(1,'nombre1','gerente1','2000-10-11','12345678F',1);
-INSERT INTO gerente(id,name,password,r_Date,dni,restaurante_id) VALUES(2,'nombre2','gerente2','2000-10-11','12345678G',2);
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente1','gerente1',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (14,'gerente1','gerente');
+INSERT INTO gerente(name,/*password,r_Date,*/dni,restaurante_id,username) VALUES('nombre1',/*'gerente1','2000-10-11',*/'12345678F',1,'gerente1');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente2','gerente2',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (15,'gerente2','gerente');
+INSERT INTO gerente(name,/*password,r_Date,*/dni,restaurante_id,username) VALUES('nombre2',/*'gerente2','2000-10-11',*/'12345678G',2,'gerente2');
 
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);

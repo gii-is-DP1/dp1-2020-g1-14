@@ -11,9 +11,11 @@
         
         <form:form modelAttribute="gerente" class="form-horizontal" action="/gerentes/save">
             <div class="form-group has-feedback">
+                <petclinic:inputField label="Username" name="user.username"/>
+            	<petclinic:inputField label="Password" name="user.password"/>
                 <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="DNI" name="dni"/>
-                <petclinic:inputField label="Contraseña" name="password"/>
+
                 <c:choose>
                     	<c:when test="${gerente['new']}">
                     		<petclinic:selectField label="Restaurante" name="restaurante" names="${nombres}" size="${fn:length(nombres)}"/>

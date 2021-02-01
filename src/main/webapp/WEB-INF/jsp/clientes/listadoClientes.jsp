@@ -19,25 +19,21 @@
     <table id="clienteTable" class="table table-striped">
         <thead>
         <tr>
-            <th style="width: 150px;">Nombre</th>
-            <th style="width: 120px">Fecha</th>
+            <th style="width: 150px;">Usuario</th>
+            <th style="width: 120px">Fecha de Registro</th>
             <th style="width: 120px">Número pedidos</th>
             <th style="width: 120px">Telefono</th>
-            <th style="width: 120px">Acciones</th>
-            
+            <th style="width: 120px">Acciones</th>     
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${clientes}" var="cliente">
-        
             <tr>
                 <td>
-                    <c:out value="${cliente.name}"/>
+                    <c:out value="${cliente.user.username}"/>
                 </td>
                 <td>
-  
-    				<c:out value="${cliente.rDate}"/>
-                    
+    				<c:out value="${cliente.user.rDate}"/>
                 </td>
                 <td>
                     <c:out value="${cliente.numPedidos}"/>
@@ -50,6 +46,7 @@
                         <spring:param name="clienteId" value="${cliente.id}"/>
                     </spring:url>
                     <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Delete</a>
+
                     
                     <spring:url value="/clientes/upgrade/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${cliente.id}"/>
@@ -70,10 +67,11 @@
                 </td> 
 -->
                 
+
+                </td>               
+
             </tr>
-            
         </c:forEach>
-       
         </tbody>
     </table>
 </petclinic:layout>

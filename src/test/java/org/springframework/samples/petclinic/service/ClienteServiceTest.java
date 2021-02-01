@@ -73,7 +73,7 @@ public class ClienteServiceTest {
     	Cliente c = new Cliente();
     	c.setEsSocio(esSocio);
     	c.setNumPedidos(nPedidos);
-    	c.setrDate(fecha);
+    	c.getUser().setrDate(fecha);
     	clienteService.checkSocio(c);
     	assertThat(c.getEsSocio() == true);
     }
@@ -84,7 +84,7 @@ public class ClienteServiceTest {
     public void shouldThrowDoesNotMeetConditionsExceptionParameterized(LocalDate fecha ,int nPedidos ) {
     	Cliente c = new Cliente();
     	c.setNumPedidos(nPedidos);
-    	c.setrDate(fecha);
+    	c.getUser().setrDate(fecha);
     	try {
 			clienteService.checkSocio(c);
 		} catch (CantBeAMemberException e) {
@@ -102,10 +102,9 @@ public class ClienteServiceTest {
     	Optional<Cliente> cliente = clienteService.findClienteById(1);
     	
     	Cliente c = new Cliente();
-    	c.setName("Pepe");
-    	c.setrDate(LocalDate.now());
+    	c.getUser().setrDate(LocalDate.now());
     	c.setEsSocio(true);
-    	c.setPassword("asdas3343");
+    	c.getUser().setPassword("asdas3343");
     	c.setNumPedidos(12);
     	c.setTlf("954764582");
     	
@@ -121,10 +120,9 @@ public class ClienteServiceTest {
     public void shouldDeleteCliente() {
     	
     	Cliente c = new Cliente();
-    	c.setName("Pepe");
-    	c.setrDate(LocalDate.now());
+    	c.getUser().setrDate(LocalDate.now());
     	c.setEsSocio(true);
-    	c.setPassword("asdas3343");
+    	c.getUser().setPassword("asdas3343");
     	c.setNumPedidos(12);
     	c.setTlf("954764582");
     	
@@ -142,8 +140,7 @@ public class ClienteServiceTest {
     @Transactional
     public void shouldFindClienteWithCorrectId() {
     	Optional<Cliente> cliente = this.clienteService.findClienteById(1);
-    	assertThat(cliente.get().getName()).isEqualTo("Juan");
-    	assertThat(cliente.get().getrDate()).isEqualTo("2000-10-11");
+    	assertThat(cliente.get().getUser().getrDate()).isEqualTo("2000-10-11");
     	assertThat(cliente.get().getNumPedidos()).isEqualTo(12);
     	assertThat(cliente.get().getTlf()).isEqualTo("954765812");
     }
