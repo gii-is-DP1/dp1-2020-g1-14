@@ -17,7 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepo;
-    
+    @Autowired
+	private AuthoritiesService authoritiesService;
+	@Autowired
+	private UserService userService;
+	
     @Transactional 
     public int clienteCount() {
         return (int) clienteRepo.count();
@@ -30,6 +34,10 @@ public class ClienteService {
     @Transactional
     public void save(Cliente cliente) {
     	clienteRepo.save(cliente);
+    	//crear usuario
+		userService.saveUser(cliente.getUser());
+    	//crear authorities
+		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
     }
     
     @Transactional(readOnly=true)
@@ -43,7 +51,7 @@ public class ClienteService {
     }
     @Transactional
     public Cliente checkSocio(Cliente cliente) throws CantBeAMemberException {
-    	YearMonth startMonth = YearMonth.of(cliente.getrDate().getYear(), cliente.getrDate().getMonthValue());
+    	YearMonth startMonth = YearMonth.of(cliente.getUser().getrDate().getYear(), cliente.getUser().getrDate().getMonthValue());
     	Integer numPed = cliente.getNumPedidos();
     	if(monthDiff(startMonth) < 6 || numPed < 10) {
     		throw new CantBeAMemberException();

@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 import com.sun.istack.NotNull;
@@ -15,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Cliente extends Usuario {
+public class Cliente extends BaseEntity {
 	
     @NotNull
     private Boolean esSocio;
@@ -27,9 +29,13 @@ public class Cliente extends Usuario {
     
     private int numPedidos;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+	private User user;
+    
     
     @OneToMany(mappedBy="cliente", cascade= CascadeType.ALL)
     private List<Pedido> pedido;
     
-   
+
 }

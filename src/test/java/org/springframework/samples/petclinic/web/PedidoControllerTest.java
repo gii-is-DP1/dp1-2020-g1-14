@@ -66,10 +66,9 @@ public class PedidoControllerTest {
 		juan = new Cliente();
 		juan.setEsSocio(true);
 		juan.setId(TEST_CLIENTE_ID);
-		juan.setName("Juan");
 		juan.setNumPedidos(12);
-		juan.setPassword("pass1");
-		juan.setrDate(LocalDate.of(2000, 10, 11));
+		juan.getUser().setPassword("pass1");
+		juan.getUser().setrDate(LocalDate.of(2000, 10, 11));
 		juan.setTlf("954765812");
 		
 		Pedido ped1 = new Pedido();

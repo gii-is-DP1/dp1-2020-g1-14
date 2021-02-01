@@ -1,29 +1,29 @@
 package org.springframework.samples.petclinic.model;
 
-import java.time.LocalDate;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Entity
-public class Gerente extends Usuario{
+public class Gerente extends NamedEntity{
 
 //	@NotBlank(message="El número DNI es obligatorio.")
 //	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
 	
-	public Gerente() {
+	/*public Gerente() {
 	super();
 	this.rDate = LocalDate.now();
-	}
+	}*/
 
 	@OneToOne
 	@JoinColumn(name = "restaurante_id")
 	private Restaurante restaurante;
 	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "username", referencedColumnName = "username")
+	private User user;
 	
 	public String getDni() {
 		return dni;
@@ -39,6 +39,14 @@ public class Gerente extends Usuario{
 
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }

@@ -56,9 +56,8 @@ public class ClienteControllerTest {
 
 		juan = new Cliente();
 		juan.setId(TEST_CLIENTE_ID);
-		juan.setName("Juan");
-		juan.setPassword("pass1");
-		juan.setrDate(LocalDate.of(2000, 10, 11));
+		juan.getUser().setPassword("pass1");
+		juan.getUser().setrDate(LocalDate.of(2000, 10, 11));
 		juan.setEsSocio(true);
 		juan.setNumPedidos(12);
 		juan.setTlf("954765812");
@@ -67,14 +66,7 @@ public class ClienteControllerTest {
 	}
 	
 	//CREATION TESTS
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/clientes/new")).andExpect(status().isOk()).andExpect(model().attributeExists("cliente"))
-			.andExpect(view().name("clientes/editCliente"));
-}
-	
+
 	
 	@WithMockUser(value = "spring")
     @Test
@@ -119,18 +111,16 @@ public class ClienteControllerTest {
 		
 		francisco = new Cliente();
 		francisco.setId(2);
-		francisco.setName("Francisco");
-		francisco.setPassword("pass2");
-		francisco.setrDate(LocalDate.of(1998, 01, 13));
+		francisco.getUser().setPassword("pass2");
+		francisco.getUser().setrDate(LocalDate.of(1998, 01, 13));
 		francisco.setEsSocio(true);
 		francisco.setNumPedidos(12);
 		francisco.setTlf("954357811");
 		
 		javier = new Cliente();
 		javier.setId(3);
-		javier.setName("Javier");
-		javier.setPassword("pass3");
-		javier.setrDate(LocalDate.of(1999, 8, 10));
+		javier.getUser().setPassword("pass3");
+		javier.getUser().setrDate(LocalDate.of(1999, 8, 10));
 		javier.setEsSocio(false);
 		javier.setNumPedidos(11);
 		javier.setTlf("954736516");
@@ -151,149 +141,5 @@ public class ClienteControllerTest {
 				.andExpect(model().attributeExists("clientes"))
 				.andExpect(view().name("clientes/listadoClientes"));
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }
