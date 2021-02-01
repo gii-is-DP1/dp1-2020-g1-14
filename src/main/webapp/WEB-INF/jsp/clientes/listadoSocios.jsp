@@ -32,12 +32,10 @@
         
             <tr>
                 <td>
-                    <c:out value="${cliente.name}"/>
+                    <c:out value="${cliente.user.username}"/>
                 </td>
                 <td>
-  
-    				<c:out value="${cliente.rDate}"/>
-                    
+    				<c:out value="${cliente.user.rDate}"/>
                 </td>
                 <td>
                     <c:out value="${cliente.numPedidos}"/>

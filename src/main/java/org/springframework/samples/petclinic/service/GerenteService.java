@@ -13,6 +13,10 @@ public class GerenteService {
 
 	@Autowired
 	private GerenteRepository gerenteRepo;
+	@Autowired
+	private AuthoritiesService authoritiesService;
+	@Autowired
+	private UserService userService;
 
 	   @Transactional 
 	    public int gerenteCount() {
@@ -32,6 +36,10 @@ public class GerenteService {
 	    @Transactional
 	    public void save(Gerente gerente) {
 	    	gerenteRepo.save(gerente);
+	    	//crear usuario
+			userService.saveUser(gerente.getUser());
+	    	//crear authorities
+			authoritiesService.saveAuthorities(gerente.getUser().getUsername(), "gerente");
 	    }
 	    
 	    @Transactional

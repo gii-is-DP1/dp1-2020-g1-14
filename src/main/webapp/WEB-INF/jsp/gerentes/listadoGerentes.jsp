@@ -18,6 +18,7 @@
         <tr>
             <th style="width: 150px;">Nombre</th>
             <th style="width: 200px;">DNI</th>
+            <th>Usuario</th>
             <th>Contraseña</th>
             <th>Fecha de Registro</th>
             <th>Restaurante</th>
@@ -34,10 +35,13 @@
                     <c:out value="${gerente.dni}"/>
                 </td>
                 <td>
-                    <c:out value="${gerente.password}"/>
+                    <c:out value="${gerente.user.username}"/>
                 </td>
                 <td>
-                    <c:out value="${gerente.rDate}"/>
+                    <c:out value="${gerente.user.password}"/>
+                </td>
+                <td>
+                    <c:out value="${gerente.user.rDate}"/>
                 </td>
                 <td>
                     <c:out value="${gerente.restaurante.name}"/>
@@ -57,4 +61,3 @@
         </tbody>
     </table>
 </petclinic:layout>
- 

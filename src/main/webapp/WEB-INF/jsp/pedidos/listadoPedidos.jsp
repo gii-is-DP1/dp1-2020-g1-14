@@ -33,7 +33,7 @@
         <c:forEach items="${pedidos}" var="pedido">
             <tr>
             	<td>
-                    <c:out value="${pedido.cliente.name}"/>
+                    <c:out value="${pedido.cliente.user.username}"/>
                 </td>
                 <td>
                     <c:out value="${pedido.adress}"/>
@@ -58,7 +58,7 @@
                     </c:forEach>
 				<td>
 				
-                  <spring:url  value="/lineaPedidos/new" var="lineaPedidosUrl">
+                  <spring:url  value="/pedidos/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New lineaPedido</a> 
                     
