@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-import java.beans.Transient;
+import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -48,11 +50,15 @@ public class Pedido extends BaseEntity {
 	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
 	
+	
+	
+	private Boolean checkea;
 
 	public Pedido() {
 		super();
 		this.orderDate = LocalDate.now();
 		this.estado =  estado.SIN_VERIFICAR;
+		this.checkea = false;
 	}
 	
 }

@@ -15,7 +15,7 @@
             <div class="form-group has-feedback">
             	<petclinic:inputField label="adress" name="adress"/>
             	<petclinic:inputField label="orderDate" name="orderDate"/>
-          		<petclinic:inputField label="price" name="price"/>
+          		
                	
                	
                
