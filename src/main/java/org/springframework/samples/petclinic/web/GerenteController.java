@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import antlr.collections.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequestMapping("/gerentes")
 public class GerenteController {
@@ -50,6 +52,7 @@ public class GerenteController {
 		String vista ="gerentes/listadoGerentes";
 		Iterable<Gerente> gerentes = gerenteService.findAll();
 		modelMap.addAttribute("gerentes",gerentes);
+		log.info("Mostrando listado gerentes");
 		return vista;
 	}
 	
@@ -63,6 +66,7 @@ public class GerenteController {
 		}
 		modelMap.addAttribute("restaurantes", restaurantes);
 		modelMap.addAttribute("gerente", new Gerente());
+		log.info("Inicialización creación de gerente");
 		return view;
 	}
 	
@@ -78,10 +82,12 @@ public class GerenteController {
 		}
 		modelMap.addAttribute("restaurantes", restaurantes);
 		modelMap.addAttribute("gerentes", gerente);
+		log.warn("Error de validacion");
 		return "gerentes/editarGerente";
 	}else {
 		gerenteService.save(gerente);
 		modelMap.addAttribute("message", "Event successfully saved!");
+		log.info("Gerente creado");
 		view=listadoGerentes(modelMap);
 	}
 	return view;
@@ -91,6 +97,7 @@ public class GerenteController {
 	public String initUpdateForm(@PathVariable("gerenteId") int gerenteId, ModelMap model) {
 		Gerente gerente = this.gerenteService.findGerenteById(gerenteId).get();
 		model.addAttribute(gerente);
+		log.info("Inicialización de la edición de gerente");
 		return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -98,11 +105,13 @@ public class GerenteController {
 	public String processUpdateOwnerForm(@Valid Gerente gerente, BindingResult result,
 			@PathVariable("gerenteId") int gerenteId) {
 		if (result.hasErrors()) {
+			log.warn("error de validación");
 			return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
 			gerente.setId(gerenteId);
 			this.gerenteService.save(gerente);
+			log.info("Guardado de cambios realizados");
 			return "redirect:/gerentes/{gerenteId}";
 		}
 	}
@@ -115,9 +124,11 @@ public class GerenteController {
 		gerenteService.delete(gerente.get());
 		modelMap.addAttribute("message","Event succesfully deleted!");
 		view=listadoGerentes(modelMap);
+		log.info("Gerente borrado");
 	}else {
 		modelMap.addAttribute("message","Event not found!");
 		view=listadoGerentes(modelMap);
+		log.warn("Gerente no encontrado");
 	}
 	return view;
 }	

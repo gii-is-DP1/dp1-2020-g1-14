@@ -9,9 +9,12 @@
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
-	<spring:url value="new" var="reservaUrl">
+	<spring:url value="/restaurantes/${restaurante.id}/reservas/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
+	<spring:url value="/restaurantes/${restaurante.id}/reservas"  var="reservaUrl1">
+                    </spring:url>
+                    <a href="${fn:escapeXml(reservaUrl1)}" class="btn btn-default">Refrescar página</a>
     <table id="reservaTable" class="table table-striped">
         <thead>
         <tr>
@@ -43,11 +46,11 @@
                     <c:out value="${reserva.nPersonas}"/>
                 </td>
 				<td>
-				<spring:url value="delete/{reservaId}" var="reservaUrl">
+				<spring:url value="/restaurantes/${restaurante.id}/reservas/delete/{reservaId}" var="reservaUrl">
                         <spring:param name="reservaId" value="${reserva.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
-                    <spring:url value="reservas/{reservaId}/edit" var="reservaUrl">
+                    <spring:url value="/restaurantes/${restaurante.id}/reservas/{reservaId}/edit" var="reservaUrl">
         				<spring:param name="reservaId" value="${reserva.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Editar</a>

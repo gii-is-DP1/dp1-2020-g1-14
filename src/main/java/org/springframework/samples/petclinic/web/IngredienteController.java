@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/restaurantes/{restaurantesId}/ingredientes")
 public class IngredienteController {
 
-	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "/restaurantes/{restaurantesId}/ingredientes/editarIngrediente";
+	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "ingredientes/editarIngrediente";
 	@Autowired
 	private IngredienteService ingService;
 	@Autowired
@@ -38,6 +41,7 @@ public class IngredienteController {
 		String vista = "ingredientes/listadoIngredientes";
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
 		modelMap.addAttribute("restaurante", restaurante);
+		log.info("Mostrando listado de ingredientes");
 		return vista;
 	}
 	
@@ -52,6 +56,7 @@ public class IngredienteController {
 		modelMap.addAttribute("medidas", medidas);
 		modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 		modelMap.addAttribute("ingrediente", new Ingrediente());
+		log.info("Inicialización de creación de ingrediente");
 		
 		
 		return vista;
@@ -68,18 +73,21 @@ public class IngredienteController {
 			modelMap.addAttribute("medidas", medidas);
 			modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 			modelMap.addAttribute("ingrediente", ingrediente);
+			log.warn("Error de validación");
 			return "ingredientes/editarIngrediente";
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
 			String vista = listadoIngredientes(restauranteId, modelMap);
+			log.info("Restaurante creado");
 			return vista;	
 		}
 			
 	}
 	
 	@GetMapping(path = "/{ingredienteId}/edit")
-	public String initUpdateForm(@PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
+		Restaurante restaurante = this.resService.findRestauranteById(restauranteId).get();
 		Ingrediente ingrediente = this.ingService.findIngredienteById(ingredienteId).get();
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 		ArrayList<String> medidas = new ArrayList<String>();
@@ -88,6 +96,8 @@ public class IngredienteController {
 		}
 		model.addAttribute("medidas", medidas);
 		model.addAttribute(ingrediente);
+		model.addAttribute(restaurante);
+		log.info("Inicialización de edición de ingrediente");
 		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -111,10 +121,13 @@ public class IngredienteController {
 		if(ingrediente.isPresent()) {
 			ingService.delete(ingrediente.get());
 			modelMap.addAttribute("message","Event succesfully deleted!");
+			log.info("ingrediente borrado");
 		}else {
 			modelMap.addAttribute("message","Event not found!");
+			log.warn("ingrediente no encontrado");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
+		
 //		vista = "redirect:/restaurantes/{restauranteId}/ingredientes";
 		return vista;
 	}

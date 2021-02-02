@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/restaurantes/{restaurantesId}/reclamaciones")
 public class ReclamacionController {
@@ -30,6 +33,7 @@ public class ReclamacionController {
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
 		Iterable<Reclamacion> reclamaciones = restaurante.getReclamaciones();
 		modelMap.addAttribute("reclamaciones", reclamaciones);
+		log.info("Mostrando listado de reclamaciones");
 		return vista;
 	}
 	
@@ -38,6 +42,7 @@ public class ReclamacionController {
 		String view ="reclamaciones/crearReclamacion";
 		modelMap.addAttribute("reclamacion", new Reclamacion());
 		modelMap.addAttribute("restauranteId", restauranteId);
+		log.info("Inicialización de creación de reclamacion");
 		return view;
 	}
 	
@@ -48,12 +53,14 @@ public class ReclamacionController {
 	{
 		modelMap.addAttribute("reclamacion", reclamacion);
 		modelMap.addAttribute("restauranteId", restauranteId);
+		log.warn("Error de validación");
 		return "/reclamaciones/crearReclamacion";
 		
 	}else {
 		reclamacionService.save(reclamacion);
 		modelMap.addAttribute("message", "Reclamación guardada");
 		view=listadoReclamaciones(restauranteId, modelMap);
+		log.info("Reclamacion creada");
 	}
 	return view;
 	}	
