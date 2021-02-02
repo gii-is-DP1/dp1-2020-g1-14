@@ -12,7 +12,9 @@
 	<spring:url value="/restaurantes/${restaurante.id}/ingredientes/new" var="ingredienteUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(ingredienteUrl)}" class="btn btn-default">New</a>
-                    
+	<spring:url value="/restaurantes/${restaurante.id}/ingredientes" var="ingredienteUrl1">
+                    </spring:url>
+                    <a href="${fn:escapeXml(ingredienteUrl1)}" class="btn btn-default">Refrescar págna</a>                    
     <table id="ingredientesTable" class="table table-striped">
         <thead>
         <tr>
