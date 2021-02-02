@@ -10,7 +10,7 @@
     <jsp:body>
         <h2>Pedidos</h2>
         
-        <form:form modelAttribute="pedido" class="form-horizontal" action="/pedidos/order">
+        <form:form modelAttribute="pedido" class="form-horizontal" action="order">
 
             <div class="form-group has-feedback">
             	<petclinic:inputField label="adress" name="adress"/>
@@ -23,6 +23,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${pedido.id}"/>
+                    <input type="hidden" name="id" value="${restaurante.id}"/>
                     <button class="btn btn-default" type="submit">Encargar pedido</button>
                 </div>
         </form:form>

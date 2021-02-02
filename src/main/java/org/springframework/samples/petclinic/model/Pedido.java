@@ -54,6 +54,10 @@ public class Pedido extends BaseEntity {
 	@JoinColumn(name="oferta_id")
 	private Oferta oferta;
 	
+	@ManyToOne
+	@JoinColumn(name="restaurante_id")
+	private Restaurante restaurante;
+	
 	private Boolean checkea;
 
 	public Pedido() {
