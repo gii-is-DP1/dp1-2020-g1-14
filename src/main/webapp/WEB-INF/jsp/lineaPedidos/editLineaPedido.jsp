@@ -9,7 +9,7 @@
     <jsp:body>
         <h2>LineaPedidos</h2>
         
-        <form:form modelAttribute="lineaPedido" class="form-horizontal" action="/pedidos/${pedido.id}/lineaPedidos/save">
+        <form:form modelAttribute="lineaPedido" class="form-horizontal" action="save">
             <div class="form-group has-feedback">
                 <petclinic:selectField name="producto" label="nombres " names="${nombres}" size="${fn:length(nombres)}"/>     
              	<petclinic:inputField label="cantidad" name="cantidad"/>
@@ -20,6 +20,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${lineaPedido.id}"/>
                     <input type="hidden" name="pedido" value="${pedido.id}"/> 
+                    <input type="hidden" name="pedido" value="${restaurante.id}"/> 
                     <button class="btn btn-default" type="submit">Save lineaPedido</button>
                 </div>
             </div>

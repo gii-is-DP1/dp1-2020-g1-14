@@ -1,11 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Estado;
+import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.repository.PedidoRepository;
@@ -70,11 +70,26 @@ public class PedidoService {
 		log.info("Obteniendo el precio total de un pedido");
 		return total;
 	}
+	
+	public Double getTotalPriceE(int id)  throws MinOrderPriceException  {
+		Double total = pedidoRepo.getTotalPrice(id);
+		
+		  if(total < 10) { throw new MinOrderPriceException(); }else
+		 
+		log.info("Obteniendo el precio total de un pedido");
+		return total;
+	}
 
 	public Iterable<Producto> getAllProductos() {
 
 		log.info("Obteniendo todos los productos");
 		return pedidoRepo.getAllProductos();
+	}
+	
+	public Iterable<Oferta> getAllOfertas() {
+		
+		log.info("Obteniendo todas las ofertas");
+		return pedidoRepo.getAllOfertas();
 	}
 
 }

@@ -9,7 +9,9 @@
 
 <petclinic:layout pageName="lineaPedidos">
     <h2>LineaPedidos</h2>
-	<spring:url  value="/lineaPedidos/new" var="lineaPedidosUrl">
+	<spring:url  value="/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos/new" var="lineaPedidosUrl">
+	<spring:param name="restauranteId" value="${restaurante.id}"/>
+	<spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New</a>
     <table id="LineaPedidoTable" class="table table-striped">

@@ -137,18 +137,18 @@ INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(2,'Cajas de 
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id) VALUES(3,'Harina',17,'KG', 3);
 
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
-INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id) VALUES(1,'Calle A',true,'PROCESANDO','2020-08-13',17.3,1);
+INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id) VALUES(1,'Calle A',true,'PROCESANDO','2020-08-13',17.3,1,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (5,3,1,2);
 ----------------------------------------------------------------------------------------------------------------------------
 
-INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id) VALUES(2,'Calle B',true,'EN_REPARTO','2020-04-14',20.4,2);
+INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id) VALUES(2,'Calle B',true,'EN_REPARTO','2020-04-14',20.4,2,2);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (2,1,2,4);
 
-INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id) VALUES(3,'Calle C',true,'RECIBIDO','2020-11-19',16.4,3);
+INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id) VALUES(3,'Calle C',true,'RECIBIDO','2020-11-19',16.4,3,3);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (3,13,3,2);
 
-INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id) VALUES(4,'Calle D',true,'PROCESANDO','2020-09-03',11.5,4);
+INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id) VALUES(4,'Calle D',true,'PROCESANDO','2020-09-03',11.5,4,3);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
 
 
@@ -165,10 +165,10 @@ INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
 
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(1,'Oferta numero 1',3.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(2,'Oferta numero 2',5.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(3,'Oferta numero 3',1.0,true);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(4,'Oferta numero 4',15.0,true);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(1,'Descuento 3 euros',3.0,false);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(2,'Descuento 5 euros',5.0,false);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(3,'Descuento 1 euro',1.0,true);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(4,'Descuento 15 euros',15.0,true);
 
 
 

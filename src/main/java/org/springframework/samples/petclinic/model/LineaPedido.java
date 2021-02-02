@@ -29,6 +29,8 @@ public class LineaPedido extends BaseEntity {
 	@JoinColumn(name="producto_id")
 	private Producto producto;
 	
-
+	@ManyToOne
+	@JoinColumn(name="restaurante_id")
+	private Restaurante restaurante;
 	
 }
