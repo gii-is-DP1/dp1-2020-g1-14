@@ -157,24 +157,24 @@ public class PedidoServiceTest {
 	@Test
 	public void minOrderPrice() throws MinOrderPriceException {
 		Double min = 10.;
-		Double total = pedidoService.getTotalPrice(1);
+		Double total = pedidoService.getTotalPriceE(1);
 		assertThat(total).isGreaterThan(min);
 	}
 	@Test
 	public void shouldThrowMinOrderPriceException() {
 		Assertions.assertThrows(MinOrderPriceException.class, () -> {
-    		pedidoService.getTotalPrice(2);
+    		pedidoService.getTotalPriceE(2);
     	});
 	}
 	
-/*	@Test
+	@Test
 	public void getAllProductsTest() {
 		Collection<Producto> productos = (Collection<Producto>) pedidoService.getAllProductos();
 		int tamaño = productos.size();
 		Integer productosL = (int) productos.stream().count();
 	
 		assertThat(tamaño).isEqualTo(productosL);
-	}*/
+	}
 	
 
 }

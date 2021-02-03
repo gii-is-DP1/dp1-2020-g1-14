@@ -11,17 +11,15 @@ import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
-import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ch.qos.logback.classic.Logger;
 
 @Controller
-@RequestMapping("/pedidos/{pedidoId}/lineaPedidos")
+@RequestMapping("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos")
 public class LineaPedidoController {
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(LineaPedidoController.class);
@@ -42,6 +40,8 @@ public class LineaPedidoController {
 	private PedidoService pedidoService;
 	@Autowired
 	private ProductoService productoService;
+	@Autowired
+	private RestauranteService restauranteService;
 
 
 	@ModelAttribute("nombres")
@@ -57,21 +57,21 @@ public class LineaPedidoController {
 	 */
 
 	@GetMapping()
-	public String listadoLineaPedidos(ModelMap modelMap) {
+	public String listadoLineaPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 
 		String vista = "lineaPedidos/listadoLineaPedidos";
-		Iterable<LineaPedido> lineaPedidos = lineaPedidoService.findAll();
-		modelMap.addAttribute("lineaPedidos", lineaPedidos);
+		Restaurante restaurante  = restauranteService.findRestauranteById(restauranteId).get();
+		modelMap.addAttribute("restaurante", restaurante);
 
 		log.info("Mostrando lista de lineas de pedido");
 
 		return vista;
 	}
-
+	
 	@GetMapping(path = "/new")
 	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId) {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		pedido.get().setCheckea(false);
+		
 		if (pedido.get().getEstado() != Estado.SIN_VERIFICAR) {
 			String view = "pedidos/listadoPedidos";
 			modelMap.addAttribute("pedido", pedido);
@@ -79,7 +79,8 @@ public class LineaPedidoController {
 			
 			return view;
 		} else {
-			
+			pedido.get().setCheckea(false);
+			pedidoService.save(pedido.get());
 			String view = "lineaPedidos/editLineaPedido";
 			modelMap.addAttribute("pedido", pedido.get());
 			modelMap.addAttribute("lineaPedido", new LineaPedido());
@@ -91,22 +92,24 @@ public class LineaPedidoController {
 	}
 
 	@PostMapping(path = "/save")
-	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap) {
+	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		
 		String view = "lineaPedidos/listadoLineaPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("lineaPedido", lineaPedido);
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 			return "lineaPedidos/editLineaPedido";
 
 		} else {
+		
 			lineaPedidoService.save(lineaPedido);
 			modelMap.addAttribute("message", "Event successfully saved!");
-			view = listadoLineaPedidos(modelMap);
+			view = listadoLineaPedidos(modelMap,restauranteId);
 
 			log.info("Linea de pedido creado con éxito");
 		}
-		return view;
+		return "redirect:/restaurantes/{restauranteId}/pedidos";
 	}
 
 	/*

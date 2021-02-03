@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,7 +39,15 @@ public class Restaurante extends NamedEntity {
     @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
     private Set<Ingrediente> ingredientes;
 
-
+    @OneToMany(mappedBy= "restaurante", fetch= FetchType.EAGER)
+    private List<Oferta> ofertas;
+    
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private List<Pedido> pedidos;
+    
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    private List<LineaPedido> lineaPedidos;
+     
 	@OneToOne(cascade = CascadeType.ALL)
     private Gerente gerente;
 	
@@ -133,6 +142,22 @@ public class Restaurante extends NamedEntity {
 
 	public void setIngredientes(Set<Ingrediente> ingredientes) {
 		this.ingredientes = ingredientes;
+	}
+
+	public List<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(List<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 	
 }
