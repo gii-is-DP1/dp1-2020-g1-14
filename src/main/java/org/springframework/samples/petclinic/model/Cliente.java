@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import com.sun.istack.NotNull;
@@ -29,7 +30,8 @@ public class Cliente extends BaseEntity {
     
     private int numPedidos;
     
-    //private int monedero;
+    @Min(value = 0,message="no se puede tener dinero negativo")
+    private int monedero;
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -39,5 +41,8 @@ public class Cliente extends BaseEntity {
     @OneToMany(mappedBy="cliente", cascade= CascadeType.ALL)
     private List<Pedido> pedido;
     
+    public void addMonedero(int cantidad) {
+    	this.monedero= this.monedero + cantidad;
+    }
 
 }

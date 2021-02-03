@@ -105,22 +105,22 @@ INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente1','cliente1',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (10,'cliente1','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*1,'Juan','pass1','2000-10-11',*/true,'12','954765812','cliente1');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (true,'12','954765812',300,'cliente1');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente2','cliente2',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (11,'cliente2','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*2,'Francisco','pass2','1998-01-13',*/true,'12','954357811','cliente2');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (true,'12','954357811',100,'cliente2');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente3','cliente3',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (12,'cliente3','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*3,'Javier','pass3','1999-08-10',*/false,'11','954736516','cliente3');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (false,'11','954736516',30,'cliente3');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente4','cliente4',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (13,'cliente4','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*4,'Juan','pass4','2020-10-10',*/false,'6','954736516','cliente4');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (false,'6','954736516',0,'cliente4');
 
 
 
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,20);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,13);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,0);
 
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
