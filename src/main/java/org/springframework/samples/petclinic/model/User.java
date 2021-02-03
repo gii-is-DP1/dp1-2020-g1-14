@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
@@ -31,8 +32,8 @@ public class User{
 	@DateTimeFormat (pattern = "yyyy/MM/dd")
 	protected LocalDate rDate;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Authorities> authorities;
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	private Authorities authorities;
 	
 	public LocalDate getrDate() {
         return rDate;
