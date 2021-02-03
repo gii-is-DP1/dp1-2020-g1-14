@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Reserva;
-import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.repository.ReservaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,11 +33,6 @@ public class ReservaService {
 		log.info("obtención de reserva en concreto");
 		return ReservaRepo.findById(id);
 	}
-	
-	/*@Transactional(readOnly=true)
-	public Iterable<Reserva>findReserasvaByRestaurante(int id){
-		return ReservaRepo.findByRestaurante(id);
-	}*/
 	
 	@Transactional
 	public void save(Reserva reserva) {

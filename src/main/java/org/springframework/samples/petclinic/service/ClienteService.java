@@ -64,6 +64,13 @@ public class ClienteService {
 		log.info("Devolviendo elemento por su id");
 		return clienteRepo.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Optional<Cliente> findClienteByUsuario(String username) {
+
+		log.info("Devolviendo elemento por su usuario");
+		return clienteRepo.findClienteByUsuario(username);
+	}
 
 	@Transactional
 	public void delete(Cliente cliente) {

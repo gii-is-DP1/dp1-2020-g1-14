@@ -29,6 +29,8 @@ public class Cliente extends BaseEntity {
     
     private int numPedidos;
     
+    //private int monedero;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
