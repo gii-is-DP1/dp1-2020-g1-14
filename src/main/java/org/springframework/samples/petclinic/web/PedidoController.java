@@ -1,20 +1,26 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -39,10 +45,28 @@ public class PedidoController {
 	private RestauranteService restauranteService;
 	@Autowired
 	private OfertaService ofertaService;
+	@Autowired
+	private ClienteService clienteService;
+
 
 	@ModelAttribute("ofertas")
 	public Iterable<Oferta> oferta() {
-		return this.ofertaService.findAll();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String name = auth.getName();
+		Optional<Cliente> cliente = clienteService.findClienteByUsuario(name);
+		List<Oferta> ofertasVIP = (List<Oferta>) ofertaService.findAll();
+		List<Oferta> ofertas = new ArrayList<>();
+		if(!cliente.get().getEsSocio()) {
+			for(int i=0;i<ofertasVIP.size();i++) {
+				Oferta oferta = ofertasVIP.get(i);
+				if(!oferta.getExclusivo()) {
+					ofertas.add(oferta);
+
+				}
+			}
+			return ofertas;
+		}
+		return ofertasVIP;
 	}
 
 	@GetMapping()
@@ -96,12 +120,18 @@ public class PedidoController {
 		String view;
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
-		if(pedido.get().getPrice() != null) {
-			view = "pedidos/selectOferta";
-			modelMap.addAttribute("restaurante", restaurante.get());
-			modelMap.addAttribute("pedido", pedido.get());
+		if(pedido.get().getEstado() == Estado.SIN_VERIFICAR) {
+			if(pedido.get().getPrice() != null) {
+				view = "pedidos/selectOferta";
+				modelMap.addAttribute("restaurante", restaurante.get());
+				modelMap.addAttribute("pedido", pedido.get());
+			}else {
+				modelMap.addAttribute("message", "Agrega productos y refresca el pedido antes de añadir una oferta");
+				view = listadoPedidos(modelMap,restauranteId);
+			}
 		}else {
-			modelMap.addAttribute("message", "Agrega productos y refresca el pedido antes de añadir una oferta");
+
+			modelMap.addAttribute("message", "No puede agregar ofertas. El pedido ya está verificado.");
 			view = listadoPedidos(modelMap,restauranteId);
 		}
 		return view;
@@ -122,7 +152,7 @@ public class PedidoController {
 			modelMap.addAttribute("pedido",pedido.get());
 			return "pedidos/selectOferta";
 		}
-
+		pedido.get().setCheckea(false);
 		pedido.get().setOferta(oferta);
 		pedidoService.save(pedido.get());
 		modelMap.addAttribute("message", "Se ha creado el evento");
@@ -193,37 +223,45 @@ public class PedidoController {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
-		if (pedido.get().getEstado() == Estado.SIN_VERIFICAR) {
+		if(pedido.get().getPrice() != null) {
 
-			if (pedido.get().getPrice() >= 10) {
 
-				if (pedido.get().getCheckea() == true) {
-					pedido.get().setEstado(Estado.PROCESANDO);
-					pedidoService.save(pedido.get());
-					modelMap.addAttribute("pedido", pedido);
-					modelMap.addAttribute("message",
-							"Se ha realizado el pedido satisfactoriamente y ahora está se está procesando en nuestra central.");
-					view = listadoPedidos(modelMap, restauranteId);
+			if (pedido.get().getEstado() == Estado.SIN_VERIFICAR) {
 
-					log.info("Se ha realizado el pedido");
+				if (pedido.get().getPrice() >= 10) {
 
+					if (pedido.get().getCheckea() == true) {
+						pedido.get().setEstado(Estado.PROCESANDO);
+						pedidoService.save(pedido.get());
+						modelMap.addAttribute("pedido", pedido);
+						modelMap.addAttribute("message",
+								"Se ha realizado el pedido satisfactoriamente y ahora está se está procesando en nuestra central.");
+						view = listadoPedidos(modelMap, restauranteId);
+
+						log.info("Se ha realizado el pedido");
+
+					} else {
+
+						modelMap.addAttribute("pedido", pedido);
+						modelMap.addAttribute("message", "¡Refresca el pedido antes de verificarlo!");
+						view = listadoPedidos(modelMap, restauranteId);
+					}
 				} else {
-
 					modelMap.addAttribute("pedido", pedido);
-					modelMap.addAttribute("message", "¡Refresca el pedido antes de verificarlo!");
+					modelMap.addAttribute("message", "¡El precio del pedido debe de ser mayor o igual a 10!");
 					view = listadoPedidos(modelMap, restauranteId);
 				}
+
 			} else {
-				modelMap.addAttribute("pedido", pedido);
-				modelMap.addAttribute("message", "¡El precio del pedido debe de ser mayor o igual a 10!");
+				modelMap.addAttribute("message", "El pedido debe se debe de estar sin verificar previamente a procesarlo");
+				view = listadoPedidos(modelMap, restauranteId);
+
+				log.error("No se puede pasar del estado actual a PROCESANDO");
 				view = listadoPedidos(modelMap, restauranteId);
 			}
-
-		} else {
-			modelMap.addAttribute("message", "El pedido debe se debe de estar sin verificar previamente a procesarlo");
-			view = listadoPedidos(modelMap, restauranteId);
-
-			log.error("No se puede pasar del estado actual a PROCESANDO");
+		}else {
+			modelMap.addAttribute("pedido", pedido);
+			modelMap.addAttribute("message", "¡Agrega un producto y refresca!");
 			view = listadoPedidos(modelMap, restauranteId);
 		}
 		return view;

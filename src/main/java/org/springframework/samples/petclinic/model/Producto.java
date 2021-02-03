@@ -35,6 +35,7 @@ public class Producto extends NamedEntity {
 	@NotNull
     @Min(value = 1,message="El precio debe de ser mayor que 0")
 	private Double precio;
+	
 	@Pattern(regexp="^[a-zA-Z,.!? ]*$", message="Solo se permiten espacios, símbolos y letras")
 	private String alergenos;
 	

@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -69,12 +70,14 @@ public class LineaPedidoController {
 	}
 	
 	@GetMapping(path = "/new")
-	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId)  {
+	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId,@PathVariable("restauranteId") int restauranteId)  {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		
+		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
+ 		Iterable<Pedido> pedidos =  pedidoService.findAll();
 		if (pedido.get().getEstado() != Estado.SIN_VERIFICAR) {
 			String view = "pedidos/listadoPedidos";
-			modelMap.addAttribute("pedido", pedido);
+			modelMap.addAttribute("pedidos", pedidos);
+			modelMap.addAttribute("restaurante", restaurante.get());
 			modelMap.addAttribute("message", "¡El pedido ya se ha verificado! No puede editarlo");
 			
 			return view;
@@ -82,6 +85,7 @@ public class LineaPedidoController {
 			pedido.get().setCheckea(false);
 			pedidoService.save(pedido.get());
 			String view = "lineaPedidos/editLineaPedido";
+			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("pedido", pedido.get());
 			modelMap.addAttribute("lineaPedido", new LineaPedido());
 			
