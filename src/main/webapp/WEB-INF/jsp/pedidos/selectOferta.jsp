@@ -12,7 +12,7 @@
         
         <form:form modelAttribute="pedido" class="form-horizontal">
 		<div class="form-group has-feedback">
-          	<petclinic:selectField name="oferta" label="descripcion " names="${ofertas}" size="${fn:length(ofertas)}"/>     
+          	<petclinic:selectField name="oferta" label="Oferta " names="${ofertas}" size="${fn:length(ofertas)}"/>     
        
        	</div>
          
@@ -21,6 +21,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                 	<input type="hidden" name="id" value="${pedido.id}"/> 
                     <input type="hidden" name="id" value="${restaurante.id}"/> 
+                    
                     <button class="btn btn-default" type="submit">Agregar oferta</button>
                 </div>
             </div>

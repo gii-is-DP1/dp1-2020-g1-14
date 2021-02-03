@@ -39,13 +39,14 @@ public class OfertaService {
 		log.info("Devolviendo elemento por su id");
 		return ofertaRepo.findById(id);
 	}
-
+	
+	@Transactional
 	public void save(Oferta oferta) {
 
 		log.info("Guardando elemento");
 		ofertaRepo.save(oferta);
 	}
-
+	@Transactional
 	public void delete(Oferta oferta) {
 
 		log.info("Eliminado un elemento");
