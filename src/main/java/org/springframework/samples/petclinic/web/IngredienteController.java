@@ -72,14 +72,14 @@ public class IngredienteController {
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
-			String vista = listadoIngredientes(restauranteId, modelMap);
-			return vista;	
+//			String vista = listadoIngredientes(restauranteId, modelMap);
+			return "redirect:/restaurantes/{restaurantesId}/ingredientes";	
 		}
 			
 	}
 	
 	@GetMapping(path = "/{ingredienteId}/edit")
-	public String initUpdateForm(@PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("ingredienteId") int ingredienteId, @PathVariable("restaurantesId") int restauranteId, ModelMap model) {
 		Ingrediente ingrediente = this.ingService.findIngredienteById(ingredienteId).get();
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 		ArrayList<String> medidas = new ArrayList<String>();
@@ -88,7 +88,8 @@ public class IngredienteController {
 		}
 		model.addAttribute("medidas", medidas);
 		model.addAttribute(ingrediente);
-		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
+		model.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
+		return "ingredientes/editarIngrediente";
 	}
 	
 //	@PostMapping(value = "/{ingredienteId}/edit")
@@ -115,7 +116,7 @@ public class IngredienteController {
 			modelMap.addAttribute("message","Event not found!");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
-//		vista = "redirect:/restaurantes/{restauranteId}/ingredientes";
+//		vista = "redirect:/restaurantes/{restaurantesId}/ingredientes";
 		return vista;
 	}
 }
