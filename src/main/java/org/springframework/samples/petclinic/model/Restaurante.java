@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity
@@ -21,6 +22,8 @@ public class Restaurante extends NamedEntity {
     private String localizacion;
     @Positive
     private int aforomax;
+    @NotNull
+    private int senial;
     /*@PositiveOrZero
     private int aforores;*/
     /*@ManyToOne
@@ -83,6 +86,14 @@ public class Restaurante extends NamedEntity {
 	
 	public void setAforomax(int aforomax) {
 		this.aforomax = aforomax;
+	}
+	
+	public int getSenial() {
+		return senial;
+	}
+
+	public void setSenial(int senial) {
+		this.senial = senial;
 	}
 	
 	/*public void setAforores(int aforores) {

@@ -44,6 +44,7 @@ public class GerenteService {
 	    
 	    @Transactional
 	    public void delete(Gerente gerente) {
+	    	userService.delete(gerente.getUser());
 	    	gerenteRepo.delete(gerente);
 	    }
 	

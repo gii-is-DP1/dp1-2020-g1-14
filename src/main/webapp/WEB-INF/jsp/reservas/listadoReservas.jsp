@@ -51,10 +51,6 @@
 	                        <spring:param name="reservaId" value="${reserva.id}"/>
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
-	                    <spring:url value="/restaurantes/${restaurante.id}/reservas/{reservaId}/${name}/edit" var="reservaUrl">
-	        				<spring:param name="reservaId" value="${reserva.id}"/>
-	    				</spring:url>
-	    				<a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Editar</a>
 	                </td>           
 	            </tr>
 	        </c:if>
