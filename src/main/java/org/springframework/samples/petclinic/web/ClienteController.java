@@ -1,13 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.PetclinicApplication;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;

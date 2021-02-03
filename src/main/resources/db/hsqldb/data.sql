@@ -105,16 +105,16 @@ INSERT INTO proveedor(id,name,tlf) VALUES (3,'Nacho','649840037');
 
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente1','cliente1',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (10,'cliente1','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*1,'Juan','pass1','2000-10-11',*/true,'12','954765812','cliente1');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (true,'12','954765812',300,'cliente1');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente2','cliente2',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (11,'cliente2','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*2,'Francisco','pass2','1998-01-13',*/true,'12','954357811','cliente2');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (true,'12','954357811',100,'cliente2');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente3','cliente3',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (12,'cliente3','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*3,'Javier','pass3','1999-08-10',*/false,'11','954736516','cliente3');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (false,'11','954736516',30,'cliente3');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente4','cliente4',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (13,'cliente4','cliente');
-INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*4,'Juan','pass4','2020-10-10',*/false,'6','954736516','cliente4');
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (false,'6','954736516',0,'cliente4');
 
 
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente1','gerente1',TRUE,'2020-01-01');
@@ -127,9 +127,11 @@ INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente3','gerente3
 INSERT INTO authorities(id,username,authority) VALUES (16,'gerente3','gerente');
 INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(3,'nombre3',/*'gerente2','2000-10-11',*/'12345678G','gerente2');
 
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,1);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,2);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,3);
+
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,20,1);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,13,2);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,0,3);
+
 
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
@@ -168,10 +170,10 @@ INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2,2);
 
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(1,'Descuento 3 euros',3.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(2,'Descuento 5 euros',5.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(3,'Descuento 1 euro',1.0,true);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(4,'Descuento 15 euros',15.0,true);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(1,'Descuento 3 euros',3.0,false,13.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(2,'Descuento 5 euros',5.0,false,15.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(3,'Descuento 1 euro',1.0,true,11.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(4,'Descuento 15 euros',15.0,true,30.0);
 
 
 

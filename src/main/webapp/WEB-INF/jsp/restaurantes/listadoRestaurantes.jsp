@@ -23,6 +23,9 @@
             <th style="width: 120px">Tipo</th>
             <th style="width: 120px">Localizacion</th>
             <th style="width: 120px">Aforo maximo</th>
+            <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
+            <th style="width: 120px">Señal</th>
+            </sec:authorize>
             <sec:authorize access="hasAuthority('admin')">
             <th style="width: 120px">Actions</th>
             </sec:authorize>
@@ -47,6 +50,11 @@
                 <td>
                     <c:out value="${restaurantes.aforomax}"/>
                 </td>
+                <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
+                <td>
+                    <c:out value="${restaurantes.senial}"/>
+                </td>
+                </sec:authorize>
                 <sec:authorize access="hasAuthority('admin')">
 				<td>
 				<spring:url value="/restaurantes/delete/{restaurantesId}" var="restauranteUrl">

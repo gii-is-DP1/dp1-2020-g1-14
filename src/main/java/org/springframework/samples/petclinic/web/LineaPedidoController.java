@@ -69,7 +69,7 @@ public class LineaPedidoController {
 	}
 	
 	@GetMapping(path = "/new")
-	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId) {
+	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId)  {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		
 		if (pedido.get().getEstado() != Estado.SIN_VERIFICAR) {

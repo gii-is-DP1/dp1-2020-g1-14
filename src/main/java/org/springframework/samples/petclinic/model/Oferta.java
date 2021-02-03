@@ -24,8 +24,9 @@ public class Oferta extends BaseEntity {
 	private Producto producto;
 	*/
 	
-	
 	private Double descuento;
+	
+	private Double minPrice;
 	
 	private Boolean exclusivo;
 	
@@ -37,7 +38,7 @@ public class Oferta extends BaseEntity {
 		this.descripcion = descripcion;
 	}
 	
-	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
+	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL)
 	private List<Pedido> pedidos;
 	
 	@ManyToOne
