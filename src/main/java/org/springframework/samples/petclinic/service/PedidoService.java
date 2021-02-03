@@ -45,12 +45,13 @@ public class PedidoService {
 		return pedidoRepo.findById(id);
 	}
 
-	public void save(Pedido pedido) {
-
+	@Transactional
+	public void save(Pedido pedido)  {
 		log.info("Guardando elemento");
 		pedidoRepo.save(pedido);
 	}
 
+	@Transactional
 	public void delete(Pedido pedido) throws CantCancelOrderException {
 		if (pedido.getEstado() == Estado.EN_REPARTO || pedido.getEstado() == Estado.RECIBIDO) {
 
@@ -62,6 +63,7 @@ public class PedidoService {
 		pedidoRepo.delete(pedido);
 	}
 
+	@Transactional
 	public Double getTotalPrice(int id) /* throws MinOrderPriceException */ {
 		Double total = pedidoRepo.getTotalPrice(id);
 		/*
@@ -70,24 +72,27 @@ public class PedidoService {
 		log.info("Obteniendo el precio total de un pedido");
 		return total;
 	}
-	
+
+	@Transactional
 	public Double getTotalPriceE(int id)  throws MinOrderPriceException  {
 		Double total = pedidoRepo.getTotalPrice(id);
-		
-		  if(total < 10) { throw new MinOrderPriceException(); }else
-		 
-		log.info("Obteniendo el precio total de un pedido");
+
+		if(total < 10) { throw new MinOrderPriceException(); }else
+
+			log.info("Obteniendo el precio total de un pedido");
 		return total;
 	}
 
+	@Transactional
 	public Iterable<Producto> getAllProductos() {
 
 		log.info("Obteniendo todos los productos");
 		return pedidoRepo.getAllProductos();
 	}
-	
+
+	@Transactional
 	public Iterable<Oferta> getAllOfertas() {
-		
+
 		log.info("Obteniendo todas las ofertas");
 		return pedidoRepo.getAllOfertas();
 	}

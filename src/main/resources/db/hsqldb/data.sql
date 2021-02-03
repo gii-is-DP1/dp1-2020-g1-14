@@ -165,10 +165,10 @@ INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
 
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(1,'Descuento 3 euros',3.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(2,'Descuento 5 euros',5.0,false);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(3,'Descuento 1 euro',1.0,true);
-INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(4,'Descuento 15 euros',15.0,true);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(1,'Descuento 3 euros',3.0,false,13.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(2,'Descuento 5 euros',5.0,false,15.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(3,'Descuento 1 euro',1.0,true,11.0);
+INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price) VALUES(4,'Descuento 15 euros',15.0,true,30.0);
 
 
 
