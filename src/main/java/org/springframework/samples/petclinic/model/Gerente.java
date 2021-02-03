@@ -17,9 +17,9 @@ public class Gerente extends NamedEntity{
 	this.rDate = LocalDate.now();
 	}*/
 
-	@OneToOne
+	/*@OneToOne
 	@JoinColumn(name = "restaurante_id")
-	private Restaurante restaurante;
+	private Restaurante restaurante;*/
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -33,13 +33,13 @@ public class Gerente extends NamedEntity{
 		this.dni = dni;
 	}
 
-	public Restaurante getRestaurante() {
+	/*public Restaurante getRestaurante() {
 		return restaurante;
 	}
 
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
-	}
+	}*/
 	
 	public User getUser() {
 		return user;

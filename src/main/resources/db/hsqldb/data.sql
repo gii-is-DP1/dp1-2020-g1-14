@@ -117,10 +117,19 @@ INSERT INTO authorities(id,username,authority) VALUES (13,'cliente4','cliente');
 INSERT INTO cliente(/*id,name,password,r_Date,*/es_Socio,num_Pedidos,tlf,username) VALUES (/*4,'Juan','pass4','2020-10-10',*/false,'6','954736516','cliente4');
 
 
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente1','gerente1',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (14,'gerente1','gerente');
+INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(1,'nombre1',/*'gerente1','2000-10-11',*/'12345678F','gerente1');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente2','gerente2',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (15,'gerente2','gerente');
+INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(2,'nombre2',/*'gerente2','2000-10-11',*/'12345678G','gerente2');
+INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente3','gerente3',TRUE,'2020-01-01');
+INSERT INTO authorities(id,username,authority) VALUES (16,'gerente3','gerente');
+INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(3,'nombre3',/*'gerente2','2000-10-11',*/'12345678G','gerente2');
 
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30);
-INSERT INTO restaurante(id,name,tipo,localizacion,aforomax) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,1);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,2);
+INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,gerente_id) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,3);
 
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
@@ -154,12 +163,6 @@ INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
 
 
 
-INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente1','gerente1',TRUE,'2020-01-01');
-INSERT INTO authorities(id,username,authority) VALUES (14,'gerente1','gerente');
-INSERT INTO gerente(name,/*password,r_Date,*/dni,restaurante_id,username) VALUES('nombre1',/*'gerente1','2000-10-11',*/'12345678F',1,'gerente1');
-INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente2','gerente2',TRUE,'2020-01-01');
-INSERT INTO authorities(id,username,authority) VALUES (15,'gerente2','gerente');
-INSERT INTO gerente(name,/*password,r_Date,*/dni,restaurante_id,username) VALUES('nombre2',/*'gerente2','2000-10-11',*/'12345678G',2,'gerente2');
 
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1,1);
 INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1,1);

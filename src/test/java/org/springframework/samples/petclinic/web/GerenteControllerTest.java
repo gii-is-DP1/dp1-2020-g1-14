@@ -69,7 +69,7 @@ public class GerenteControllerTest {
 		nombre1.getUser().setPassword("gerente1");
 		nombre1.getUser().setrDate(LocalDate.of(2000, 10, 11));
 		nombre1.setDni("12345678F");
-		nombre1.setRestaurante(restauranteService.findRestauranteById(1).get());
+		//nombre1.setRestaurante(restauranteService.findRestauranteById(1).get());
 		given(this.gerenteService.findGerenteById(TEST_GERENTE_ID)).willReturn(Optional.of(nombre1));
 	
 
