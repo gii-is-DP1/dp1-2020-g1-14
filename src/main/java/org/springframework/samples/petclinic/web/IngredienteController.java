@@ -78,9 +78,10 @@ public class IngredienteController {
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
-			String vista = listadoIngredientes(restauranteId, modelMap);
-			log.info("Restaurante creado");
-			return vista;	
+      
+//		String vista = listadoIngredientes(restauranteId, modelMap);
+      log.info("Restaurante creado");
+			return "redirect:/restaurantes/{restaurantesId}/ingredientes";
 		}
 			
 	}
@@ -96,6 +97,7 @@ public class IngredienteController {
 		}
 		model.addAttribute("medidas", medidas);
 		model.addAttribute(ingrediente);
+
 		model.addAttribute(restaurante);
 		log.info("Inicialización de edición de ingrediente");
 		return VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM;
@@ -127,8 +129,8 @@ public class IngredienteController {
 			log.warn("ingrediente no encontrado");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
-		
-//		vista = "redirect:/restaurantes/{restauranteId}/ingredientes";
+//	vista = "redirect:/restaurantes/{restaurantesId}/ingredientes";
+
 		return vista;
 	}
 }
