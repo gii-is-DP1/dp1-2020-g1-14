@@ -4,10 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,6 +29,17 @@ public class Reserva extends BaseEntity{
 	
 	@ManyToOne
 	private Restaurante restaurante;
+	
+	@ManyToOne
+	private Cliente cliente;
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 	
 	public Restaurante getRestaurante() {
 		return restaurante;

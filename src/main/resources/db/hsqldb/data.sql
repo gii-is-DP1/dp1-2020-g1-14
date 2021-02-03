@@ -161,9 +161,9 @@ INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente2','gerente2
 INSERT INTO authorities(id,username,authority) VALUES (15,'gerente2','gerente');
 INSERT INTO gerente(name,/*password,r_Date,*/dni,restaurante_id,username) VALUES('nombre2',/*'gerente2','2000-10-11',*/'12345678G',2,'gerente2');
 
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1);
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1);
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2,2);
 
 INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(1,'Descuento 3 euros',3.0,false);
 INSERT INTO oferta(id,descripcion,descuento,exclusivo) VALUES(2,'Descuento 5 euros',5.0,false);

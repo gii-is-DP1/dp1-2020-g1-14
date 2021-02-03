@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.RestauranteService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -60,7 +62,7 @@ public class RestauranteController {
 	}
 	
 	@PostMapping(value = "/{restaurantesId}/edit")
-	public String processUpdateOwnerForm(@Valid Restaurante restaurante, BindingResult result,
+	public String processUpdateRestauranteForm(@Valid Restaurante restaurante, BindingResult result,
 			@PathVariable("restaurantesId") int restauranteId) {
 		if (result.hasErrors()) {
 			log.error("error de validación");
@@ -111,6 +113,10 @@ public class RestauranteController {
 	public ModelAndView showRestaurante(@PathVariable("restaurantesId") int restaurantesId) {
 		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
 		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restaurantesId).get());
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String name = auth.getName(); //get logged in username
+	    mav.addObject("username", name);
+	      
 		log.info("Mostrar restaurante indicado");
 		return mav;
 	}

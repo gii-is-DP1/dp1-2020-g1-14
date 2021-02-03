@@ -15,7 +15,7 @@
     </jsp:attribute>
     <jsp:body>
           <h2>Reservas</h2>
-		<form:form modelAttribute="reserva" class="form-horizontal" action= "/restaurantes/${restaurante.id}/reservas/save" >
+		<form:form modelAttribute="reserva" class="form-horizontal" action= "/restaurantes/${restaurante.id}/reservas/${username}/save" >
             <div class="form-group has-feedback">
             
             	<petclinic:inputField label="Fecha" name="fecha"/>
