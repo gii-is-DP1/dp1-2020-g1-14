@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.Transient;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,11 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +36,8 @@ public class Pedido extends BaseEntity {
 	private LocalDate orderDate;
 	
 	@NotNull(message="El campo no puede estar vacío")
+	@Pattern(regexp="^[a-zA-Z,.!? ]*$", message="Solo se permiten espacios, símbolos y letras")
+	@NotBlank
 	private String adress;
 	
 	@Enumerated(EnumType.STRING)

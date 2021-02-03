@@ -137,8 +137,9 @@ INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(1,'Tarta','
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(2,'Ensalada','Pescado',8,1);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(3,'Mejillones','Moluscos',12.90,2);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(4,'Cacahuetes','Frutos secos',5,3);
-
-
+/*Usado para pruebas en LineaPedido*/---------------------
+INSERT INTO producto(id,name,alergenos,precio,restaurante_id) VALUES(5,'Huevos','Frutos secos',10,3);
+---------------------------------------------------------------------------------------------------------------------------------------------------
 INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(1,'2020-10-28','Mal trato por parte del camarero.',1);
 INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(2,'2020-11-15','Comida en mal estado.',2);
 

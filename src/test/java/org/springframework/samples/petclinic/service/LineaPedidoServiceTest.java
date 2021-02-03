@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,12 +32,16 @@ public class LineaPedidoServiceTest {
 	
 	@Test
 	@Transactional
-	public void shouldInsertLineaPedido() {
+	public void shouldInsertLineaPedido() throws WrongDataProductosException {
 		Collection<LineaPedido> lps = (Collection<LineaPedido>) this.lineaPedidoService.findAll();
+		Optional<Producto> p = this.productoService.findProductoById(5);
 		int found = lps.size();
 		Optional<LineaPedido> lp = lineaPedidoService.findLineaPedidoById(1);
 		
+	
+		
 		LineaPedido l = new LineaPedido();
+		l.setProducto(p.get());
 		l.setCantidad(5);
 		
 		this.lineaPedidoService.save(l);
@@ -47,10 +52,13 @@ public class LineaPedidoServiceTest {
 	
 	@Test
 	@Transactional
-	public void shouldDeleteLineaPedido() {
+	public void shouldDeleteLineaPedido() throws WrongDataProductosException {
+		
+		Optional<Producto> p = this.productoService.findProductoById(5);
+		
 		LineaPedido l = new LineaPedido();
 		l.setCantidad(5);
-		
+		l.setProducto(p.get());
 		this.lineaPedidoService.save(l);
 		
 		Collection <LineaPedido> elementoAñadido = (Collection<LineaPedido>) this.lineaPedidoService.findAll(); //5

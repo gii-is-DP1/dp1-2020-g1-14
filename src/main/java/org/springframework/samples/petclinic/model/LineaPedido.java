@@ -1,11 +1,12 @@
 package org.springframework.samples.petclinic.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,8 @@ import lombok.Setter;
 @Table(name="lineaPedido")
 public class LineaPedido extends BaseEntity {
 	
+	@NotNull(message="Introduce una cantidad mayor o igual a 1")
+	@Min(value=1,message="La cantidad debe de ser mayor o igual a 1")
 	private Integer cantidad;
 	
 	@ManyToOne(optional=true)
@@ -27,6 +30,7 @@ public class LineaPedido extends BaseEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="producto_id")
+	@NotNull(message="Selecciona un producto")
 	private Producto producto;
 	
 	@ManyToOne

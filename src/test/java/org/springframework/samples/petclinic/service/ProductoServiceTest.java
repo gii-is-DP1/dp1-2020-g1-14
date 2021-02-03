@@ -27,7 +27,7 @@ public class ProductoServiceTest {
 	@Test
 	public void testCountWithInitialData() {
 		int count = productoService.productoCount();
-		assertEquals(count, 4);
+		assertEquals(count, 5);
 	}
 	
 	@Test

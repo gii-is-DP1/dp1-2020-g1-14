@@ -14,6 +14,7 @@
     <spring:param name="restauranteId" value="${restaurante.id}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Nuevo pedido</a>
+     
      <spring:url value="/restaurantes/{restauranteId}/pedidos" var="pedidoUrl">
      <spring:param name="restauranteId" value="${restaurante.id}"/>
                     </spring:url>
@@ -83,7 +84,7 @@
 				</td>
 				
 				<td>
-                  <spring:url  value="/restaurantes/${restauranteId}/pedidos/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
+                  <spring:url  value="/restaurantes/${restaurante.id}/pedidos/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">Añade producto</a> 
                     
