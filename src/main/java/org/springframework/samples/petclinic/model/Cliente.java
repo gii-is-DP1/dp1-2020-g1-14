@@ -44,5 +44,9 @@ public class Cliente extends BaseEntity {
     public void addMonedero(int cantidad) {
     	this.monedero= this.monedero + cantidad;
     }
+    
+    public void subMonedero(int cantidad) {
+    	this.monedero= this.monedero - cantidad;
+    }
 
 }

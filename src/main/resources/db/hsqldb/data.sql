@@ -119,13 +119,13 @@ INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username) VALUES (false,'6
 
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente1','gerente1',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (14,'gerente1','gerente');
-INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(1,'nombre1',/*'gerente1','2000-10-11',*/'12345678F','gerente1');
+INSERT INTO gerente(id,name,dni,username) VALUES(1,'nombre1','12345678F','gerente1');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente2','gerente2',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (15,'gerente2','gerente');
-INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(2,'nombre2',/*'gerente2','2000-10-11',*/'12345678G','gerente2');
+INSERT INTO gerente(id,name,dni,username) VALUES(2,'nombre2','12345678G','gerente2');
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('gerente3','gerente3',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (16,'gerente3','gerente');
-INSERT INTO gerente(id,name,/*password,r_Date,*/dni,username) VALUES(3,'nombre3',/*'gerente2','2000-10-11',*/'12345678G','gerente2');
+INSERT INTO gerente(id,name,dni,username) VALUES(3,'nombre3','12345678G','gerente2');
 
 
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id) VALUES(1,'Restaurante 1','Chino','Reina Mercedes, 34',25,20,1);

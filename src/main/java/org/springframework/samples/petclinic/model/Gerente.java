@@ -11,11 +11,6 @@ public class Gerente extends NamedEntity{
 //	@NotBlank(message="El número DNI es obligatorio.")
 //	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
-	
-	/*public Gerente() {
-	super();
-	this.rDate = LocalDate.now();
-	}*/
 
 	/*@OneToOne
 	@JoinColumn(name = "restaurante_id")

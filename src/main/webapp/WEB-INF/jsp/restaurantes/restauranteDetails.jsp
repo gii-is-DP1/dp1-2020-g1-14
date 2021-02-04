@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="restaurantes">
 
@@ -20,22 +21,37 @@
             <td><c:out value="${restaurante.localizacion}"/></td>
         </tr>
     </table>
-
-    <spring:url value="{restaurantesId}/reservas/{userName}/new" var="reservaUrl">
+	
+	<sec:authorize access="hasAuthority('cliente')">
+    <spring:url value="/restaurantes/{restaurantesId}/reservas/{userName}/new" var="reservaUrl">
         <spring:param name="restaurantesId" value="${restaurante.id}"/>
         <spring:param name="userName" value="${username}"/>
     </spring:url>
     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Realizar Reserva</a>
 
-    <spring:url value="{restaurantesId}/pedido/new" var="pedidoUrl">
+    <spring:url value="/restaurantes/{restaurantesId}/pedidos/new" var="pedidoUrl">
         <spring:param name="restaurantesId" value="${restaurante.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidoUrl)}" class="btn btn-default">Realizar Pedido</a>
 
-	<spring:url value="{restaurantesId}/reserva/{userName}" var="reservaClienteUrl">
-        <spring:param name="clienteId" value="${cliente.id}"/>
+	<spring:url value="/restaurantes/${restaurante.id}/reservas/{userName}" var="reservaClienteUrl">
+        <spring:param name="userName" value="${username}"/>
     </spring:url>
-    <a href="${fn:escapeXml(reservaClienteUrl)}" class="btn btn-default">Realizar Pedido</a>
+    <a href="${fn:escapeXml(reservaClienteUrl)}" class="btn btn-default">Mis reservas</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/pedidos/{userName}" var="pedidoClienteUrl">
+        <spring:param name="userName" value="${username}"/>
+    </spring:url>
+    <a href="${fn:escapeXml(pedidoClienteUrl)}" class="btn btn-default">Mis pedidos</a>
+    </sec:authorize>
+    
+    <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
+	<spring:url value="/restaurantes/${restaurante.id}/reservas" var="reservasUrl"/>
+    <a href="${fn:escapeXml(reservasUrl)}" class="btn btn-default">Listar reservas</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/pedidos" var="pedidosUrl"/>
+    <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Listar pedidos</a>
+    </sec:authorize>
     
     <br/>
     <br/>
