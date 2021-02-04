@@ -21,7 +21,6 @@
             <th>Usuario</th>
             <th>Contraseña</th>
             <th>Fecha de Registro</th>
-            <th>Restaurante</th>
             <th>Acciones</th>
         </tr>
         </thead>
