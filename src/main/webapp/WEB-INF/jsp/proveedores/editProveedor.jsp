@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="Proveedores">
     <jsp:body>
@@ -20,12 +20,17 @@
                     <input type="hidden" name="id" value="${proveedor.id}"/>
                     <c:choose>
                     	<c:when test="${proveedor['new']}">
-                    		<button class="btn btn-default" type="submit">Add proveedor</button>
+                    		<button class="btn btn-default" type="submit">Añadir proveedor</button>
                     	</c:when>
                     	<c:otherwise>
-                    		<button class="btn btn-default" type="submit">Update proveedor</button>
+                    		<button class="btn btn-default" type="submit">Actualizar proveedor</button>
                     	</c:otherwise>
                     </c:choose>
+                    
+                    <spring:url value="/proveedores" var="proveedorUrl">
+                    </spring:url>
+                    <a  class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Volver atrás</a>
+   
                 </div>
             </div>
         </form:form>

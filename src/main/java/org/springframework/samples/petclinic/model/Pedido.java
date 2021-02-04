@@ -36,7 +36,6 @@ public class Pedido extends BaseEntity {
 	private LocalDate orderDate;
 	
 	@NotNull(message="El campo no puede estar vacío")
-	@Pattern(regexp="^[a-zA-Z,.!? ]*$", message="Solo se permiten espacios, símbolos y letras")
 	@NotBlank
 	private String adress;
 	

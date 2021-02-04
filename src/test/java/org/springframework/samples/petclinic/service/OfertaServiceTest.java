@@ -37,6 +37,9 @@ public class OfertaServiceTest {
 
 		Oferta p = new Oferta();
 		p.setDescripcion("Oferta 2");
+		p.setDescuento(2.);
+		p.setMinPrice(2.);
+		p.setExclusivo(true);
 		
 			
         this.ofertaService.save(p);
@@ -52,6 +55,9 @@ public class OfertaServiceTest {
 		
 		Oferta p = new Oferta();
 		p.setDescripcion("Oferta5");
+		p.setDescuento(2.);
+		p.setMinPrice(2.);
+		p.setExclusivo(true);
 		this.ofertaService.save(p);
 	
 		Collection<Oferta> elementoAñadido = (Collection<Oferta>) this.ofertaService.findAll();
