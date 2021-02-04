@@ -43,7 +43,7 @@ public class Oferta extends BaseEntity {
 		this.descripcion = descripcion;
 	}
 	
-	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL, fetch= FetchType.EAGER)
 	private List<Pedido> pedidos;
 	
 	@ManyToOne

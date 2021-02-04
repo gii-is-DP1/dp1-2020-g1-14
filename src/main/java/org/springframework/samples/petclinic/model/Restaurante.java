@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
@@ -30,25 +31,25 @@ public class Restaurante extends NamedEntity {
     @JoinColumn(name = "propietario_id")
     private Propietario propietario;*/
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reserva> reservas;
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Producto> productos;
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Reclamacion> reclamaciones;
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Ingrediente> ingredientes;
 
-    @OneToMany(mappedBy= "restaurante", fetch= FetchType.EAGER)
+    @OneToMany(mappedBy= "restaurante", fetch= FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Oferta> ofertas;
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Pedido> pedidos;
     
-    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurante", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<LineaPedido> lineaPedidos;
      
 	@OneToOne(cascade = CascadeType.ALL)
