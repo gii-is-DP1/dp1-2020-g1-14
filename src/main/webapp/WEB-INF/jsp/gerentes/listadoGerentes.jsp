@@ -44,9 +44,6 @@
                     <c:out value="${gerente.user.rDate}"/>
                 </td>
                 <td>
-                    <c:out value="${gerente.restaurante.name}"/>
-                </td>
-                <td>
                     <spring:url value="/gerentes/delete/{gerenteId}" var="gerenteUrl">
                         <spring:param name="gerenteId" value="${gerente.id}"/>
                     </spring:url>
