@@ -13,7 +13,7 @@
 	
 	<spring:url value="/ofertas/new" var="ofertaUrl">
                     </spring:url>
-                    <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">New</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Agregar oferta</a>
     
     <table id="ofertasTable" class="table table-striped">
         
@@ -21,6 +21,9 @@
         <tr>
             <th style="width: 150px;">id</th>
             <th style="width: 120px">Descripcion</th>
+            <th style="width: 120px">Precio mínimo</th>
+            <th style="width: 120px">Descuento</th>
+            <th style="width: 120px">Exclusivo</th>
             <th style="width: 120px">Actions</th>
             
         </tr>
@@ -36,6 +39,18 @@
                 <td>
                     <c:out value="${oferta.descripcion}"/>
                 </td>
+                
+                <td>
+                    <c:out value="${oferta.minPrice}"/>
+                </td>
+                
+                <td>
+                    <c:out value="${oferta.descuento}"/>
+                </td>
+                
+                <td>
+                    <c:out value="${oferta.exclusivo}"/>
+                </td>
 				
 				<td>
 				
@@ -43,13 +58,13 @@
                         <spring:param name="ofertaId" value="${oferta.id}"/>
                     </spring:url>
                     
-                    <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Delete</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Eliminar</a>
                     
                      <spring:url value="/ofertas/{ofertaId}/edit" var="ofertaUrl">
         				<spring:param name="ofertaId" value="${oferta.id}"/>
     				</spring:url>
     				
-    				<a href="${fn:escapeXml(ofertaUrl)}" class="btn btn-default">Edit</a>
+    				<a href="${fn:escapeXml(ofertaUrl)}" class="btn btn-default">Editar</a>
                 </td>
                 
                 

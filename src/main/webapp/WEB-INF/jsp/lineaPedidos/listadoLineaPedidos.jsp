@@ -13,7 +13,7 @@
 	<spring:param name="restauranteId" value="${restaurante.id}"/>
 	<spring:param name="pedidoId" value="${pedido.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">New</a>
+                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">Nueva lineaPedido</a>
     <table id="LineaPedidoTable" class="table table-striped">
         <thead>
         <tr>

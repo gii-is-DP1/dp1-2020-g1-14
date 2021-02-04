@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
@@ -27,7 +28,13 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${cliente.id}"/>
                     <button class="btn btn-default" type="submit">Añadir cliente</button>
+                    
+                    <spring:url value="/clientes" var="clienteUrl">
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">Volver atrás</a>
                 </div>
+                
+                
              </div>
         </form:form>
     </jsp:body>

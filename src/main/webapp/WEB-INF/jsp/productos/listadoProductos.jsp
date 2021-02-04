@@ -11,7 +11,7 @@
     <h2>Productos</h2>
 	<spring:url value="/productos/new" var="productoUrl">
                     </spring:url>
-                    <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">New</a>
+                    <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Agregar producto</a>
     <table id="productoTable" class="table table-striped">
         <thead>
         <tr>
@@ -38,12 +38,12 @@
 				<spring:url value="/productos/delete/{productoId}" var="productoUrl">
                         <spring:param name="productoId" value="${producto.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Delete</a>
+                    <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Eliminar producto</a>
                 
                  <spring:url value="/productos/{productoId}/edit" var="productoUrl">
         				<spring:param name="productoId" value="${producto.id}"/>
     				</spring:url>
-    				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Edit</a>
+    				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Editar producto</a>
                 	
                 </td>
                 

@@ -80,10 +80,10 @@ public class PedidoController {
 	}
 
 	@GetMapping(path = "/new")
-	public String nuevoPedido(ModelMap modelMap) {
+	public String nuevoPedido(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view = "pedidos/nuevoPedido";
 		modelMap.addAttribute("pedido", new Pedido());
-
+		modelMap.addAttribute("restauranteId", restauranteId);
 		log.info("Operación para añadir pedido en ejecucion");
 
 		return view;
