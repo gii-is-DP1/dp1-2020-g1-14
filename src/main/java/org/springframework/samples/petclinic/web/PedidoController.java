@@ -137,6 +137,7 @@ public class PedidoController {
 		return view;
 	}
 
+
 	@PostMapping(path = "/{pedidoId}/oferta")
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
@@ -146,20 +147,25 @@ public class PedidoController {
 		// pedido.get().setOferta(oferta);
 		// System.out.println("cualquier cosa" + pedido.get().getOferta().getId());
 
-		if(pedido.get().getPrice() < oferta.getMinPrice()) {
-			modelMap.addAttribute("message","Esta oferta solo es aplicable para pedidos con un precio mayor o igual a " + oferta.getMinPrice());
-			modelMap.addAttribute("restaurante",restaurante.get());
-			modelMap.addAttribute("pedido",pedido.get());
+		if(oferta != null) {
+			if(pedido.get().getPrice() < oferta.getMinPrice()) {
+				modelMap.addAttribute("message","Esta oferta solo es aplicable para pedidos con un precio mayor o igual a " + oferta.getMinPrice());
+				modelMap.addAttribute("restaurante",restaurante.get());
+				modelMap.addAttribute("pedido",pedido.get());
+				return "pedidos/selectOferta";
+			}
+			pedido.get().setCheckea(false);
+			pedido.get().setOferta(oferta);
+			pedidoService.save(pedido.get());
+			modelMap.addAttribute("message", "Se ha creado el evento");
+			log.info("Oferta añadida con éxito");
+			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
+		}else {
+			modelMap.addAttribute("restaurante", restaurante.get());
+			modelMap.addAttribute("pedido", pedido.get());
+			modelMap.addAttribute("message","Selecciona una oferta");
 			return "pedidos/selectOferta";
 		}
-		pedido.get().setCheckea(false);
-		pedido.get().setOferta(oferta);
-		pedidoService.save(pedido.get());
-		modelMap.addAttribute("message", "Se ha creado el evento");
-		log.info("Oferta añadida con éxito");
-
-		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
-
 	}
 
 	@GetMapping(path = "/cancel/{pedidoId}")
@@ -175,9 +181,7 @@ public class PedidoController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			modelMap.addAttribute("message", "Pedido cancelado satisfactoriamente");
-			view = listadoPedidos(modelMap, restauranteId, usuario);
-
+			view = "redirect:/restaurantes/{restauranteId}/pedidos";
 			log.info("Pedido eliminado con éxito");
 		} else {
 			modelMap.addAttribute("message", "No se encontró el pedido");

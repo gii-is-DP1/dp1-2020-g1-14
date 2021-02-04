@@ -21,7 +21,6 @@
             <th>Usuario</th>
             <th>Contraseña</th>
             <th>Fecha de Registro</th>
-            <th>Restaurante</th>
             <th>Acciones</th>
         </tr>
         </thead>
@@ -42,9 +41,6 @@
                 </td>
                 <td>
                     <c:out value="${gerente.user.rDate}"/>
-                </td>
-                <td>
-                    <c:out value="${gerente.restaurante.name}"/>
                 </td>
                 <td>
                     <spring:url value="/gerentes/delete/{gerenteId}" var="gerenteUrl">
