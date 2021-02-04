@@ -80,10 +80,11 @@ public class PedidoController {
 	}
 
 	@GetMapping(path = "/new")
-	public String nuevoPedido(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	public String nuevoPedido(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
 		String view = "pedidos/nuevoPedido";
 		modelMap.addAttribute("pedido", new Pedido());
 		modelMap.addAttribute("restauranteId", restauranteId);
+		modelMap.addAttribute("name", usuario);
 		log.info("Operación para añadir pedido en ejecucion");
 
 		return view;
@@ -101,6 +102,7 @@ public class PedidoController {
 			return "pedidos/nuevoPedido";
 		} else {
 			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
+			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido creado con éxito");
 			view = listadoPedidos(modelMap, restauranteId, usuario);
@@ -109,7 +111,7 @@ public class PedidoController {
 
 		}
 
-		return "redirect:/restaurantes/{restauranteId}/pedidos";
+		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 	}
 
 	@GetMapping(path = "/{pedidoId}/oferta")
@@ -138,7 +140,7 @@ public class PedidoController {
 
 	@PostMapping(path = "/{pedidoId}/oferta")
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
-          @PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId) {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		// modelMap.addAttribute("pedido", pedido.get());
@@ -157,14 +159,13 @@ public class PedidoController {
 			pedidoService.save(pedido.get());
 			modelMap.addAttribute("message", "Se ha creado el evento");
 			log.info("Oferta añadida con éxito");
-			return "redirect:/restaurantes/{restauranteId}/pedidos";
+			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}else {
 			modelMap.addAttribute("restaurante", restaurante.get());
 			modelMap.addAttribute("pedido", pedido.get());
 			modelMap.addAttribute("message","Selecciona una oferta");
 			return "pedidos/selectOferta";
 		}
-	
 	}
 
 	@GetMapping(path = "/cancel/{pedidoId}")

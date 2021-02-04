@@ -25,7 +25,7 @@
                     <input type="hidden" name="id" value="${restaurante.id}"/>
                     <button class="btn btn-default" type="submit">Encargar pedido</button>
                     
-                    <spring:url value="/restaurantes/{restauranteId}/pedidos" var="pedidoUrl">
+                    <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/order" var="pedidoUrl">
     					<spring:param name="restauranteId" value="${restauranteId}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Volver atrás</a>
