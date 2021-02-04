@@ -96,12 +96,13 @@ public class LineaPedidoController {
 	}
 
 	@PostMapping(path = "/save")
-	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
-		
+	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("pedidoId") int pedidoId) {
+		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		String view = "lineaPedidos/listadoLineaPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("lineaPedido", lineaPedido);
-			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			modelMap.addAttribute("restauranteId", restauranteId);
+			modelMap.addAttribute("pedido",pedido.get());
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 			return "lineaPedidos/editLineaPedido";
 
@@ -112,8 +113,9 @@ public class LineaPedidoController {
 			view = listadoLineaPedidos(modelMap,restauranteId);
 
 			log.info("Linea de pedido creado con éxito");
+			return "redirect:/restaurantes/{restauranteId}/pedidos";
 		}
-		return "redirect:/restaurantes/{restauranteId}/pedidos";
+		
 	}
 
 	/*
