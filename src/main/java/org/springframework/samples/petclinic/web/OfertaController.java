@@ -63,7 +63,7 @@ public class OfertaController {
 		return "ofertas/editOferta";
 	}else {
 		ofertaService.save(oferta);
-		modelMap.addAttribute("message", "Event successfully saved!");
+		modelMap.addAttribute("message", "Ofert successfully saved!");
 		view=listadoOfertas(modelMap);
 		
 		log.info("Oferta creada con éxito");

@@ -29,7 +29,8 @@
     </spring:url>
     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Realizar Reserva</a>
 
-    <spring:url value="/restaurantes/{restaurantesId}/pedidos/new" var="pedidoUrl">
+    <spring:url value="/restaurantes/{restaurantesId}/pedidos/{userName}/new" var="pedidoUrl">
+    	<spring:param name="userName" value="${username}"/>
         <spring:param name="restaurantesId" value="${restaurante.id}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidoUrl)}" class="btn btn-default">Realizar Pedido</a>
@@ -49,7 +50,9 @@
 	<spring:url value="/restaurantes/${restaurante.id}/reservas" var="reservasUrl"/>
     <a href="${fn:escapeXml(reservasUrl)}" class="btn btn-default">Listar reservas</a>
     
-    <spring:url value="/restaurantes/${restaurante.id}/pedidos" var="pedidosUrl"/>
+    <spring:url value="/restaurantes/${restaurante.id}/pedidos/{userName}" var="pedidosUrl">
+    	<spring:param name="userName" value="${username}"/>
+    </spring:url>
     <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Listar pedidos</a>
     </sec:authorize>
     

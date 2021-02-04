@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ch.qos.logback.classic.Logger;
 
 @Controller
-@RequestMapping("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos")
+@RequestMapping("/restaurantes/{restauranteId}/pedidos/{userName}/{pedidoId}/lineaPedidos")
 public class LineaPedidoController {
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(LineaPedidoController.class);
@@ -58,7 +58,7 @@ public class LineaPedidoController {
 	 */
 
 	@GetMapping()
-	public String listadoLineaPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	public String listadoLineaPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 
 		String vista = "lineaPedidos/listadoLineaPedidos";
 		Restaurante restaurante  = restauranteService.findRestauranteById(restauranteId).get();
@@ -70,13 +70,14 @@ public class LineaPedidoController {
 	}
 	
 	@GetMapping(path = "/new")
-	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId,@PathVariable("restauranteId") int restauranteId)  {
+	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId,@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
  		Iterable<Pedido> pedidos =  pedidoService.findAll();
 		if (pedido.get().getEstado() != Estado.SIN_VERIFICAR) {
 			String view = "pedidos/listadoPedidos";
 			modelMap.addAttribute("pedidos", pedidos);
+			modelMap.addAttribute("name", usuario);
 			modelMap.addAttribute("restaurante", restaurante.get());
 			modelMap.addAttribute("message", "¡El pedido ya se ha verificado! No puede editarlo");
 			
@@ -87,6 +88,7 @@ public class LineaPedidoController {
 			String view = "lineaPedidos/editLineaPedido";
 			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("pedido", pedido.get());
+			modelMap.addAttribute("name", usuario);
 			modelMap.addAttribute("lineaPedido", new LineaPedido());
 			
 			log.info("Operación para añadir linea de pedido en ejecucion");
@@ -96,11 +98,12 @@ public class LineaPedidoController {
 	}
 
 	@PostMapping(path = "/save")
-	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		
 		String view = "lineaPedidos/listadoLineaPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("lineaPedido", lineaPedido);
+			modelMap.addAttribute("name", usuario);
 			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 			return "lineaPedidos/editLineaPedido";
@@ -109,11 +112,12 @@ public class LineaPedidoController {
 		
 			lineaPedidoService.save(lineaPedido);
 			modelMap.addAttribute("message", "Event successfully saved!");
-			view = listadoLineaPedidos(modelMap,restauranteId);
+			modelMap.addAttribute("name", usuario);
+			view = listadoLineaPedidos(modelMap,restauranteId, usuario);
 
 			log.info("Linea de pedido creado con éxito");
 		}
-		return "redirect:/restaurantes/{restauranteId}/pedidos";
+		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 	}
 
 	/*
