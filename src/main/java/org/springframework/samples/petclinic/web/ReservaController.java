@@ -7,8 +7,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
@@ -28,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("restaurantes/{restauranteId}/reservas/{userName}")
+@RequestMapping("restaurantes/{restauranteId}/reservas")
 public class ReservaController {
 	
 private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/editReservas";
@@ -46,7 +45,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 		log.info("inicializando DataBinder");
 	}
 	
-	@GetMapping()
+	@GetMapping("/{userName}")
 	public String listadoReservas(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
 		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
@@ -56,13 +55,21 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 		return vista;
 	}
 	
-	@GetMapping(value = "/new")
+	@GetMapping(value = "/{userName}/new")
 	public String initCreationForm(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap){
-		modelMap.addAttribute("reserva", new Reserva());
-		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
-		modelMap.addAttribute("username", usuario);
-		log.info("inicializando creación de reserva en un restaurante");
-		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
+		if(clienteService.findClienteByUsuario(usuario).get().getMonedero()<restauranteService.findRestauranteById(restauranteId).get().getSenial()) {
+			modelMap.addAttribute("message","No tiene dinero suficiente en la cuenta");
+			modelMap.addAttribute("username", usuario);
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			return "restaurantes/restauranteDetails";
+		}else {
+			modelMap.addAttribute("reserva", new Reserva());
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			modelMap.addAttribute("username", usuario);
+			log.info("inicializando creación de reserva en un restaurante");
+			return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
+		}
+		
 	}
 	
 //	@GetMapping(path = "/{reservaId}/edit")
@@ -75,7 +82,7 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 //		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
 //	}
 	
-	@PostMapping(path="/save")
+	@PostMapping(path="/{userName}/save")
 	public String salvarReservas(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, @Valid Reserva reserva, BindingResult res, ModelMap modelMap){
 		String vista = "reservas/listadoReservas";
 		if(res.hasErrors()) {
@@ -85,21 +92,19 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 			log.warn("error de validacion");
 			return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
 		}else {
-			if(clienteService.findClienteByUsuario(usuario).get().getMonedero()<restauranteService.findRestauranteById(restauranteId).get().getSenial()) {
-				modelMap.addAttribute("message","No tiene dinero suficiente en la cuenta");
-			}else {
-				reserva.setCliente(clienteService.findClienteByUsuario(usuario).get());
-				reservaService.save(reserva);
-				modelMap.addAttribute("message", "Reserva guardado con exito");
-				vista=listadoReservas(restauranteId, usuario, modelMap);
-				log.info("Reserva guardada");
-				
-			}
+			Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+			cliente.subMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
+			clienteService.save(cliente);
+			reserva.setCliente(clienteService.findClienteByUsuario(usuario).get());
+			reservaService.save(reserva);
+			modelMap.addAttribute("message", "Reserva guardado con exito");
+			vista=listadoReservas(restauranteId, usuario, modelMap);
+			log.info("Reserva guardada");
 			return vista;
 		}
 	}
 	
-	@GetMapping(path="/delete/{reservaId}")
+	@GetMapping(path="/{userName}/delete/{reservaId}")
 	public String borrarReserva(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
 		Optional<Reserva> reserva = reservaService.findReservaById(reservaId);
@@ -107,7 +112,9 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 			if(reserva.get().getFecha().equals(LocalDate.now())) {
 				if(reserva.get().getHoraInicio().isBefore(LocalTime.now().plusHours(1))) {
 					reservaService.delete(reserva.get());
-					clienteService.findClienteByUsuario(usuario).get().addMonedero(20);
+					Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+					cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
+					clienteService.save(cliente);
 					modelMap.addAttribute("message","Reserva borrada con exito");
 					vista= listadoReservas(restauranteId, usuario, modelMap);
 					log.info("reserva eliminada y se devuelve la señal");
@@ -117,9 +124,11 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 					vista= listadoReservas(restauranteId, usuario, modelMap);
 					log.info("reserva eliminada y no se devuelve la señal");
 				}
-			}else if(reserva.get().getFecha().isBefore(LocalDate.now())){
+			}else if(reserva.get().getFecha().isAfter(LocalDate.now())){
 				reservaService.delete(reserva.get());
-				clienteService.findClienteByUsuario(usuario).get().addMonedero(20);
+				Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+				cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
+				clienteService.save(cliente);
 				modelMap.addAttribute("message","Reserva borrada con exito");
 				vista= listadoReservas(restauranteId, usuario, modelMap);
 				log.info("reserva eliminada y se devuelve la señal");

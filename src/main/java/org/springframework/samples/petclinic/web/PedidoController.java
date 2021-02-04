@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ch.qos.logback.classic.Logger;
 
 @Controller
-@RequestMapping("restaurantes/{restauranteId}/pedidos")
+@RequestMapping("restaurantes/{restauranteId}/pedidos/{userName}")
 public class PedidoController {
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(PedidoController.class);
@@ -68,17 +68,15 @@ public class PedidoController {
 		}
 		return ofertasVIP;
 	}
-
+	
 	@GetMapping()
-	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String vista = "pedidos/listadoPedidos";
 		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 		modelMap.addAttribute("restaurante", restaurante);
-
-		log.info("Mostrando lista de pedidos");
-
+		modelMap.addAttribute("name", usuario);
+		log.info("listando pedidos de un restaurante indicado y usuario actual");
 		return vista;
-
 	}
 
 	@GetMapping(path = "/new")
@@ -93,7 +91,7 @@ public class PedidoController {
 
 	@PostMapping(path = "/order")
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId)  {
+			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario)  {
 		String view = "pedidos/listadoPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("pedido", pedido);
@@ -105,7 +103,7 @@ public class PedidoController {
 			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido creado con éxito");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.info("Pedido creado con éxito");
 
@@ -114,9 +112,9 @@ public class PedidoController {
 		return "redirect:/restaurantes/{restauranteId}/pedidos";
 	}
 
-	@GetMapping(path = "{pedidoId}/oferta")
+	@GetMapping(path = "/{pedidoId}/oferta")
 	public String seleccionaOferta(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId) {
+			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
 		String view;
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
@@ -127,17 +125,17 @@ public class PedidoController {
 				modelMap.addAttribute("pedido", pedido.get());
 			}else {
 				modelMap.addAttribute("message", "Agrega productos y refresca el pedido antes de añadir una oferta");
-				view = listadoPedidos(modelMap,restauranteId);
+				view = listadoPedidos(modelMap,restauranteId, usuario);
 			}
 		}else {
 
 			modelMap.addAttribute("message", "No puede agregar ofertas. El pedido ya está verificado.");
-			view = listadoPedidos(modelMap,restauranteId);
+			view = listadoPedidos(modelMap,restauranteId, usuario);
 		}
 		return view;
 	}
 
-	@PostMapping(path = "{pedidoId}/oferta")
+	@PostMapping(path = "/{pedidoId}/oferta")
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId) {
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
@@ -162,9 +160,9 @@ public class PedidoController {
 
 	}
 
-	@GetMapping(path = "cancel/{pedidoId}")
+	@GetMapping(path = "/cancel/{pedidoId}")
 	public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId) {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
@@ -176,12 +174,12 @@ public class PedidoController {
 				e.printStackTrace();
 			}
 			modelMap.addAttribute("message", "Pedido cancelado satisfactoriamente");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.info("Pedido eliminado con éxito");
 		} else {
 			modelMap.addAttribute("message", "No se encontró el pedido");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.error("No se ha encontrado el pedido para eliminar");
 		}
@@ -196,7 +194,7 @@ public class PedidoController {
 
 	@GetMapping(path = "/refresh/{pedidoId}")
 	public String refreshPrice(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId)  {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		Double price = pedidoService.getTotalPrice(pedido.get().getId());
@@ -211,7 +209,7 @@ public class PedidoController {
 		pedido.get().setPrice(price);
 		pedidoService.save(pedido.get());
 		modelMap.addAttribute("pedido", pedido);
-		view = listadoPedidos(modelMap, restauranteId);
+		view = listadoPedidos(modelMap, restauranteId, usuario);
 
 		log.info("Precios actualizados con éxito");
 		return view;
@@ -219,7 +217,7 @@ public class PedidoController {
 
 	@GetMapping(path = "/verify/{pedidoId}")
 	public String verificaPedido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId)  {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
@@ -236,7 +234,7 @@ public class PedidoController {
 						modelMap.addAttribute("pedido", pedido);
 						modelMap.addAttribute("message",
 								"Se ha realizado el pedido satisfactoriamente y ahora está se está procesando en nuestra central.");
-						view = listadoPedidos(modelMap, restauranteId);
+						view = listadoPedidos(modelMap, restauranteId, usuario);
 
 						log.info("Se ha realizado el pedido");
 
@@ -244,25 +242,25 @@ public class PedidoController {
 
 						modelMap.addAttribute("pedido", pedido);
 						modelMap.addAttribute("message", "¡Refresca el pedido antes de verificarlo!");
-						view = listadoPedidos(modelMap, restauranteId);
+						view = listadoPedidos(modelMap, restauranteId, usuario);
 					}
 				} else {
 					modelMap.addAttribute("pedido", pedido);
 					modelMap.addAttribute("message", "¡El precio del pedido debe de ser mayor o igual a 10!");
-					view = listadoPedidos(modelMap, restauranteId);
+					view = listadoPedidos(modelMap, restauranteId, usuario);
 				}
 
 			} else {
 				modelMap.addAttribute("message", "El pedido debe se debe de estar sin verificar previamente a procesarlo");
-				view = listadoPedidos(modelMap, restauranteId);
+				view = listadoPedidos(modelMap, restauranteId, usuario);
 
 				log.error("No se puede pasar del estado actual a PROCESANDO");
-				view = listadoPedidos(modelMap, restauranteId);
+				view = listadoPedidos(modelMap, restauranteId, usuario);
 			}
 		}else {
 			modelMap.addAttribute("pedido", pedido);
 			modelMap.addAttribute("message", "¡Agrega un producto y refresca!");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 		}
 		return view;
 
@@ -273,14 +271,14 @@ public class PedidoController {
 
 	@GetMapping(path = "/preparando/{pedidoId}")
 	public String actualizadoPedidoPreparando(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId) {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
 		if (pedido.get().getEstado() == Estado.PREPARANDO) {
 
 			modelMap.addAttribute("message", "El pedido ya se encuentra en este estado");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.error("El pedido ya se encuentra en este estado.");
 			return view;
@@ -288,7 +286,7 @@ public class PedidoController {
 		} else if (pedido.get().getEstado() != Estado.PROCESANDO) {
 
 			modelMap.addAttribute("message", "El pedido debe se debe de estar procesando previamente a prepararlo");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.error("No se puede pasar del estado actual a PREPARANDO");
 			return view;
@@ -297,7 +295,7 @@ public class PedidoController {
 		pedidoService.save(pedido.get());
 		modelMap.addAttribute("pedido", pedido);
 		modelMap.addAttribute("message", "Se ha actualizado el estado del pedido");
-		view = listadoPedidos(modelMap, restauranteId);
+		view = listadoPedidos(modelMap, restauranteId, usuario);
 
 		log.info("Se ha actualizado el estado del pedido a Preparando");
 		return view;
@@ -305,14 +303,14 @@ public class PedidoController {
 
 	@GetMapping(path = "/reparto/{pedidoId}")
 	public String actualizadoPedidoReparto(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId)  {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
 		if (pedido.get().getEstado() == Estado.EN_REPARTO) {
 
 			modelMap.addAttribute("message", "El pedido ya se encuentra en este estado");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.error("El pedido ya se encuentra en este estado.");
 			return view;
@@ -321,7 +319,7 @@ public class PedidoController {
 
 			modelMap.addAttribute("message",
 					"El pedido debe se debe de estar preparando previamente a estar en reparto");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.error("No se puede pasar del estado actual a EN_REPARTO");
 			return view;
@@ -330,7 +328,7 @@ public class PedidoController {
 		pedidoService.save(pedido.get());
 		modelMap.addAttribute("pedido", pedido);
 		modelMap.addAttribute("message", "Se ha actualizado el estado del pedido");
-		view = listadoPedidos(modelMap, restauranteId);
+		view = listadoPedidos(modelMap, restauranteId,usuario);
 
 		log.info("Se ha actualizado el estado del pedido a EN_REPARTO");
 		return view;
@@ -338,14 +336,14 @@ public class PedidoController {
 
 	@GetMapping(path = "/recibido/{pedidoId}")
 	public String actualizadoPedidoRecibido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId)  {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
 		if (pedido.get().getEstado() == Estado.RECIBIDO) {
 
 			modelMap.addAttribute("message", "El pedido ya se encuentra en este estado");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId,usuario);
 
 			log.error("El pedido ya se encuentra en este estado.");
 			return view;
@@ -353,7 +351,7 @@ public class PedidoController {
 		} else if (pedido.get().getEstado() != Estado.EN_REPARTO) {
 
 			modelMap.addAttribute("message", "El pedido debe de estar en reparto previamente a pasar a este estado");
-			view = listadoPedidos(modelMap, restauranteId);
+			view = listadoPedidos(modelMap, restauranteId,usuario);
 
 			log.error("No se puede pasar del estado actual a RECIBIDO");
 			return view;
@@ -362,7 +360,7 @@ public class PedidoController {
 		pedidoService.save(pedido.get());
 		modelMap.addAttribute("pedido", pedido);
 		modelMap.addAttribute("message", "Se ha actualizado el estado del pedido");
-		view = listadoPedidos(modelMap, restauranteId);
+		view = listadoPedidos(modelMap, restauranteId,usuario);
 
 		log.info("Se ha actualizado el estado del pedido a RECIBIDO");
 		return view;
