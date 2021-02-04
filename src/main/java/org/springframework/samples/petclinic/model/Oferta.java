@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Oferta extends BaseEntity {
-	@NotNull
+	@NotNull(message="El campo no puede estar vacío")
 	private String descripcion;
 	/*
 	@OneToOne(cascade=CascadeType.ALL)
@@ -24,10 +24,15 @@ public class Oferta extends BaseEntity {
 	private Producto producto;
 	*/
 	
+	@NotNull(message="Agrega un descuento")
+	@Min(value=1)
 	private Double descuento;
 	
+	@NotNull(message="Agrega un precio mínimo")
+	@Min(value=1)
 	private Double minPrice;
 	
+	@NotNull(message="Marca alguna de las siguientes opciones")
 	private Boolean exclusivo;
 	
 	public String getDescripcion() {

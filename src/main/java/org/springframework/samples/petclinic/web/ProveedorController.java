@@ -87,7 +87,7 @@ public class ProveedorController {
 	}
 	return view;
 }
-	@GetMapping(path="/{proveedorId/edit") 
+	@GetMapping(path="/{proveedorId}/edit") 
 	public String initUpdateForm(@PathVariable("proveedorId") int proveedorId, ModelMap model) {
 		Proveedor proveedor = this.proveedorService.findProveedorById(proveedorId).get();
 		model.addAttribute(proveedor);
@@ -97,7 +97,7 @@ public class ProveedorController {
 		return VIEWS_PROVEEDORES_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value="/{proveedorId/edit")
+	@PostMapping(value="/{proveedorId}/edit")
 	public String processUpdateProveedorForm(@Valid Proveedor proveedor, BindingResult result, @PathVariable("proveedorId") int proveedorId) {
 		if(result.hasErrors()) {
 			

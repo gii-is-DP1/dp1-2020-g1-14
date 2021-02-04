@@ -12,7 +12,7 @@
     <h2>Clientes</h2>
     <spring:url value="/clientes/new" var="clienteUrl">
                     </spring:url>
-                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">New cliente</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">Agregar cliente</a>
     <spring:url value="/clientes/socios" var="clienteUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(clienteUrl)}">Socios</a>
@@ -45,7 +45,7 @@
 				<spring:url value="/clientes/delete/{clienteId}" var="clienteUrl">
                         <spring:param name="clienteId" value="${cliente.id}"/>
                     </spring:url>
-                    <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Delete</a>
+                    <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Eliminar</a>
 
                     
                     <spring:url value="/clientes/upgrade/{clienteId}" var="clienteUrl">

@@ -11,7 +11,7 @@
     <h2>Proveedores</h2>
 	<spring:url value="/proveedores/new" var="proveedorUrl">
                     </spring:url>
-                    <a href="${fn:escapeXml(proveedorUrl)}">New</a>
+                    <a  class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Agregar proveedor</a>
     <table id="proveedoresTable" class="table table-striped">
         <thead>
         <tr>
@@ -34,12 +34,12 @@
 				<spring:url value="/proveedores/delete/{proveedorId}" var="proveedorUrl">
                         <spring:param name="proveedorId" value="${proveedor.id}"/>
                     </spring:url>
-                    <a href="${fn:escapeXml(proveedorUrl)}">Delete</a>
+                    <a class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Eliminar</a>
                     
                      <spring:url value="/proveedores/{proveedorId}/edit" var="proveedorUrl">
         				<spring:param name="proveedorId" value="${proveedor.id}"/>
     				</spring:url>
-    				<a href="${fn:escapeXml(proveedorUrl)}" class="btn btn-default">Edit</a>
+    				<a href="${fn:escapeXml(proveedorUrl)}" class="btn btn-default">Editar</a>
                 </td>
                 
                 

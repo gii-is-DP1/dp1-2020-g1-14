@@ -90,7 +90,7 @@ public class OfertaController {
 	return view;
 }
 	
-	@GetMapping(path="/{ofertaId/edit") 
+	@GetMapping(path="/{ofertaId}/edit") 
 	public String initUpdateForm(@PathVariable("ofertaId") int ofertaId, ModelMap model) {
 		Oferta oferta= this.ofertaService.findOfertaById(ofertaId).get();
 		model.addAttribute(oferta);
@@ -100,7 +100,7 @@ public class OfertaController {
 		return VIEWS_OFERTAS_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value="/{ofertaId/edit}")
+	@PostMapping(value="/{ofertaId}/edit")
 	public String processUpdateOfertaForm(@Valid Oferta oferta, BindingResult result, @PathVariable("ofertaId") int ofertaId) {
 		if(result.hasErrors()) {
 			
