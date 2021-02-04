@@ -9,7 +9,7 @@
     <jsp:body>
         <h2>Productos</h2>
         
-        <form:form modelAttribute="producto" class="form-horizontal" action="/productos/save">
+        <form:form modelAttribute="producto" class="form-horizontal" action="/restaurantes/${restaurante.id}/productos/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Name" name="name"/>
                 
@@ -39,6 +39,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${producto.id}"/>
+                    <input type="hidden" name="restaurante" value="${restaurante}"/>
                     <c:choose>
                     	<c:when test="${producto['new']}">
                     		<button class="btn btn-default" type="submit">Añadir producto</button>

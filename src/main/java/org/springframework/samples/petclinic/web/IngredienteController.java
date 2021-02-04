@@ -79,8 +79,8 @@ public class IngredienteController {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
       
-//		String vista = listadoIngredientes(restauranteId, modelMap);
-      log.info("Restaurante creado");
+//			String vista = listadoIngredientes(restauranteId, modelMap);
+			log.info("Restaurante creado");
 			return "redirect:/restaurantes/{restaurantesId}/ingredientes";
 		}
 			
@@ -118,7 +118,7 @@ public class IngredienteController {
 	
 	@GetMapping(path="/delete/{ingredienteId}")
 	public String borrarIngrediente(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int id, ModelMap modelMap) {
-		String vista = "ingredientes/listadoIngredientes";
+		String vista;
 		Optional<Ingrediente> ingrediente = ingService.findIngredienteById(id);
 		if(ingrediente.isPresent()) {
 			ingService.delete(ingrediente.get());
