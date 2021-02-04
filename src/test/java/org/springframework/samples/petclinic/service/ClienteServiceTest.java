@@ -60,11 +60,15 @@ public class ClienteServiceTest {
     @CsvSource({"2020-03-11,12,false"
     	,"2020-02-13,10,false"})
     public void checkSocioTestParameterized(LocalDate fecha, int nPedidos, Boolean esSocio) throws CantBeAMemberException {
+    	User u = new User();
+    	u.setrDate(fecha);
+    	u.setUsername("testUser");
+    	u.setPassword("a23sd23a");
     	
     	Cliente c = new Cliente();
+    	c.setUser(u);
     	c.setEsSocio(esSocio);
     	c.setNumPedidos(nPedidos);
-    	c.getUser().setrDate(fecha);
     	clienteService.checkSocio(c);
     	assertThat(c.getEsSocio() == true);
     }
@@ -73,9 +77,15 @@ public class ClienteServiceTest {
     	,"2020-02-13,5",
     	"2020-10-10,9"})
     public void shouldThrowDoesNotMeetConditionsExceptionParameterized(LocalDate fecha ,int nPedidos ) {
+    	
+    	User u = new User();
+    	u.setrDate(fecha);
+    	u.setUsername("testUser");
+    	u.setPassword("a23sd23a");
+    	
     	Cliente c = new Cliente();
+    	c.setUser(u);
     	c.setNumPedidos(nPedidos);
-    	c.getUser().setrDate(fecha);
     	try {
 			clienteService.checkSocio(c);
 		} catch (CantBeAMemberException e) {
