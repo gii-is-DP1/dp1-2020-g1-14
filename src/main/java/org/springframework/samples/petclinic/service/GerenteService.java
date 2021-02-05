@@ -62,9 +62,32 @@ public class GerenteService {
 	    
 	    @Transactional
 	    public void actualiza(Gerente gerente) {
-	    	log.info("Guardando elemento");
+	    	if(!findGerenteById(gerente.getId()).get().getUser().equals(gerente.getUser())) {
+	    		log.info(findGerenteById(gerente.getId()).get().getUser().getUsername());
+	    		log.info(findGerenteById(gerente.getId()).get().getUser().getPassword());
+	    		log.info(gerente.getUser().getUsername());
+	    		log.info(gerente.getUser().getPassword());
+	    		System.out.println(findGerenteById(gerente.getId()).get()+"erpepe2");
+	    		Gerente antiguo = findGerenteById(gerente.getId()).get();
+	    		System.out.println(antiguo.getUser()+"erpepe2");
+	    		
+	    		//error
+	    		System.out.println(findGerenteById(gerente.getId()).get().getUser()+"erpepe2");
+	    		
+	    		
+	    		System.out.println(!findGerenteById(gerente.getId()).get().getUser().equals(gerente.getUser()));
+	    		System.out.println(gerente.getUser()+"erpepe");
+	    		
+				userService.delete(findGerenteById(gerente.getId()).get().getUser());
+	    	}
+	    	log.info("Guardando gerente");
 	    	gerenteRepo.save(gerente);
 	    	
+	    	log.info("Creando usuario");
+			userService.saveUser(gerente.getUser());
+				
+			log.info("Creando authorities");
+			authoritiesService.saveAuthorities(gerente.getUser().getUsername(), "gerente");
 	    }
 	    
 	    @Transactional
