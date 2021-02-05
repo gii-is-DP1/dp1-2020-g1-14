@@ -6,7 +6,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,18 +22,8 @@ public class LineaPedido extends BaseEntity {
 	@ManyToOne(optional=true)
 	@JoinColumn(name="pedido_id")
 	private Pedido pedido;
-	/*
-	@OneToOne(mappedBy="lineaPedido", cascade= CascadeType.ALL)
-	private Producto producto;
-	*/
 	
 	@ManyToOne
-	@JoinColumn(name="producto_id")
 	@NotNull(message="Selecciona un producto")
-	private Producto producto;
-	
-	@ManyToOne
-	@JoinColumn(name="restaurante_id")
-	private Restaurante restaurante;
-	
+	private Producto producto;	
 }

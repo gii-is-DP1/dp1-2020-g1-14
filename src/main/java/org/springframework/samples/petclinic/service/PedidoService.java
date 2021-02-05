@@ -44,6 +44,13 @@ public class PedidoService {
 		log.info("Devolviendo elemento por su id");
 		return pedidoRepo.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Pedido> findPedidosByRestauranteId(Integer restauranteId) {
+
+		log.info("Devolviendo elemento por su usuario");
+		return pedidoRepo.findPedidosByRestauranteId(restauranteId);
+	}
 
 	@Transactional
 	public void save(Pedido pedido)  {
@@ -57,10 +64,11 @@ public class PedidoService {
 
 			log.error("No se puede cancelar el pedido debido al estado en el que se encuentra");
 			throw new CantCancelOrderException();
-		} else
+		} else {
 
 			log.info("Eliminado un elemento");
-		pedidoRepo.delete(pedido);
+			pedidoRepo.delete(pedido);
+		}
 	}
 
 	@Transactional

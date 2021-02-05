@@ -39,6 +39,14 @@ public class ProductoService {
 		log.info("Devolviendo elemento por su id");
 		return productoRepo.findById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Producto> findProductosByRestauranteId(Integer restauranteId) {
+
+		log.info("Obtener productos por restaurante");
+		return productoRepo.findProductosByRestauranteId(restauranteId);
+	}
+	
 	public void save(Producto producto) throws WrongDataProductosException {
 		if((producto.getName().length() < 3 || producto.getName().length() > 50) || !producto.getAlergenos().matches("^[a-zA-Z,.!? ]*$")||producto.getPrecio() <= 0) {
 			log.error("No se cumplen las condiciones al crear el producto");

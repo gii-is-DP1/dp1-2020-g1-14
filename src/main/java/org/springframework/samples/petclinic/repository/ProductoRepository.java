@@ -15,4 +15,7 @@ public interface ProductoRepository extends CrudRepository<Producto, Integer>{
 	
 	@Query("SELECT DISTINCT producto FROM Producto producto WHERE producto.name=:name")
 	public Collection<Producto> findByName(@Param("name") String name);
+	
+	@Query("SELECT p FROM Producto p WHERE p.restaurante.id =:restauranteId") 
+	public Iterable<Producto> findProductosByRestauranteId(@Param("restauranteId") Integer restauranteId);
  }

@@ -33,6 +33,13 @@ public class ReclamacionService {
     	log.info("Devolviendo elemento por su id");
         return reclamacionRepo.findById(id);
     }
+    
+    @Transactional(readOnly = true)
+	public Iterable<Reclamacion> findReclamacionByRestauranteId(Integer restauranteId) {
+
+		log.info("Devolviendo elementos por su restaurante");
+		return reclamacionRepo.findReclamacionByRestauranteId(restauranteId);
+	}
 	
 	public void save(Reclamacion reclamacion) {
 		log.info("Guardando elemento");

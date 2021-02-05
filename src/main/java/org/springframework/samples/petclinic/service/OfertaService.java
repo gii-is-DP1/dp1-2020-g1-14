@@ -40,6 +40,13 @@ public class OfertaService {
 		return ofertaRepo.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
+	public Iterable<Oferta> findOfertasByRestauranteId(Integer restauranteId) {
+
+		log.info("Devolviendo elemento por su usuario");
+		return ofertaRepo.findOfertasByRestauranteId(restauranteId);
+	}
+	
 	@Transactional
 	public void save(Oferta oferta) {
 

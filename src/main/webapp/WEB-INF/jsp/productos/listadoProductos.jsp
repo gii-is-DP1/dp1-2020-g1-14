@@ -9,7 +9,7 @@
 
 <petclinic:layout pageName="productos">
     <h2>Productos</h2>
-	<spring:url value="/restaurantes/${restaurante.id}/productos/new" var="productoUrl">
+	<spring:url value="/restaurantes/${restauranteId}/productos/new" var="productoUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Agregar producto</a>
     <table id="productoTable" class="table table-striped">
@@ -23,7 +23,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${restaurante.productos}" var="producto">
+        <c:forEach items="${productos}" var="producto">
             <tr>
                 <td>
                     <c:out value="${producto.name}"/>
@@ -35,30 +35,17 @@
                     <c:out value="${producto.alergenos}"/>
                 </td>
 				<td>
-				<spring:url value="/restaurantes/${restaurante.id}/productos/delete/{productoId}" var="productoUrl">
+				<spring:url value="/restaurantes/${restauranteId}/productos/delete/{productoId}" var="productoUrl">
                         <spring:param name="productoId" value="${producto.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Eliminar producto</a>
                 
-                 <spring:url value="/restaurantes/${restaurante.id}/productos/{productoId}/edit" var="productoUrl">
+                 <spring:url value="/restaurantes/${restauranteId}/productos/{productoId}/edit" var="productoUrl">
         				<spring:param name="productoId" value="${producto.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Editar producto</a>
                 	
-                </td>
-                
-                
-                
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
+                </td>      
             </tr>
         </c:forEach>
        

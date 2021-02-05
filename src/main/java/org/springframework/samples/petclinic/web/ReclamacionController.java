@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/restaurantes/{restaurantesId}/reclamaciones")
+@RequestMapping("/restaurantes/{restauranteId}/reclamaciones")
 public class ReclamacionController {
 	
 	@Autowired
@@ -28,26 +28,27 @@ public class ReclamacionController {
 	private RestauranteService resService;
 	
 	@GetMapping()
-	public String listadoReclamaciones(@PathVariable("restaurantesId") int restauranteId,ModelMap modelMap) {
+	public String listadoReclamaciones(@PathVariable("restauranteId") int restauranteId,ModelMap modelMap) {
 		String vista="reclamaciones/listadoReclamaciones";
-		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		Iterable<Reclamacion> reclamaciones = restaurante.getReclamaciones();
+		Iterable<Reclamacion> reclamaciones = reclamacionService.findReclamacionByRestauranteId(restauranteId);
 		modelMap.addAttribute("reclamaciones", reclamaciones);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		log.info("Mostrando listado de reclamaciones");
 		return vista;
 	}
 	
 	@GetMapping(path="/new")
-	public String crearReclamacion(@PathVariable("restaurantesId") int restauranteId,ModelMap modelMap) {
+	public String crearReclamacion(@PathVariable("restauranteId") int restauranteId,ModelMap modelMap) {
 		String view ="reclamaciones/crearReclamacion";
 		modelMap.addAttribute("reclamacion", new Reclamacion());
 		modelMap.addAttribute("restauranteId", restauranteId);
+		modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 		log.info("Inicialización de creación de reclamacion");
 		return view;
 	}
 	
 	@PostMapping(path="/save")
-	public String guardarReclamacion(@PathVariable("restaurantesId") int restauranteId,@Valid Reclamacion reclamacion, BindingResult result, ModelMap modelMap) {
+	public String guardarReclamacion(@PathVariable("restauranteId") int restauranteId, @Valid Reclamacion reclamacion, BindingResult result, ModelMap modelMap) {
 	String view="reclamaciones/listadoReclamaciones";
 	if(result.hasErrors())
 	{

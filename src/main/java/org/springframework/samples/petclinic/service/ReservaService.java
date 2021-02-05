@@ -34,6 +34,20 @@ public class ReservaService {
 		return ReservaRepo.findById(id);
 	}
 	
+	@Transactional(readOnly = true)
+	public Iterable<Reserva> findReservasByRestauranteIdYCliente(Integer restauranteId, String username) {
+
+		log.info("Devolviendo reservas de un restaurante y usuario indicado");
+		return ReservaRepo.findReservasByRestauranteIdYCliente(restauranteId, username);
+	}
+	
+	@Transactional(readOnly = true)
+	public Iterable<Reserva> findReservasByRestauranteId(Integer restauranteId) {
+
+		log.info("Devolviendo reservas de un restaurante");
+		return ReservaRepo.findReservasByRestauranteId(restauranteId);
+	}
+	
 	@Transactional
 	public void save(Reserva reserva) {
 		ReservaRepo.save(reserva);

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ch.qos.logback.classic.Logger;
 
 @Controller
-@RequestMapping("/restaurantes/{restaurantesId}/productos")
+@RequestMapping("/restaurantes/{restauranteId}/productos")
 public class ProductoController {
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(ProductoController.class);
@@ -34,19 +34,21 @@ public class ProductoController {
 	private RestauranteService resService;
 
 	@GetMapping()
-	public String listadoProductos(ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String listadoProductos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String vista= "productos/listadoProductos";
-		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		modelMap.addAttribute("restaurante",restaurante);
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("productos",productos);
 		log.info("Mostrando lista de productos");
 		return vista;
 	}
 
 	@GetMapping(path="/new")
-	public String crearProducto(ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String crearProducto(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view ="productos/editProducto";
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
 		modelMap.addAttribute("restaurante",restaurante);
+		modelMap.addAttribute("restauranteId",restauranteId);
 		modelMap.addAttribute("producto", new Producto());
 
 		log.info("Operación para añadir producto en ejecucion");
@@ -55,12 +57,12 @@ public class ProductoController {
 	}
 
 	@PostMapping(path="/save")
-	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view="productos/listadoProducto";
 		if(result.hasErrors())
 		{
 			modelMap.addAttribute("producto", producto);
-
+			
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 
 			return "productos/editProducto";
@@ -75,11 +77,11 @@ public class ProductoController {
 			view=listadoProductos(modelMap, restauranteId);
 
 			log.info("Producto creado con éxito");
-			return "redirect:/restaurantes/{restaurantesId}/productos";
+			return "redirect:/restaurantes/{restauranteId}/productos";
 		}
 	}
 	@GetMapping(path="delete/{productoId}")
-	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		Optional<Producto> producto=productoService.findProductoById(productoId);
 
 		if(producto.isPresent()) {
@@ -94,10 +96,12 @@ public class ProductoController {
 	}
 	
 	@GetMapping(path = "/{productoId}/edit")
-	public String initUpdateForm(@PathVariable("productoId") int productoId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("productoId") int productoId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Producto producto = this.productoService.findProductoById(productoId).get();
+		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
 		model.addAttribute(producto);
-
+		model.addAttribute("restauranteId",restauranteId);
+		model.addAttribute("restaurante",restaurante);
 		log.info("Operación para editar producto en ejecucion");
 
 		return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;

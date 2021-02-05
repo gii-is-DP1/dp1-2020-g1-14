@@ -20,7 +20,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                 	<input type="hidden" name="id" value="${pedido.id}"/> 
-                    <input type="hidden" name="id" value="${restaurante.id}"/> 
+                    <input type="hidden" name="id" value="${restauranteId}"/> 
                     
                     <button class="btn btn-default" type="submit">Agregar oferta</button>
                     

@@ -12,12 +12,12 @@
     <h2>Pedidos</h2>
     
     <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/new" var="pedidoUrl">
-    <spring:param name="restauranteId" value="${restaurante.id}"/>
+    <spring:param name="restauranteId" value="${restauranteId}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Nuevo pedido</a>
      
      <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}" var="pedidoUrl">
-     <spring:param name="restauranteId" value="${restaurante.id}"/>
+     <spring:param name="restauranteId" value="${restauranteId}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Lista pedidos</a>
 	
@@ -51,7 +51,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${restaurante.pedidos}" var="pedido">
+        <c:forEach items="${pedidos}" var="pedido">
         	<sec:authorize access="hasAuthority('cliente')">
         	<c:if test="${pedido.cliente.user.username==name}">
 	            <tr>
@@ -88,20 +88,20 @@
 					</td>
 					
 					<td>
-	                  <spring:url  value="/restaurantes/${restaurante.id}/pedidos/${name}/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
+	                  <spring:url  value="/restaurantes/${restauranteId}/pedidos/${name}/${pedido.id}/lineaPedidos/new" var="lineaPedidosUrl">
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(lineaPedidosUrl)}" class="btn btn-default">Añade producto</a> 
 	                </td>
 	                
 	                <td>
-	                  <spring:url  value="/restaurantes/${restaurante.id}/pedidos/${name}/${pedido.id}/oferta" var="pedidoUrl">
+	                  <spring:url  value="/restaurantes/${restauranteId}/pedidos/${name}/${pedido.id}/oferta" var="pedidoUrl">
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(pedidoUrl)}" class="btn btn-default">Añade oferta</a> 
 	                </td>
 	                   
 	                <td>
 	                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/cancel/{pedidoId}" var="pedidoUrl">
-	                	<spring:param name="restauranteId" value="${restaurante.id}"/>
+	                	<spring:param name="restauranteId" value="${restauranteId}"/>
 	                    <spring:param name="pedidoId" value="${pedido.id}"/>
 	                </spring:url>
 	                <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Cancel</a>
@@ -110,14 +110,14 @@
 	                <td>
 	                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/refresh/{pedidoId}" var="pedidoUrl">
 	                        <spring:param name="pedidoId" value="${pedido.id}"/>
-	                        <spring:param name="restauranteId" value="${restaurante.id}"/>
+	                        <spring:param name="restauranteId" value="${restauranteId}"/>
 	                    </spring:url>
 	                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Refresca</a>
 	                </td>
 	                
 	                 <td>
 	                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/verify/{pedidoId}" var="pedidoUrl">
-	                <spring:param name="restauranteId" value="${restaurante.id}"/>
+	                <spring:param name="restauranteId" value="${restauranteId}"/>
 	                        <spring:param name="pedidoId" value="${pedido.id}"/>
 	                    </spring:url>
 	                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Confirmar pedido</a>
@@ -180,7 +180,7 @@
 		                
 		                <td>
 		                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/preparando/{pedidoId}" var="pedidoUrl">
-		                <spring:param name="restauranteId" value="${restaurante.id}"/>
+		                <spring:param name="restauranteId" value="${restauranteId}"/>
 		                        <spring:param name="pedidoId" value="${pedido.id}"/>
 		                    </spring:url>
 		                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Preparando</a>
@@ -188,7 +188,7 @@
 		                
 		                <td>
 		                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/reparto/{pedidoId}" var="pedidoUrl">
-		                <spring:param name="restauranteId" value="${restaurante.id}"/>
+		                <spring:param name="restauranteId" value="${restauranteId}"/>
 		                        <spring:param name="pedidoId" value="${pedido.id}"/>
 		                    </spring:url>
 		                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">En Reparto</a>
@@ -196,7 +196,7 @@
 		                
 		                <td>
 		                <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/recibido/{pedidoId}" var="pedidoUrl">
-		                		<spring:param name="restauranteId" value="${restaurante.id}"/>
+		                		<spring:param name="restauranteId" value="${restauranteId}"/>
 		                        <spring:param name="pedidoId" value="${pedido.id}"/>
 		                    </spring:url>
 		                    <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Recibido</a>
