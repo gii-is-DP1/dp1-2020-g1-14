@@ -10,7 +10,7 @@
     <jsp:body>
         <h2>Ingredientes</h2>
         
-        <form:form modelAttribute="ingrediente" class="form-horizontal" action="/restaurantes/${restaurante.id}/ingredientes/save">
+        <form:form modelAttribute="ingrediente" class="form-horizontal" action="/restaurantes/${restauranteId}/ingredientes/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Stock" name="stock"/>

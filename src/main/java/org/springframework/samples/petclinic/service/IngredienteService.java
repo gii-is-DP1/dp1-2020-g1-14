@@ -29,21 +29,18 @@ public class IngredienteService {
 		log.info("Buscando todos los elementos");
 		return ingRep.findAll();
 	}
-	/*@Transactional
-	public Iterable<Ingrediente> findIngredientesByRestaurante(int id){
-		return ingRep.findByRestaurante(id);
-	}*/
+	
+	@Transactional
+	public Iterable<Ingrediente> findIngredientesByRestauranteId(Integer restauranteId){
+		log.info("Buscando Ingredientes por restaurante");
+		return ingRep.findIngredientesByRestauranteId(restauranteId);
+	}
 	
 	@Transactional(readOnly=true)
 	public Optional<Ingrediente> findIngredienteById(int id) {
 		log.info("Devolviendo elemento por su id");
 		return ingRep.findById(id);
 	}
-	
-//	@Transactional(readOnly=true)
-//	public Iterable<Ingrediente> findIngredienteByRestaurante(int id) {
-//		return ingRep.findByRestaurante(id);
-//	}
 	
 	@Transactional
 	public void save(Ingrediente ingrediente) {
