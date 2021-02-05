@@ -38,16 +38,17 @@ public class IngredienteController {
 	private RestauranteService resService;
 	
 	@GetMapping()
-	public String listadoIngredientes(@PathVariable("restaurantesId") int restauranteId, ModelMap modelMap) {
+	public String listadoIngredientes(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		String vista = "ingredientes/listadoIngredientes";
-		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		modelMap.addAttribute("restaurante", restaurante);
+		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestauranteId(restauranteId);
+		modelMap.addAttribute("ingredientes", ingredientes);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		log.info("Mostrando listado de ingredientes");
 		return vista;
 	}
 	
 	@GetMapping(path="/new")
-	public String añadirIngrediente(@PathVariable("restaurantesId") int restauranteId,ModelMap modelMap) {
+	public String añadirIngrediente(@PathVariable("restauranteId") int restauranteId,ModelMap modelMap) {
 		String vista = "ingredientes/editarIngrediente";
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 		ArrayList<String> medidas = new ArrayList<String>();
@@ -64,7 +65,7 @@ public class IngredienteController {
 	}
 	
 	@PostMapping(path="/save")
-	public String guardarIngrediente(@PathVariable("restaurantesId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
+	public String guardarIngrediente(@PathVariable("restauranteId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap) {
 		if(result.hasErrors()) {
 			EnumSet<Medida> set = EnumSet.allOf(Medida.class);
 			ArrayList<String> medidas = new ArrayList<String>();
@@ -82,13 +83,13 @@ public class IngredienteController {
       
 //			String vista = listadoIngredientes(restauranteId, modelMap);
 			log.info("Restaurante creado");
-			return "redirect:/restaurantes/{restaurantesId}/ingredientes";
+			return "redirect:/restaurantes/{restauranteId}/ingredientes";
 		}
 			
 	}
 	
 	@GetMapping(path = "/{ingredienteId}/edit")
-	public String initUpdateForm(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("restauranteId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId, ModelMap model) {
 		Restaurante restaurante = this.resService.findRestauranteById(restauranteId).get();
 		Ingrediente ingrediente = this.ingService.findIngredienteById(ingredienteId).get();
 		EnumSet<Medida> set = EnumSet.allOf(Medida.class);
@@ -105,7 +106,7 @@ public class IngredienteController {
 	}
 	
 	@PostMapping(path="/save/{ingredienteId}")
-	public String guardarIngrediente(@PathVariable("restaurantesId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap,
+	public String guardarIngrediente(@PathVariable("restauranteId") int restauranteId, @Valid Ingrediente ingrediente, BindingResult result, ModelMap modelMap,
 			@RequestParam(value = "version", required = false) Integer version, @PathVariable("ingredienteId") int ingredienteId) {
 		if(result.hasErrors()) {
 			EnumSet<Medida> set = EnumSet.allOf(Medida.class);
@@ -137,13 +138,13 @@ public class IngredienteController {
       
 
 			log.info("Restaurante creado");
-			return "redirect:/restaurantes/{restaurantesId}/ingredientes";
+			return "redirect:/restaurantes/{restauranteId}/ingredientes";
 		}
 			
 	}
 	
 	@GetMapping(path="/delete/{ingredienteId}")
-	public String borrarIngrediente(@PathVariable("restaurantesId") int restauranteId, @PathVariable("ingredienteId") int id, ModelMap modelMap) {
+	public String borrarIngrediente(@PathVariable("restauranteId") int restauranteId, @PathVariable("ingredienteId") int id, ModelMap modelMap) {
 		String vista;
 		Optional<Ingrediente> ingrediente = ingService.findIngredienteById(id);
 		if(ingrediente.isPresent()) {
