@@ -90,8 +90,9 @@ public class RestauranteController {
 			Restaurante resToUpdate = restauranteService.findRestauranteById(restauranteId).get();
 			if(resToUpdate.getVersion() != version) {
 				log.error("Las versiones de los restaurantes no coinciden: resToUpdate:" + resToUpdate.getVersion() + " Restaurante " + version);
+				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				modelMap.addAttribute("restaurante", restaurante);
-				return "restaurantes/listadoRestaurantes";
+				return listadoRestaurantes(modelMap);
 			}
 			restauranteService.save(restaurante);
 			modelMap.addAttribute("message", "Restaurante guardado con exito");
