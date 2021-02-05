@@ -29,7 +29,7 @@
         				<label class="col-sm-2 control-label">Descuento</label>
 
         				<div class="col-sm-10">
-        					<input type="number" name="descuento" value="${oferta.descuento}">
+        					<input type="number" name="descuento" value="${oferta.descuento}" step=".01">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
@@ -48,7 +48,7 @@
         				<label class="col-sm-2 control-label">Precio mínimo</label>
 
         				<div class="col-sm-10">
-        					<input type="number" name="minPrice" value="${oferta.minPrice}">
+        					<input type="number" name="minPrice" value="${oferta.minPrice}" step=".01">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
