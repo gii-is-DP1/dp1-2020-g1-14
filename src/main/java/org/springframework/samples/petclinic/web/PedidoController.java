@@ -168,19 +168,20 @@ public class PedidoController {
 
 	@GetMapping(path = "/cancel/{pedidoId}")
 	public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
-			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
+			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) throws CantCancelOrderException {
 		String view = "pedidos/listadoPedidos";
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 
 		if (pedido.isPresent()) {
-			try {
+			if (pedido.get().getEstado() == Estado.EN_REPARTO || pedido.get().getEstado() == Estado.RECIBIDO) {
+
+				log.error("No se puede cancelar el pedido debido al estado en el que se encuentra");
+				throw new CantCancelOrderException();
+			} else {
 				pedidoService.delete(pedido.get());
-			} catch (CantCancelOrderException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				view = "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
+				log.info("Pedido eliminado con éxito");
 			}
-			view = "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
-			log.info("Pedido eliminado con éxito");
 		} else {
 			modelMap.addAttribute("message", "No se encontró el pedido");
 			view = listadoPedidos(modelMap, restauranteId, usuario);

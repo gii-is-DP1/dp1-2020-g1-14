@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -45,6 +44,6 @@ public class Producto extends NamedEntity {
 	@ManyToOne
     private Restaurante restaurante;
 	
-	@OneToMany(mappedBy="producto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="producto")
 	private Set<LineaPedido> lineaPedido;
 }

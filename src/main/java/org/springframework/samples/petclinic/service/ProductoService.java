@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.repository.ProductoRepository;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
@@ -17,6 +18,8 @@ import ch.qos.logback.classic.Logger;
 public class ProductoService {
 	@Autowired
 	private ProductoRepository productoRepo;
+	@Autowired
+	private LineaPedidoService lineaPedidoService;
 	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(ProductoService.class);
 	
@@ -57,6 +60,11 @@ public class ProductoService {
 		productoRepo.save(producto);
 	}
 	public void delete(Producto producto) {
+		Iterable<LineaPedido> lineaPedido = lineaPedidoService.findLineaPedidoByProductoId(producto.getId());
+		for(LineaPedido i:lineaPedido) {
+			lineaPedidoService.delete(i);
+		}
+		
 		
 		log.info("Eliminado un elemento");
 		productoRepo.delete(producto);
