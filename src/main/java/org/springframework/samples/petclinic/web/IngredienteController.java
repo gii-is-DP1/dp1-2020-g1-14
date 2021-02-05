@@ -119,6 +119,19 @@ public class IngredienteController {
 			log.warn("Error de validación");
 			return "ingredientes/editarIngrediente";
 		}else {
+			Ingrediente ingToUpdate = ingService.findIngredienteById(ingredienteId).get();
+			if(ingToUpdate.getVersion() != version) {
+				log.error("Las versiones de ingrediente no coinciden: ingToUpdate version " + ingToUpdate.getVersion() + " ingrediente version "+version);
+				EnumSet<Medida> set = EnumSet.allOf(Medida.class);
+				ArrayList<String> medidas = new ArrayList<String>();
+				for(Medida medida: set) {
+					medidas.add(medida.toString());
+				}
+				modelMap.addAttribute("medidas", medidas);
+				modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
+				modelMap.addAttribute("ingrediente", ingrediente);
+				return listadoIngredientes(restauranteId, modelMap);
+			}
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
       
