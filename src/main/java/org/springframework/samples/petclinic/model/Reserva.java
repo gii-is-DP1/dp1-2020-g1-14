@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-//@ReservaConstraint(Event = "evento", nPersons = "nPersonas")
 public class Reserva extends BaseEntity{
 	
 	/*@NotNull*/

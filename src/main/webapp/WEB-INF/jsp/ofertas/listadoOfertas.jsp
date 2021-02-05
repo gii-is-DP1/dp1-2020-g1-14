@@ -11,7 +11,7 @@
     
     <h2>Ofertas</h2>
 	
-	<spring:url value="/restaurantes/${restaurante.id}/ofertas/new" var="ofertaUrl">
+	<spring:url value="/restaurantes/${restauranteId}/ofertas/new" var="ofertaUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Agregar oferta</a>
     
@@ -30,7 +30,7 @@
         </thead>
         <tbody>
         
-        <c:forEach items="${restaurante.ofertas}" var="oferta">
+        <c:forEach items="${ofertas}" var="oferta">
             <tr>
                 <td>
                     <c:out value="${oferta.id}"/>
@@ -54,13 +54,13 @@
 					
 				<td>
 				
-				<spring:url value="/restaurantes/${restaurante.id}/ofertas/delete/{ofertaId}" var="ofertaUrl">
+				<spring:url value="/restaurantes/${restauranteId}/ofertas/delete/{ofertaId}" var="ofertaUrl">
                         <spring:param name="ofertaId" value="${oferta.id}"/>
                     </spring:url>
                     
                     <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Eliminar</a>
                     
-                     <spring:url value="/restaurantes/${restaurante.id}/ofertas/edit/{ofertaId}" var="ofertaUrl">
+                     <spring:url value="/restaurantes/${restauranteId}/ofertas/edit/{ofertaId}" var="ofertaUrl">
         				<spring:param name="ofertaId" value="${oferta.id}"/>
     				</spring:url>
     				

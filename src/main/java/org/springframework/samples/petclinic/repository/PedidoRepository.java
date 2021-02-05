@@ -18,4 +18,6 @@ public interface PedidoRepository extends CrudRepository<Pedido,Integer> {
 	@Query("SELECT o FROM Oferta o")
 	public Iterable<Oferta> getAllOfertas();
 	
+	@Query("SELECT p FROM Pedido p WHERE p.restaurante.id =:restauranteId") 
+	public Iterable<Pedido> findPedidosByRestauranteId(@Param("restauranteId") Integer restauranteId);
 }

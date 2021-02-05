@@ -18,6 +18,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${reclamacion.id}"/>
+                    <input type="hidden" name="restaurante" value="${restaurante}"/>
                     <button class="btn btn-default" type="submit">Guardar Reclamacion</button>
                 </div>
             </div>

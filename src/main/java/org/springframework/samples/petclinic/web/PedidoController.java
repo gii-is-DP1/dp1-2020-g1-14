@@ -13,7 +13,6 @@ import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.PedidoService;
@@ -72,8 +71,9 @@ public class PedidoController {
 	@GetMapping()
 	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String vista = "pedidos/listadoPedidos";
-		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
-		modelMap.addAttribute("restaurante", restaurante);
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByRestauranteId(restauranteId);
+		modelMap.addAttribute("restauranteId", restauranteId);
+		modelMap.addAttribute("pedidos", pedidos);
 		modelMap.addAttribute("name", usuario);
 		log.info("listando pedidos de un restaurante indicado y usuario actual");
 		return vista;
@@ -96,7 +96,7 @@ public class PedidoController {
 		String view = "pedidos/listadoPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("pedido", pedido);
-			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			modelMap.addAttribute("restauranteId", restauranteId);
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 
 			return "pedidos/nuevoPedido";
@@ -119,11 +119,10 @@ public class PedidoController {
 			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
 		String view;
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
 		if(pedido.get().getEstado() == Estado.SIN_VERIFICAR) {
 			if(pedido.get().getPrice() != null) {
 				view = "pedidos/selectOferta";
-				modelMap.addAttribute("restaurante", restaurante.get());
+				modelMap.addAttribute("restauranteId", restauranteId);
 				modelMap.addAttribute("pedido", pedido.get());
 			}else {
 				modelMap.addAttribute("message", "Agrega productos y refresca el pedido antes de añadir una oferta");
@@ -141,7 +140,6 @@ public class PedidoController {
 	@PostMapping(path = "/{pedidoId}/oferta")
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
-		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		// modelMap.addAttribute("pedido", pedido.get());
 		// pedido.get().setOferta(oferta);
@@ -150,7 +148,7 @@ public class PedidoController {
 		if(oferta != null) {
 			if(pedido.get().getPrice() < oferta.getMinPrice()) {
 				modelMap.addAttribute("message","Esta oferta solo es aplicable para pedidos con un precio mayor o igual a " + oferta.getMinPrice());
-				modelMap.addAttribute("restaurante",restaurante.get());
+				modelMap.addAttribute("restauranteId",restauranteId);
 				modelMap.addAttribute("pedido",pedido.get());
 				return "pedidos/selectOferta";
 			}
@@ -161,7 +159,7 @@ public class PedidoController {
 			log.info("Oferta añadida con éxito");
 			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}else {
-			modelMap.addAttribute("restaurante", restaurante.get());
+			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("pedido", pedido.get());
 			modelMap.addAttribute("message","Selecciona una oferta");
 			return "pedidos/selectOferta";

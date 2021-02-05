@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -55,7 +54,6 @@ public class Pedido extends BaseEntity {
 	private Oferta oferta;
 	
 	@ManyToOne
-	@JoinColumn(name="restaurante_id")
 	private Restaurante restaurante;
 	
 	private Boolean checkea;

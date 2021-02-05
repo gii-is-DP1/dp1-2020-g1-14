@@ -49,6 +49,8 @@ private static final String VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM = "reservas/edi
 	public String listadoReservas(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap) {
 		String vista = "reservas/listadoReservas";
 		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		Iterable<Reserva> reservas = reservaService.findReservasByRestauranteIdYCliente(restauranteId, usuario);
+		modelMap.addAttribute("reservas", reservas);
 		modelMap.addAttribute("restaurante", restaurante);
 		modelMap.addAttribute("name", usuario);
 		log.info("listando reserva de un restaurante indicado del usuario actual");

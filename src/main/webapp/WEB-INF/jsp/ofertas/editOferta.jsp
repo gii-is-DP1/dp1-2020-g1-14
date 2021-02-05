@@ -10,10 +10,10 @@
         <h2>Ofertas</h2>
         <c:choose>
         	<c:when test="${oferta['new']}">
-            	<c:set var="action" value="/restaurantes/${restaurante.id}/ofertas/save"/>
+            	<c:set var="action" value="/restaurantes/${restauranteId}/ofertas/save"/>
             </c:when>
             <c:otherwise>
-                <c:set var="action" value="/restaurantes/${restaurante.id}/ofertas/save/${oferta.id}"/>
+                <c:set var="action" value="/restaurantes/${restauranteId}/ofertas/save/${oferta.id}"/>
             </c:otherwise>
        </c:choose>
               
@@ -97,7 +97,7 @@
                     	</c:otherwise>
                     </c:choose>
                     
-                    <spring:url value="/restaurantes/${restaurante.id}/ofertas" var="ofertaUrl">
+                    <spring:url value="/restaurantes/${restauranteId}/ofertas" var="ofertaUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Volver atrás</a>
                 </div>

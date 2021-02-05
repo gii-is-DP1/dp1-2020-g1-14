@@ -9,10 +9,10 @@
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
-	<spring:url value="/restaurantes/${restaurante.id}/reservas/${name}/new" var="reservaUrl">
+	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
-	<spring:url value="/restaurantes/${restaurante.id}/reservas/${name}"  var="reservaUrl1">
+	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}"  var="reservaUrl1">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl1)}" class="btn btn-default">Refrescar página</a>
     <table id="reservaTable" class="table table-striped">
@@ -28,7 +28,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${restaurante.reservas}" var="reserva">
+        <c:forEach items="${reservas}" var="reserva">
             <c:if test="${reserva.cliente.user.username==name}">
 	            <tr>
 	                <td>
@@ -47,7 +47,7 @@
 	                    <c:out value="${reserva.nPersonas}"/>
 	                </td>
 					<td>
-					<spring:url value="/restaurantes/${restaurante.id}/reservas/${name}/delete/{reservaId}" var="reservaUrl">
+					<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/delete/{reservaId}" var="reservaUrl">
 	                        <spring:param name="reservaId" value="${reserva.id}"/>
 	                    </spring:url>
 	                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>

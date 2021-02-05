@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Oferta;
-import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.RestauranteService;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ch.qos.logback.classic.Logger;
 
 @Controller
-@RequestMapping("/restaurantes/{restaurantesId}/ofertas")
+@RequestMapping("/restaurantes/{restauranteId}/ofertas")
 public class OfertaController {
 	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(OfertaController.class);
@@ -36,11 +35,11 @@ public class OfertaController {
 	private RestauranteService resService;
 	
 	@GetMapping()
-	public String listadoOfertas(ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String listadoOfertas(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String vista = "ofertas/listadoOfertas";
-		Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
-//		Iterable<Oferta> ofertas = ofertaService.findAll();
-		modelMap.addAttribute("restaurante", restaurante);
+		Iterable<Oferta> ofertas = ofertaService.findOfertasByRestauranteId(restauranteId);
+		modelMap.addAttribute("ofertas", ofertas);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		
 		log.info("Mostrando lista de ofertas");
 		
@@ -48,9 +47,10 @@ public class OfertaController {
 	}
 	
 	@GetMapping(path="/new")
-	public String crearOferta(ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String crearOferta(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view ="ofertas/editOferta";
 		Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
+		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("restaurante", restaurante);
 		modelMap.addAttribute("oferta", new Oferta());
 		
@@ -60,14 +60,14 @@ public class OfertaController {
 	}
 	
 	@PostMapping(path="/save/{ofertaId}")
-	public String salvarOferta(@Valid Oferta oferta, BindingResult result, ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId, 
+	public String salvarOferta(@Valid Oferta oferta, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, 
 								@RequestParam(value = "version", required = false) Integer version, @PathVariable("ofertaId") int ofertaId) {
-//	String view;
 	if(result.hasErrors())
 	{
 		Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
-		modelMap.addAttribute("restaurante", restaurante);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("oferta", oferta);
+		modelMap.addAttribute("restaurante", restaurante);
 		
 		log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 		
@@ -77,29 +77,28 @@ public class OfertaController {
 		if(ofertaToUpdate.getVersion() != version) {
 			log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + ofertaToUpdate.getVersion() + " oferta version "+version);
 			Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
-			modelMap.addAttribute("restaurante", restaurante);
+			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("oferta", oferta);
+			modelMap.addAttribute("restaurante", restaurante);
 			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 			return "ofertas/editOferta";
 		}
 		ofertaService.save(oferta);
 		modelMap.addAttribute("message", "Offer successfully saved!");
-//		view=listadoOfertas(modelMap, restauranteId);
 		
 		log.info("Oferta creada con éxito con id "+ofertaId);
-		return "redirect:/restaurantes/{restaurantesId}/ofertas";
+		return "redirect:/restaurantes/{restauranteId}/ofertas";
 	}
-//	return view;
 	}
 	
 	@PostMapping(path="/save")
-	public String salvarOferta(@Valid Oferta oferta, BindingResult result, ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
-//	String view;
+	public String salvarOferta(@Valid Oferta oferta, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 	if(result.hasErrors())
 	{
 		Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
-		modelMap.addAttribute("restaurante", restaurante);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("oferta", oferta);
+		modelMap.addAttribute("restaurante", restaurante);
 		
 		log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 		
@@ -110,13 +109,12 @@ public class OfertaController {
 //		view=listadoOfertas(modelMap, restauranteId);
 		
 		log.info("Oferta creada con éxito");
-		return "redirect:/restaurantes/{restaurantesId}/ofertas";
+		return "redirect:/restaurantes/{restauranteId}/ofertas";
 	}
-//	return view;
 	}
 	
 	@GetMapping(path="delete/{ofertaId}")
-	public String borrarOferta(@PathVariable("ofertaId") int ofertaId, ModelMap modelMap, @PathVariable("restaurantesId") int restauranteId) {
+	public String borrarOferta(@PathVariable("ofertaId") int ofertaId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 	String view="ofertas/listadoOferta";
 	Optional<Oferta> oferta= ofertaService.findOfertaById(ofertaId);
 	if(oferta.isPresent()) {
@@ -135,10 +133,11 @@ public class OfertaController {
 }
 	
 	@GetMapping(path="/edit/{ofertaId}") 
-	public String initUpdateForm(@PathVariable("ofertaId") int ofertaId, ModelMap model, @PathVariable("restaurantesId") int restauranteId) {
+	public String initUpdateForm(@PathVariable("ofertaId") int ofertaId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Oferta oferta= this.ofertaService.findOfertaById(ofertaId).get();
 		Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
 		model.addAttribute("oferta", oferta);
+		model.addAttribute("restauranteId", restauranteId);
 		model.addAttribute("restaurante", restaurante);
 		
 		log.info("Operación para editar oferta en ejecucion");
