@@ -28,8 +28,11 @@ import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.PedidoService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.VetService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -42,7 +45,7 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 public class PedidoControllerTest {
 
 	private static final int TEST_PEDIDO_ID = 1;
-	private static final int TEST_CLIENTE_ID = 1;
+	private static final int TEST_CLIENTE_ID = 10;
 	
 	@Autowired
 	private PedidoController pedidoController;
@@ -52,24 +55,36 @@ public class PedidoControllerTest {
 	
 	@MockBean
 	private ClienteService clienteService;
+	
+	@MockBean
+	private UserService userService;
+	        
+	@MockBean
+	private AuthoritiesService authoritiesService; 
 
 	@Autowired
 	private MockMvc mockMvc;
 	
 	private Cliente juan;
 	private Pedido ped1;
-	
+	private User cliente1;
+
 
 	@BeforeEach
 	void setup() {
 	
+		cliente1=new User();
+		cliente1.setEnabled(true);
+		cliente1.setPassword("cliente1");
+		cliente1.setrDate(LocalDate.of(2000, 10, 11));
+		cliente1.setUsername("cliente1");
+		
 		juan = new Cliente();
-		juan.setEsSocio(true);
 		juan.setId(TEST_CLIENTE_ID);
+		juan.setEsSocio(true);
 		juan.setNumPedidos(12);
-		juan.getUser().setPassword("pass1");
-		juan.getUser().setrDate(LocalDate.of(2000, 10, 11));
 		juan.setTlf("954765812");
+		juan.setUser(cliente1);
 		
 		Pedido ped1 = new Pedido();
 		ped1.setAdress("Calle A");
@@ -104,7 +119,6 @@ public class PedidoControllerTest {
 			.andExpect(status().is2xxSuccessful());
 }
 
-		
 	
 	//TEST LISTAR PEDIDOS
 		@WithMockUser(value = "spring")
@@ -116,9 +130,7 @@ public class PedidoControllerTest {
 	
 	
 	
-	
-	
-	
+		
 	
 	
 	
