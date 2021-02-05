@@ -11,4 +11,7 @@ public interface ReservaRepository extends CrudRepository<Reserva, Integer>{
 	
 	@Query("SELECT r FROM Reserva r WHERE r.restaurante.id =:restauranteId") 
 	public Iterable<Reserva> findReservasByRestauranteId(@Param("restauranteId") Integer restauranteId);
+	
+	@Query("SELECT r FROM Reserva r WHERE r.cliente.id =:clienteId") 
+	public Iterable<Reserva> findReservasByClienteId(@Param("clienteId") Integer clienteId);
 }

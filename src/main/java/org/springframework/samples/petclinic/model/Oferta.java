@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -30,11 +29,6 @@ public class Oferta extends BaseEntity {
 	}
 	@NotNull(message="El campo no puede estar vacío")
 	private String descripcion;
-	/*
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="productoId")
-	private Producto producto;
-	*/
 	
 	@NotNull(message="Agrega un descuento")
 	@Min(value=1)
@@ -55,7 +49,7 @@ public class Oferta extends BaseEntity {
 		this.descripcion = descripcion;
 	}
 	
-	@OneToMany(mappedBy="oferta", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="oferta")
 	private List<Pedido> pedidos;
 	
 	@ManyToOne

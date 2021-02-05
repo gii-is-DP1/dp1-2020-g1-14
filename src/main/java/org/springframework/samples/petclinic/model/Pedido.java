@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -52,7 +51,7 @@ public class Pedido extends BaseEntity {
 	private Estado estado;
 	
 	
-	@OneToMany(mappedBy="pedido", cascade= CascadeType.ALL, fetch= FetchType.EAGER)
+	@OneToMany(mappedBy="pedido",  fetch= FetchType.EAGER)
 	private List<LineaPedido> lineaPedido;
 	
 	@ManyToOne

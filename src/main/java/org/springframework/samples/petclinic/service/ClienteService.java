@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.samples.petclinic.web.ClienteController;
@@ -25,6 +26,8 @@ public class ClienteService {
 	private AuthoritiesService authoritiesService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ReservaService reservaService;
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(ClienteService.class);
 
@@ -74,7 +77,12 @@ public class ClienteService {
 
 	@Transactional
 	public void delete(Cliente cliente) {
-
+		Iterable<Reserva> reservas = reservaService.findReservasByClienteId(cliente.getId());
+		for(Reserva r:reservas) {
+			reservaService.delete(r);
+		}
+		userService.delete(cliente.getUser());
+		
 		log.info("Eliminado un elemento");
 		clienteRepo.delete(cliente);
 	}
