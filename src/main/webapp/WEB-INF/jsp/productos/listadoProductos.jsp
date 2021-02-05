@@ -40,7 +40,7 @@
                     </spring:url>
                     <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Eliminar producto</a>
                 
-                 <spring:url value="/restaurantes/${restauranteId}/productos/{productoId}/edit" var="productoUrl">
+                 <spring:url value="/restaurantes/${restauranteId}/productos/edit/{productoId}" var="productoUrl">
         				<spring:param name="productoId" value="${producto.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Editar producto</a>

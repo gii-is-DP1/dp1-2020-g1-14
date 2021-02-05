@@ -9,7 +9,15 @@
     <jsp:body>
         <h2>Productos</h2>
         
-        <form:form modelAttribute="producto" class="form-horizontal" action="/restaurantes/${restauranteId}/productos/save">
+        <c:choose>
+        	<c:when test="${oferta['new']}">
+            	<c:set var="action" value="/restaurantes/${restauranteId}/productos/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/restaurantes/${restauranteId}/productos/save/{productoId}"/>
+            </c:otherwise>
+       </c:choose>
+        <form:form modelAttribute="producto" class="form-horizontal" action="${action}">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Name" name="name"/>
                 
@@ -49,7 +57,7 @@
                     	</c:otherwise>
                     </c:choose>
                     
-                    <spring:url value="/productos" var="productoUrl">
+                    <spring:url value="/restaurantes/${restauranteId}/productos" var="productoUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Volver atrás</a>
                 </div>
