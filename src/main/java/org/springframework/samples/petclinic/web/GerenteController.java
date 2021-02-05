@@ -45,7 +45,7 @@ public class GerenteController {
 		return view;
 	}
 	
-	//Hay que cambiar obligatoriamente el usuario del user porque si no se cre un nuevo ususario con el mismo nombre, 
+	//Hay que cambiar obligatoriamente el usuario del user porque si no se crea un nuevo ususario con el mismo nombre, 
 	//provocando que haya errores en la tabla de authorities
 	@PostMapping(path="/save/{gerenteId}")
 	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap,
