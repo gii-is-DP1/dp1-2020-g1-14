@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/restaurantes/{restaurantesId}/ingredientes")
+@RequestMapping("/restaurantes/{restauranteId}/ingredientes")
 public class IngredienteController {
 
 	private static final String VIEWS_INGREDIENTES_CREATE_OR_UPDATE_FORM = "ingredientes/editarIngrediente";
