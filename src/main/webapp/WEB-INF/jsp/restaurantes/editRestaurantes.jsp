@@ -14,11 +14,11 @@
           		<c:set var="action" value="/restaurantes/save" />
           	</c:when>
           	<c:otherwise>
-          		<c:set var ="action" value= "restaurantes/save/${restaurante.id}"/>
+          		<c:set var ="action" value= "/restaurantes/save/${restaurante.id}"/>
           	</c:otherwise>
           </c:choose>
           
-		<form:form modelAttribute="restaurante" class="form-horizontal" action= "/restaurantes/save">
+		<form:form modelAttribute="restaurante" class="form-horizontal" action= "${action}">
             <div class="form-group has-feedback">
             	<petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Tipo" name="tipo"/>
