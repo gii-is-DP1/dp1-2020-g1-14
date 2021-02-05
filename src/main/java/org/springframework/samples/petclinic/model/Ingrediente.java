@@ -8,10 +8,22 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Ingrediente extends NamedEntity {
+	
+	@Version
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 	@PositiveOrZero
 	private double stock;

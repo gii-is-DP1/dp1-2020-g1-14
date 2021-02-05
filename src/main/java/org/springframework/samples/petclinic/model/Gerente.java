@@ -4,11 +4,23 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Version;
 
 @Entity
 public class Gerente extends NamedEntity{
+	
+	@Version
+	private Integer version;
 
-//	@NotBlank(message="El número DNI es obligatorio.")
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
+	//	@NotBlank(message="El número DNI es obligatorio.")
 //	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
 	
