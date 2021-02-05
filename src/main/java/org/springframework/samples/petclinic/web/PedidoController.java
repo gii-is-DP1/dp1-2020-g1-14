@@ -54,6 +54,7 @@ public class PedidoController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		Optional<Cliente> cliente = clienteService.findClienteByUsuario(name);
+		log.info("ID DEL CLIENTE: "+cliente.get().getId());
 		List<Oferta> ofertasVIP = (List<Oferta>) ofertaService.findAll();
 		List<Oferta> ofertas = new ArrayList<>();
 		if(!cliente.get().getEsSocio()) {
@@ -131,11 +132,8 @@ public class PedidoController {
 			if(pedidoToUpdate.getVersion() != version) {
 				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + pedidoToUpdate.getVersion() + " oferta version "+version);
 				Restaurante restaurante= this.restauranteService.findRestauranteById(restauranteId).get();
-				modelMap.addAttribute("restauranteId", restauranteId);
-				modelMap.addAttribute("pedido", pedido);
-				modelMap.addAttribute("restaurante", restaurante);
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
-				return "pedidos/";
+				return listadoPedidos(modelMap, restauranteId, usuario);
 			}
 			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
 			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
@@ -144,10 +142,8 @@ public class PedidoController {
 			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.info("Pedido creado con éxito");
-
+			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}
-
-		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 	}
 
 	@GetMapping(path = "/{pedidoId}/oferta")

@@ -10,7 +10,7 @@
         <h2>Productos</h2>
         
         <c:choose>
-        	<c:when test="${oferta['new']}">
+        	<c:when test="${producto['new']}">
             	<c:set var="action" value="/restaurantes/${restauranteId}/productos/save"/>
             </c:when>
             <c:otherwise>
