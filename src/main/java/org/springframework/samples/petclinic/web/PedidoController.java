@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.PedidoService;
@@ -101,6 +102,41 @@ public class PedidoController {
 
 			return "pedidos/nuevoPedido";
 		} else {
+			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
+			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
+			pedidoService.save(pedido);
+			modelMap.addAttribute("message", "Pedido creado con éxito");
+			view = listadoPedidos(modelMap, restauranteId, usuario);
+
+			log.info("Pedido creado con éxito");
+
+		}
+
+		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
+	}
+	
+	@PostMapping(path = "/order/{pedidoId}")
+	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,
+								@PathVariable("userName") String usuario, @RequestParam(value = "version", required = false) Integer version,
+								@PathVariable("pedidoId") int pedidoId)  {
+		String view = "pedidos/listadoPedidos";
+		if (result.hasErrors()) {
+			modelMap.addAttribute("pedido", pedido);
+			modelMap.addAttribute("restauranteId", restauranteId);
+			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
+
+			return "pedidos/nuevoPedido";
+		} else {
+			Pedido pedidoToUpdate = pedidoService.findPedidoById(pedidoId).get();
+			if(pedidoToUpdate.getVersion() != version) {
+				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + pedidoToUpdate.getVersion() + " oferta version "+version);
+				Restaurante restaurante= this.restauranteService.findRestauranteById(restauranteId).get();
+				modelMap.addAttribute("restauranteId", restauranteId);
+				modelMap.addAttribute("pedido", pedido);
+				modelMap.addAttribute("restaurante", restaurante);
+				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
+				return "pedidos/";
+			}
 			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
 			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			pedidoService.save(pedido);
