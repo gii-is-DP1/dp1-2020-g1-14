@@ -76,9 +76,12 @@ public class OfertaController {
 		Oferta ofertaToUpdate = ofertaService.findOfertaById(ofertaId).get();
 		if(ofertaToUpdate.getVersion() != version) {
 			log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + ofertaToUpdate.getVersion() + " oferta version "+version);
+			Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
+			modelMap.addAttribute("restauranteId", restauranteId);
 			modelMap.addAttribute("oferta", oferta);
+			modelMap.addAttribute("restaurante", restaurante);
 			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
-			return listadoOfertas(modelMap, restauranteId);
+			return "ofertas/editOferta";
 		}
 		ofertaService.save(oferta);
 		modelMap.addAttribute("message", "Offer successfully saved!");
