@@ -72,7 +72,6 @@ public class ProductoController {
 			Producto productoToUpdate = productoService.findProductoById(productoId).get();
 			if(productoToUpdate.getVersion() != version) {
 				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + productoToUpdate.getVersion() + " oferta version "+version);
-				modelMap.addAttribute("producto", producto);
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoProductos(modelMap, restauranteId);
 			}

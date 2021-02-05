@@ -12,6 +12,14 @@
     <jsp:body>
         <h2>Pedidos</h2>
         
+        <c:choose>
+        	<c:when test="${pedido['new']}">
+            	<c:set var="action" value="/restaurantes/${restaurante.id}/pedidos/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/restaurantes/${restaurante.id}/pedidos/save/${pedido.id}"/>
+            </c:otherwise>
+       </c:choose>
         <form:form modelAttribute="pedido" class="form-horizontal" action="order">
 
             <div class="form-group has-feedback">
