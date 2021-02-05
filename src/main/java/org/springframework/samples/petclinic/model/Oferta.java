@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -16,6 +17,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Oferta extends BaseEntity {
+	
+	@Version
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 	@NotNull(message="El campo no puede estar vacío")
 	private String descripcion;
 	/*

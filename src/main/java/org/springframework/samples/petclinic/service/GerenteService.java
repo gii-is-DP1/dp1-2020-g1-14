@@ -61,6 +61,13 @@ public class GerenteService {
 	    }
 	    
 	    @Transactional
+	    public void actualiza(Gerente gerente) {
+	    	log.info("Guardando elemento");
+	    	gerenteRepo.save(gerente);
+	    	
+	    }
+	    
+	    @Transactional
 	    public void delete(Gerente gerente) {
 	    	log.info("Eliminado un elemento");
 	    	userService.delete(gerente.getUser());

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 
 
@@ -11,6 +12,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Reclamacion extends BaseEntity{
+	
+	@Version
+	private Integer version;
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 
 	@NotBlank(message="El campo no puede ser nulo o estar vacío")
 	private String descripcion;
