@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import lombok.extern.slf4j.Slf4j;
@@ -74,6 +76,29 @@ public class RestauranteController {
 			log.info("Guardado de cambios realizados");
 			return "redirect:/restaurantes/{restauranteId}";
 		}
+	}
+	
+	@PostMapping(path="/save/{restauranteId}")
+	public String salvarRestaurantes(@Valid Restaurante restaurante, BindingResult res, ModelMap modelMap,
+			@RequestParam(value = "version", required = false) Integer version, @PathVariable("restauranteId") int restauranteId) {
+		String vista = "restaurantes/listadoRestaurantes";
+		if(res.hasErrors()) {
+			modelMap.addAttribute("restaurante", restaurante);
+			log.warn("Error de validación");
+			return "restaurantes/editRestaurantes";
+		}else {
+			Restaurante resToUpdate = restauranteService.findRestauranteById(restauranteId).get();
+			if(resToUpdate.getVersion() != version) {
+				log.error("Las versiones de los restaurantes no coinciden: resToUpdate:" + resToUpdate.getVersion() + " Restaurante " + version);
+				modelMap.addAttribute("restaurante", restaurante);
+				return "restaurantes/listadoRestaurantes";
+			}
+			restauranteService.save(restaurante);
+			modelMap.addAttribute("message", "Restaurante guardado con exito");
+			vista=listadoRestaurantes(modelMap);
+			log.info("Restaurante creado");
+		}
+		return vista;
 	}
 	
 	@PostMapping(path="/save")

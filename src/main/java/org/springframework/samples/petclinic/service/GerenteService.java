@@ -61,7 +61,7 @@ public class GerenteService {
 	    }
 	    
 	    @Transactional
-	    public void actualiza(Gerente gerente) {
+	    public void actualiza(Gerente gerente) {    	
 	    	if(!findGerenteById(gerente.getId()).get().getUser().equals(gerente.getUser())) {
 	    		log.info(findGerenteById(gerente.getId()).get().getUser().getUsername());
 	    		log.info(findGerenteById(gerente.getId()).get().getUser().getPassword());
