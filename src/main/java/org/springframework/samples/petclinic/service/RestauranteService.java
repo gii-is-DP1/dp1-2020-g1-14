@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.repository.RestauranteRepository;
-import org.springframework.samples.petclinic.web.ReservaController;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +33,12 @@ public class RestauranteService {
 	public Optional<Restaurante>findRestauranteById(int id){
 		log.info("obtención de restaurante concreto");
 		return RestaurantRepo.findById(id);
+	}
+	
+    @Transactional(readOnly = true)
+	public Optional<Restaurante> findRestauranteByGerenteUser(String gerenteUser) {
+    	log.info("obtener restaurante por usuario de gerente");
+		return RestaurantRepo.findRestauranteByGerenteUser(gerenteUser);
 	}
 	
 	@Transactional
