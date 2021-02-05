@@ -129,7 +129,7 @@ public class IngredienteController {
 			log.warn("ingrediente no encontrado");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
-//	vista = "redirect:/restaurantes/{restaurantesId}/ingredientes";
+//		vista = "redirect:/restaurantes/{restaurantesId}/ingredientes";
 
 		return vista;
 	}

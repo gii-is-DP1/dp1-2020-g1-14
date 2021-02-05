@@ -8,9 +8,16 @@
 <petclinic:layout pageName="Ofertas">
     <jsp:body>
         <h2>Ofertas</h2>
-        
-                    
-        <form:form modelAttribute="oferta" class="form-horizontal" action="/ofertas/save">
+        <c:choose>
+        	<c:when test="${oferta['new']}">
+            	<c:set var="action" value="/restaurantes/${restaurante.id}/ofertas/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/restaurantes/${restaurante.id}/ofertas/save/${oferta.id}"/>
+            </c:otherwise>
+       </c:choose>
+              
+        <form:form modelAttribute="oferta" class="form-horizontal" action="${action}">
             <div class="form-group has-feedback">
           
                 <petclinic:inputField label="Descripcion" name="descripcion"/>
@@ -22,7 +29,7 @@
         				<label class="col-sm-2 control-label">Descuento</label>
 
         				<div class="col-sm-10">
-        					<input type="number" name="descuento" value="0">
+        					<input type="number" name="descuento" value="${oferta.descuento}">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
@@ -41,7 +48,7 @@
         				<label class="col-sm-2 control-label">Precio mínimo</label>
 
         				<div class="col-sm-10">
-        					<input type="number" name="minPrice" value="0">
+        					<input type="number" name="minPrice" value="${oferta.minPrice}">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>
@@ -79,6 +86,8 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${oferta.id}"/>
+                    <input type="hidden" name="restaurante" value="${restaurante}"/>
+                    <input type="hidden" name="version" value="${oferta.version}"/>
                     <c:choose>
                     	<c:when test="${oferta['new']}">
                     		<button class="btn btn-default" type="submit">Añadir oferta</button>
@@ -88,7 +97,7 @@
                     	</c:otherwise>
                     </c:choose>
                     
-                    <spring:url value="/ofertas" var="ofertaUrl">
+                    <spring:url value="/restaurantes/${restaurante.id}/ofertas" var="ofertaUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Volver atrás</a>
                 </div>
