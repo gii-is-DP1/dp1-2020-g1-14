@@ -33,6 +33,12 @@ public class GerenteService {
 	        return gerenteRepo.findById(id);
 	    }
 	    
+	    @Transactional(readOnly = true)
+		public Optional<Gerente> findGerenteByUsuario(String username) {
+
+			return gerenteRepo.findClienteByUsuario(username);
+		}
+	    
 	    @Transactional
 	    public void save(Gerente gerente) {
 	    	gerenteRepo.save(gerente);

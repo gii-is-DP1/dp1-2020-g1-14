@@ -181,7 +181,7 @@ public class PedidoController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			view = "redirect:/restaurantes/{restauranteId}/pedidos";
+			view = "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 			log.info("Pedido eliminado con éxito");
 		} else {
 			modelMap.addAttribute("message", "No se encontró el pedido");
