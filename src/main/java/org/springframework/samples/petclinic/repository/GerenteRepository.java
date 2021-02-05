@@ -10,5 +10,5 @@ import org.springframework.samples.petclinic.model.Gerente;
 public interface GerenteRepository extends CrudRepository<Gerente,Integer>{
 
 	@Query("SELECT g FROM Gerente g WHERE g.user.username =:username") 
-	public Optional<Gerente> findClienteByUsuario(@Param("username") String username);
+	public Optional<Gerente> findGerenteByUsuario(@Param("username") String username);
 }
