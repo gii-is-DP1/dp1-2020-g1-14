@@ -101,7 +101,7 @@ INSERT INTO proveedor(id,name,tlf,version) VALUES (3,'Nacho','649840037',1);
 
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente1','cliente1',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (10,'cliente1','cliente');
-INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username,version) VALUES (true,'12','954765812',300,'cliente1',1);
+INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username,version) VALUES (false,'12','954765812',300,'cliente1',1);
 INSERT INTO users(username,password,enabled,r_Date) VALUES ('cliente2','cliente2',TRUE,'2020-01-01');
 INSERT INTO authorities(id,username,authority) VALUES (11,'cliente2','cliente');
 INSERT INTO cliente(es_Socio,num_Pedidos,tlf,monedero,username,version) VALUES (true,'12','954357811',100,'cliente2',1);

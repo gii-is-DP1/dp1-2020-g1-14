@@ -11,6 +11,14 @@
     <jsp:body>
         <h2>Clientes</h2>
         
+        <c:choose>
+        	<c:when test="${cliente['new']}">
+            	<c:set var="action" value="/clientes/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/clientes/save/${oferta.id}"/>
+            </c:otherwise>
+       </c:choose>
         <form:form modelAttribute="cliente" class="form-horizontal" action="/clientes/save">
 
             <div class="form-group has-feedback">

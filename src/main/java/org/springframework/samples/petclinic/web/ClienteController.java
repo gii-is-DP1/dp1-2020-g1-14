@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Oferta;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.qos.logback.classic.Logger;
 
@@ -67,6 +70,33 @@ public class ClienteController {
     	}
     	return view;
     }
+    
+    @PostMapping(path="/save/{clienteId}")
+    public String salvarCliente(@Valid Cliente cliente, BindingResult result, ModelMap modelMap,
+    							@RequestParam(value = "version", required = false) Integer version, @PathVariable("clienteId") int clienteId) {
+    	String view="clientes/listadoClientes";
+    	if(result.hasErrors()) {
+    		modelMap.addAttribute("cliente", cliente);
+    		
+    		log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
+    		
+    		return "clientes/editCliente";
+    	}else {
+    		Cliente clienteToUpdate = clienteService.findClienteById(clienteId).get();
+    		if(clienteToUpdate.getVersion() != version) {
+    			log.error("Las versiones de cliente no coinciden: clienteToUpdate version " + clienteToUpdate.getVersion() + " cliente version "+version);
+    			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
+    			return listadoClientes(modelMap);
+    		}
+    		clienteService.update(cliente);
+    		modelMap.addAttribute("message","Event succesfully saved!");
+    		view=listadoClientes(modelMap);
+    		
+    		log.info("Cliente creado con éxito");
+    	}
+    	return view;
+    }
+    
     @GetMapping(path="delete/{clienteId}")
     public String borrarCliente(@PathVariable("clienteId") int clienteId, ModelMap modelMap) {
     String view="clientes/listadoCliente";
