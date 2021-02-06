@@ -62,6 +62,14 @@ public class ClienteService {
 		log.info("Creando authorities");
 		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 	}
+	
+	@Transactional
+	public void update(Cliente cliente) {
+		
+		//crear cliente
+		log.info("Guardando elemento");
+		clienteRepo.save(cliente);
+	}
 
 	@Transactional(readOnly = true)
 	public Optional<Cliente> findClienteById(int id) {
@@ -104,6 +112,7 @@ public class ClienteService {
 			throw new CantBeAMemberException();
 		} else
 			cliente.setEsSocio(true);
+			clienteRepo.save(cliente);
 
 		log.info("Se establece el cliente como socio");
 		return cliente;
