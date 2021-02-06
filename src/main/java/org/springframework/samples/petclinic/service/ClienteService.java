@@ -50,15 +50,15 @@ public class ClienteService {
 
 	@Transactional
 	public void save(Cliente cliente) {
-
-		log.info("Guardando elemento");
-		clienteRepo.save(cliente);
 		// crear usuario
-
 		log.info("Creando usuario");
 		userService.saveUser(cliente.getUser());
+		
+		//crear cliente
+		log.info("Guardando elemento");
+		clienteRepo.save(cliente);
+		
 		// crear authorities
-
 		log.info("Creando authorities");
 		authoritiesService.saveAuthorities(cliente.getUser().getUsername(), "cliente");
 	}
