@@ -62,7 +62,7 @@
     <h2>Productos Disponibles</h2>
 
     <table class="table table-striped">
-        <c:forEach var="producto" items="${restaurante.productos}">
+        <c:forEach var="producto" items="${productos}">
             <tr>
                 <td valign="top">
                     <dl class="dl-horizontal">
