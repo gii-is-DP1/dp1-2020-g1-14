@@ -3,7 +3,6 @@ import java.util.Optional;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Reclamacion;
 import org.springframework.samples.petclinic.repository.ReclamacionRepository;
 import org.springframework.stereotype.Service;
@@ -49,6 +48,7 @@ public class ReclamacionService {
 	
 	@Transactional
 	public void delete(Reclamacion reclamacion) {
+		reclamacion.setRestaurante(null);
 		log.info("Eliminado un elemento");
 		reclamacionRepo.delete(reclamacion);
 	}

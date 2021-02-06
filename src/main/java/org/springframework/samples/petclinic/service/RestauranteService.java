@@ -4,6 +4,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
@@ -35,6 +36,8 @@ public class RestauranteService {
 	private ReclamacionService reclamacionService;
 	@Autowired
 	private IngredienteService ingredienteService;
+	@Autowired
+	private GerenteService gerenteService;
 	
 	@Transactional
 	public int Restaurantscount() {
@@ -67,6 +70,9 @@ public class RestauranteService {
 	
 	@Transactional
 	public void delete(Restaurante restaurante) {
+		Gerente gerente = restaurante.getGerente();
+		gerenteService.delete(gerente);
+		
 		Iterable<Oferta> ofertas = ofertaService.findOfertasByRestauranteId(restaurante.getId());
 		for(Oferta o:ofertas) {
 			ofertaService.delete(o);

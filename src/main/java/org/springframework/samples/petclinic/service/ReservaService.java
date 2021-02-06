@@ -63,6 +63,8 @@ public class ReservaService {
 	
 	@Transactional
 	public void delete(Reserva reserva) {
+		reserva.setRestaurante(null);
+		reserva.setCliente(null);
 		ReservaRepo.delete(reserva);
 		log.info("reserva eliminada");
 	}

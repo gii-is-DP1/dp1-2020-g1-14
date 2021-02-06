@@ -9,10 +9,10 @@ import java.util.Optional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.repository.ClienteRepository;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
-import org.springframework.samples.petclinic.web.ClienteController;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +28,8 @@ public class ClienteService {
 	private UserService userService;
 	@Autowired
 	private ReservaService reservaService;
+	@Autowired
+	private PedidoService pedidoService;
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(ClienteService.class);
 
@@ -80,6 +82,10 @@ public class ClienteService {
 		Iterable<Reserva> reservas = reservaService.findReservasByClienteId(cliente.getId());
 		for(Reserva r:reservas) {
 			reservaService.delete(r);
+		}
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByClienteId(cliente.getId());
+		for(Pedido p:pedidos) {
+			pedidoService.delete(p);
 		}
 		userService.delete(cliente.getUser());
 		
