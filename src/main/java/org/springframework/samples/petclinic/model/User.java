@@ -1,12 +1,9 @@
 package org.springframework.samples.petclinic.model;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -33,7 +30,7 @@ public class User{
 	@DateTimeFormat (pattern = "yyyy/MM/dd")
 	protected LocalDate rDate;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToOne(mappedBy = "user")
 	private Authorities authorities;
 	
 	public LocalDate getrDate() {
