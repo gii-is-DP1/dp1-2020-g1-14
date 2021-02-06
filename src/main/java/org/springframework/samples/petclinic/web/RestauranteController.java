@@ -6,7 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,7 +33,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private RestauranteService restauranteService;
-	//private PropietarioService propietarioService;
+	@Autowired
+	private ProductoService productoService;
+	
 	
 	/*@InitBinder("restaurante")
 	public void initRestauranteBinder(WebDataBinder dataBinder) {
@@ -55,17 +59,17 @@ public class RestauranteController {
 		return view;
 	}
 	
-	@GetMapping(path = "/{restaurantesId}/edit")
-	public String initUpdateForm(@PathVariable("restaurantesId") int restauranteId, ModelMap model) {
+	@GetMapping(path = "/{restauranteId}/edit")
+	public String initUpdateForm(@PathVariable("restauranteId") int restauranteId, ModelMap model) {
 		Restaurante restaurante = this.restauranteService.findRestauranteById(restauranteId).get();
 		model.addAttribute(restaurante);
 		log.info("Inicialización de edición de Restaurante");
 		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
 	}
 	
-	@PostMapping(value = "/{restaurantesId}/edit")
+	@PostMapping(value = "/{restauranteId}/edit")
 	public String processUpdateRestauranteForm(@Valid Restaurante restaurante, BindingResult result,
-			@PathVariable("restaurantesId") int restauranteId) {
+			@PathVariable("restauranteId") int restauranteId) {
 		if (result.hasErrors()) {
 			log.error("error de validación");
 			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
@@ -118,10 +122,10 @@ public class RestauranteController {
 		return vista;
 	}
 	
-	@GetMapping(path="/delete/{restaurantesId}")
-	public String borrarRestaurante(@PathVariable("restaurantesId") int restaurantesId, ModelMap modelMap) {
+	@GetMapping(path="/delete/{restauranteId}")
+	public String borrarRestaurante(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
 		String vista = "restaurantes/listadoRestaurantes";
-		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restaurantesId);
+		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
 		if(restaurante.isPresent()) {
 			restauranteService.delete(restaurante.get());
 			modelMap.addAttribute("message","Restaurante borrado con exito");
@@ -135,10 +139,12 @@ public class RestauranteController {
 		return vista;
 	}
 	
-	@GetMapping("/{restaurantesId}")
-	public ModelAndView showRestaurante(@PathVariable("restaurantesId") int restaurantesId) {
+	@GetMapping("/{restauranteId}")
+	public ModelAndView showRestaurante(@PathVariable("restauranteId") int restauranteId) {
 		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
-		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restaurantesId).get());
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+		mav.addObject("productos",productos);
+		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restauranteId).get());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String name = auth.getName(); //get logged in username
 	    mav.addObject("username", name);

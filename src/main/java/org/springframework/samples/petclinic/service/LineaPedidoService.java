@@ -20,7 +20,7 @@ public class LineaPedidoService {
 
 	@Autowired
 	private LineaPedidoRepository lineaPedidoRepo;
-
+	
 	@Transactional
 	public int pedidoCount() {
 
@@ -47,7 +47,7 @@ public class LineaPedidoService {
 	public Iterable<LineaPedido> findLineaPedidoByPedidoId(Integer pedidoId) {
 
 		log.info("Devolviendo elemento por pedido");
-		return lineaPedidoRepo.findLineaLedidoByProducto(pedidoId);
+		return lineaPedidoRepo.findLineaLedidoByPedido(pedidoId);
 	}
 
 	@Transactional
@@ -66,7 +66,9 @@ public class LineaPedidoService {
 
 	@Transactional
 	public void delete(LineaPedido lp) {
-
+		lp.setProducto(null);
+		lp.setPedido(null);
+		
 		log.info("Eliminado un elemento");
 		lineaPedidoRepo.delete(lp);
 	}

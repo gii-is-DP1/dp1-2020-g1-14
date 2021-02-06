@@ -58,6 +58,7 @@ public class OfertaService {
 	}
 	@Transactional
 	public void delete(Oferta oferta) {
+		oferta.setRestaurante(null);
 		Iterable<Pedido> pedidos = pedidoService.findPedidosByOfertaId(oferta.getId());
 		for(Pedido i:pedidos) {
 			pedidoService.delete(i);

@@ -1,11 +1,7 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.Min;
@@ -45,13 +41,9 @@ public class Cliente extends BaseEntity {
     @Min(value = 0,message="no se puede tener dinero negativo")
     private int monedero;
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-    
-    
-    @OneToMany(mappedBy="cliente", cascade= CascadeType.ALL)
-    private List<Pedido> pedido;
     
     public void addMonedero(int cantidad) {
     	this.monedero= this.monedero + cantidad;

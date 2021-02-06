@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Estado;
+import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
@@ -47,6 +49,8 @@ public class PedidoController {
 	private OfertaService ofertaService;
 	@Autowired
 	private ClienteService clienteService;
+	@Autowired
+	private LineaPedidoService lineapedidoService;
 
 
 	@ModelAttribute("ofertas")
@@ -73,9 +77,11 @@ public class PedidoController {
 	@GetMapping()
 	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String vista = "pedidos/listadoPedidos";
-		Iterable<Pedido> pedidos = pedidoService.findPedidosByRestauranteId(restauranteId);
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByUsuarioIdYRestauranteId(usuario, restauranteId);
+		Iterable<LineaPedido> lineaPedidos = lineapedidoService.findAll();
 		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("pedidos", pedidos);
+		modelMap.addAttribute("lineaPedidos", lineaPedidos);
 		modelMap.addAttribute("name", usuario);
 		log.info("listando pedidos de un restaurante indicado y usuario actual");
 		return vista;

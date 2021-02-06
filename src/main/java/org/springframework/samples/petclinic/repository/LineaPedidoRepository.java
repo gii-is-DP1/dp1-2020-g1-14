@@ -15,9 +15,9 @@ public interface LineaPedidoRepository extends CrudRepository<LineaPedido,Intege
 	@Query("SELECT p.name FROM Producto p")
 	public List<String> getAllProductosName();
 	
-	@Query("SELECT lp FROM Linea_Pedido lp WHERE lp.producto.id =:ProductoId") 
+	@Query("SELECT lp FROM LineaPedido lp WHERE lp.producto.id =:ProductoId") 
 	public Iterable<LineaPedido> findLineaLedidoByProducto(@Param("ProductoId") Integer ProductoId);
 	
-	@Query("SELECT lp FROM Linea_Pedido lp WHERE lp.Pedido.id =:PedidoId") 
+	@Query("SELECT lp FROM LineaPedido lp WHERE lp.pedido.id =:PedidoId") 
 	public Iterable<LineaPedido> findLineaLedidoByPedido(@Param("PedidoId") Integer PedidoId);
 }
