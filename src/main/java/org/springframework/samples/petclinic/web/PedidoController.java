@@ -14,7 +14,6 @@ import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
-import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.OfertaService;
@@ -101,7 +100,6 @@ public class PedidoController {
 	@PostMapping(path = "/order")
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario)  {
-		String view = "pedidos/listadoPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("pedido", pedido);
 			modelMap.addAttribute("restauranteId", restauranteId);
@@ -113,8 +111,6 @@ public class PedidoController {
 			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido creado con éxito");
-			view = listadoPedidos(modelMap, restauranteId, usuario);
-
 			log.info("Pedido creado con éxito");
 
 		}
@@ -126,7 +122,6 @@ public class PedidoController {
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,
 								@PathVariable("userName") String usuario, @RequestParam(value = "version", required = false) Integer version,
 								@PathVariable("pedidoId") int pedidoId)  {
-		String view = "pedidos/listadoPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("pedido", pedido);
 			modelMap.addAttribute("restauranteId", restauranteId);
@@ -137,7 +132,6 @@ public class PedidoController {
 			Pedido pedidoToUpdate = pedidoService.findPedidoById(pedidoId).get();
 			if(pedidoToUpdate.getVersion() != version) {
 				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + pedidoToUpdate.getVersion() + " oferta version "+version);
-				Restaurante restaurante= this.restauranteService.findRestauranteById(restauranteId).get();
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoPedidos(modelMap, restauranteId, usuario);
 			}
@@ -145,8 +139,6 @@ public class PedidoController {
 			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido creado con éxito");
-			view = listadoPedidos(modelMap, restauranteId, usuario);
-
 			log.info("Pedido creado con éxito");
 			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}
