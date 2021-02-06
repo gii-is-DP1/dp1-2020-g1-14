@@ -24,12 +24,13 @@ public class LineaPedidoServiceTest {
 	@Autowired
 	private ProductoService productoService;
 
+	
 	@Test
 	public void testCountWithInitalData() {
 		int count = lineaPedidoService.pedidoCount();
 		assertEquals(count,5);
 	}
-	
+	//Test para comprobar que se añada una lineaPedido.
 	@Test
 	@Transactional
 	public void shouldInsertLineaPedido() throws WrongDataProductosException {
@@ -50,6 +51,8 @@ public class LineaPedidoServiceTest {
 		assertThat(lps.size()).isEqualTo(found+1);
 	}
 	
+	
+	//Test para comprobar que se elimina una lineaPedido.
 	@Test
 	@Transactional
 	public void shouldDeleteLineaPedido() throws WrongDataProductosException {
@@ -68,6 +71,8 @@ public class LineaPedidoServiceTest {
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
 	}
 	
+	
+	//Test para comprobar que se encuentra una lineaPedido por su id.
 	@Test
 	@Transactional
 	public void shouldFindLineaPedidoWithCorrectId() {
@@ -75,6 +80,7 @@ public class LineaPedidoServiceTest {
 		assertThat(lp.get().getCantidad()).isEqualTo(2);
 	}
 	
+	//Test para comprobar que se obtienen todos los productos.
 	@Test
 	@Transactional
 	public void shouldGetAllProductos() {
@@ -83,6 +89,7 @@ public class LineaPedidoServiceTest {
 		assertThat(productos.size()).isEqualTo(ps);
 	}
 	
+	//Test para comprobar que se obtienen todos los nombres de los productos.
 	@Test
 	@Transactional
 	public void shouldGetAllProductosName() {

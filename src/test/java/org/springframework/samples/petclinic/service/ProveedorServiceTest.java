@@ -27,6 +27,8 @@ public class ProveedorServiceTest {
 		int count = proveedorService.proveedorCount();
 		assertEquals(count, 3);
 	}
+	
+	//Test para comprobar que se inserta un proveedor.
 	@Test
 	@Transactional
 	public void shouldInsertProveedor() {
@@ -48,6 +50,7 @@ public class ProveedorServiceTest {
 		assertThat(proveedores.size()).isEqualTo(found+1);
 	}
 	
+	//Test para comprobar que se elimina un proveedor.
 	@Test
 	@Transactional
 	public void shouldDeleteProveedor() {
@@ -63,14 +66,17 @@ public class ProveedorServiceTest {
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
 	}
 	
+	//Test para comprobar que se encuentra un proveedor correctamente por su id.
 	public void shouldFindProveedorWithCorrectId() {
 		Optional<Proveedor> proveedor = this.proveedorService.findProveedorById(1);
 		assertThat(proveedor.get().getName()).isEqualTo("Database");
 		assertThat(proveedor.get().getTlf()).isEqualTo("649983623");
 	}
+	
+	//Test para comprobar que se actualiza un proveedor correctamente.
 	@Test
 	@Transactional
-	public void shouldUpdateProducto() {
+	public void shouldUpdateProveedor() {
 		Optional<Proveedor> proveedor = this.proveedorService.findProveedorById(1);
 		String newName = "Paco Pepe";
 		proveedor.get().setName(newName);

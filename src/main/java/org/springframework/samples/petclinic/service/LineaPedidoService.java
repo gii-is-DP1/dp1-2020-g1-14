@@ -40,14 +40,14 @@ public class LineaPedidoService {
 	public Iterable<LineaPedido> findLineaPedidoByProductoId(Integer productoId) {
 
 		log.info("Devolviendo elemento por producto");
-		return lineaPedidoRepo.findLineaLedidoByProducto(productoId);
+		return lineaPedidoRepo.findLineaPedidoByProducto(productoId);
 	}
 	
 	@Transactional(readOnly = true)
 	public Iterable<LineaPedido> findLineaPedidoByPedidoId(Integer pedidoId) {
 
 		log.info("Devolviendo elemento por pedido");
-		return lineaPedidoRepo.findLineaLedidoByPedido(pedidoId);
+		return lineaPedidoRepo.findLineaPedidoByPedido(pedidoId);
 	}
 
 	@Transactional

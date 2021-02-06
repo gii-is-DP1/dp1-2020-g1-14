@@ -4,16 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Cliente;
+import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductoServiceTest {
 	@Autowired
 	private ProductoService productoService;
+	@Autowired
+	private LineaPedidoService lineaPedidoService;
+	@Autowired
+	private IngredienteService ingredienteService;
 		
 	@Test
 	public void testCountWithInitialData() {
@@ -30,6 +35,7 @@ public class ProductoServiceTest {
 		assertEquals(count, 5);
 	}
 	
+	//Test para comprobar que se inserta un producto correctamente.
 	@Test
 	@Transactional
 	public void shouldInsertProducto() {
@@ -44,17 +50,13 @@ public class ProductoServiceTest {
 			
                                
                 
-		try {
-			this.productoService.save(p);
-		} catch (WrongDataProductosException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.productoService.save(p);
 		assertThat(producto.get().getId().longValue()).isNotEqualTo(0);
 
 		productos = (Collection<Producto>) this.productoService.findAll();
 		assertThat(productos.size()).isEqualTo(found+1);
 	}
+	/*
 	@ParameterizedTest
 	@Transactional
 	@CsvSource({"Bacalao, Pescado, 0.", "T,Frutos secos,5", "Tortilla,2Huevos,5"})
@@ -67,26 +69,32 @@ public class ProductoServiceTest {
 			
                                
                 
-		try {
-			this.productoService.save(p);
-		} catch (WrongDataProductosException e) {
-			//Wrong data!
-			e.printStackTrace();
-		}
+		this.productoService.save(p);
 		Assertions.assertThrows(WrongDataProductosException.class, ()->{
 			this.productoService.save(p);
 		});
 	}
+	*/
 	
+	//Test para comprobar que se elimina un producto correctamente.
 	@ParameterizedTest
 	@CsvSource({"Bacalao, Pescado, 10."})
 	@Transactional
-	public void shouldDeleteProducto(String name, String al, Double pr) throws WrongDataProductosException {
+	public void shouldDeleteProducto(String name, String al, Double pr) {
+		Optional<Ingrediente> i = ingredienteService.findIngredienteById(1);
+		Set<Ingrediente> ing= new HashSet<>();
+		ing.add(i.get());
 		Producto p = new Producto();
 		p.setName(name);
 		p.setAlergenos(al);
 		p.setPrecio(pr);
+		p.setIngredientes(ing);
 		this.productoService.save(p);
+		
+		Set<Producto> pr2 = i.get().getProductos();
+		pr2.add(p);
+		i.get().setProductos(pr2);
+		ingredienteService.save(i.get());
 		
 		Collection<Producto> elementoAñadido = (Collection<Producto>) this.productoService.findAll(); 
 		int found = elementoAñadido.size(); 
@@ -95,6 +103,8 @@ public class ProductoServiceTest {
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
     	
 	}
+	
+	//Test para comprobar que se actualiza un producto correctamente.
 	@Test
 	@Transactional
 	public void shouldUpdateProducto() throws WrongDataProductosException {
@@ -118,6 +128,8 @@ public class ProductoServiceTest {
 		assertThat(producto.get().getAlergenos()).isEqualTo(newAlergeno);
 		assertThat(producto.get().getPrecio()).isEqualTo(newPrecio);
 	}
+	
+	//Test para comprobar que se encuentra un producto por su id
 	@Test
 	@Transactional
 	public void shouldFindProductWithCorrectId() {
@@ -126,6 +138,8 @@ public class ProductoServiceTest {
 		assertThat(producto.get().getAlergenos()).isEqualTo("Lacteos, Huevo y Gluten");
 		assertThat(producto.get().getPrecio()).isEqualTo(6.);
 	}
+	
+	//Test para comprobar el funcionamiento del filtro de precios por producto.
 	@Test
 	@Transactional
 	public void shouldFindProductByPrecio() {
@@ -135,6 +149,8 @@ public class ProductoServiceTest {
 		productos = this.productoService.findProductoByPrecio(2.);
 		assertThat(productos.isEmpty()).isTrue();
 	}
+	
+	//Test para comprobar que se encuentra un producto por su nombre
 	@Test
 	@Transactional
 	public void shouldFindProductoByName() {

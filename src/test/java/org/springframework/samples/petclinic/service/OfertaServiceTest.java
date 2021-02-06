@@ -28,6 +28,8 @@ public class OfertaServiceTest {
 		assertEquals(count, 4);
 	}
 	
+	
+	//Test para comprobar la creación de ofertas.
 	@Test
 	@Transactional
 	public void shouldInsertOferta() {
@@ -49,6 +51,7 @@ public class OfertaServiceTest {
 		assertThat(ofertas.size()).isEqualTo(found+1);
 	}
 	
+	//Test para comprobar que se elimina una oferta
 	@Test
 	@Transactional
 	public void shouldDeleteOferta() {
@@ -67,12 +70,15 @@ public class OfertaServiceTest {
 		assertThat(elementoEliminado.size()).isEqualTo(found-1);
 	}
 	
+	//Test para comprobar que se encuentra correctamente una oferta por su id.
+	
 	public void shouldFindOfertarWithCorrectId() {
 		Optional<Oferta> oferta = this.ofertaService.findOfertaById(1);
 		assertThat(oferta.get().getDescripcion()).isEqualTo("Oferta numero 1");
 		
 	}
 	
+	//Test para comprobar que se actualiza una oferta.
 	@Test
 	@Transactional
 	public void shouldUpdateOferta() {

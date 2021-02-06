@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Estado;
+import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
@@ -30,14 +31,18 @@ public class PedidoServiceTest {
 	
 	@Autowired
 	private PedidoService pedidoService;
+	@Autowired
 	private ProductoService productoService;
+	@Autowired
+	private LineaPedidoService lineaPedidoService;
 
 	@Test
 	public void testCountWithInitalData() {
 		int count = pedidoService.pedidoCount();
 		assertEquals(count,4);
 	}
-	/*
+	
+	//Test para comprobar que se inserta un pedido correctamente.
 	@Test
 	@Transactional
 	public void shouldInsertPedido() {
@@ -58,7 +63,8 @@ public class PedidoServiceTest {
 		assertThat(pedidos.size()).isEqualTo(found+1);
 		
 	}
-	*/
+	
+	//Test parametrizado donde se comprueba que se cancelan los pedidos dependiendo de su estado.
 	@ParameterizedTest
 	@Transactional
 	@CsvSource({"5,PROCESANDO,12,2020-10-04,A","6,PREPARANDO,12,2020-10-05,B"})
@@ -85,6 +91,7 @@ public class PedidoServiceTest {
 		
 	}
 	
+	//Test para encontrar un pedido por su Id.
 	@Test
 	@Transactional
 	public void shouldFindPedidoWithCorrectId() {
@@ -95,7 +102,8 @@ public class PedidoServiceTest {
 		assertThat(pedido.get().getPrice()).isEqualTo(17.3);
 		
 	}
-
+	
+	//Test para verificar el funcionamiento de getTotalPrice, para determinar el dinero exacto a través de un pedido y sus lineas de pedido.
 	@Test
 	public void testGetTotalPrice() throws WrongDataProductosException, MinOrderPriceException  {
 		/*
@@ -143,23 +151,40 @@ public class PedidoServiceTest {
 		productoService.save(pr2);
 		*/
 		Optional<Pedido> pedido = pedidoService.findPedidoById(1);
+		Iterable<LineaPedido> lineasPedido = lineaPedidoService.findLineaPedidoByPedidoId(1);
+		Double suma = 0.;
+		for(LineaPedido l: lineasPedido) {
+			Integer c = l.getCantidad();
+			Double p = l.getProducto().getPrecio();
+			suma += (c*p);
+
+		}
+	
+		Double total = pedidoService.getTotalPrice(pedido.get().getId());
+		assertThat(total).isEqualTo(suma);
+		
+		
+		/*Optional<Pedido> pedido = pedidoService.findPedidoById(1);
 		Integer c1 =pedido.get().getLineaPedido().get(0).getCantidad();
 		Integer c2 =pedido.get().getLineaPedido().get(1).getCantidad();
 		
 		Double p1=pedido.get().getLineaPedido().get(0).getProducto().getPrecio();
 		Double p2=pedido.get().getLineaPedido().get(1).getProducto().getPrecio();
+		*/
 		
 		
-		Double total = pedidoService.getTotalPrice(pedido.get().getId());
-		assertThat(total).isEqualTo(c1*p1+c2*p2);
+		
 	}
 	
+	//Test para comprobar que no se lanza la excepción de precio mínimo.
 	@Test
 	public void minOrderPrice() throws MinOrderPriceException {
 		Double min = 10.;
 		Double total = pedidoService.getTotalPriceE(1);
 		assertThat(total).isGreaterThan(min);
 	}
+	
+	//Test para comprobar que lanza la excepción de precio mínimo.
 	@Test
 	public void shouldThrowMinOrderPriceException() {
 		Assertions.assertThrows(MinOrderPriceException.class, () -> {
@@ -167,6 +192,7 @@ public class PedidoServiceTest {
     	});
 	}
 	
+	//Test para comprobar que se obtienen todos los productos.
 	@Test
 	public void getAllProductsTest() {
 		Collection<Producto> productos = (Collection<Producto>) pedidoService.getAllProductos();
