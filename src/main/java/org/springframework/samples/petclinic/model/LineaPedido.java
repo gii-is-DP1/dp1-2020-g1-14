@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -32,7 +31,6 @@ public class LineaPedido extends BaseEntity {
 	private Integer cantidad;
 	
 	@ManyToOne(optional=true)
-	@JoinColumn(name="pedido_id")
 	private Pedido pedido;
 	
 	@ManyToOne

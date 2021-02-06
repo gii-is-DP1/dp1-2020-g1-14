@@ -48,6 +48,13 @@ public class ReservaService {
 		return ReservaRepo.findReservasByRestauranteId(restauranteId);
 	}
 	
+	@Transactional(readOnly = true)
+	public Iterable<Reserva> findReservasByClienteId(Integer clienteId) {
+
+		log.info("Devolviendo reservas de un cliente");
+		return ReservaRepo.findReservasByClienteId(clienteId);
+	}
+	
 	@Transactional
 	public void save(Reserva reserva) {
 		ReservaRepo.save(reserva);
@@ -56,6 +63,8 @@ public class ReservaService {
 	
 	@Transactional
 	public void delete(Reserva reserva) {
+		reserva.setRestaurante(null);
+		reserva.setCliente(null);
 		ReservaRepo.delete(reserva);
 		log.info("reserva eliminada");
 	}

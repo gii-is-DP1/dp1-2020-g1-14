@@ -10,7 +10,16 @@
     <jsp:body>
         <h2>Ingredientes</h2>
         
-        <form:form modelAttribute="ingrediente" class="form-horizontal" action="/restaurantes/${restauranteId}/ingredientes/save">
+        <c:choose>
+        	<c:when test="${ingrediente['new']}">
+        		<c:set var="action" value= "/restaurantes/${restauranteId}/ingredientes/save"/>
+        	</c:when>
+        	<c:otherwise>
+        		<c:set var="action" value= "/restaurantes/${restauranteId}/ingredientes/save/${ingredienteId}"/>
+        	</c:otherwise>
+        </c:choose>
+        
+        <form:form modelAttribute="ingrediente" class="form-horizontal" action="${action}">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Nombre" name="name"/>
                 <petclinic:inputField label="Stock" name="stock"/>
@@ -21,7 +30,19 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${ingrediente.id}"/>
                     <input type="hidden" name="restaurante" value="${restaurante}"/>
-                    <button class="btn btn-default" type="submit">Guardar Ingrediente</button>
+                    <input type="hidden" name= "version" value="${ingrediente.version}"/>
+                    <c:choose>
+                    	<c:when test="${ingrediente['new']}">
+                    		<button class="btn btn-default" type="submit">Crear ingrediente</button>
+                    	</c:when>
+                    	<c:otherwise>
+                    		<button class="btn btn-default" type="submit">Update ingrediente</button>
+                    	</c:otherwise>
+                    </c:choose>
+                    
+                    <spring:url value="/restaurantes/${restaurante.id}/ingredientes" var="ingredienteUrl">
+                    </spring:url>
+                    <a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Volver atrás</a>
                     
                 </div>
             </div>

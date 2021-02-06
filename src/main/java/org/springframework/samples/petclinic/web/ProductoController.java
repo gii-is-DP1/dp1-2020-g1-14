@@ -60,8 +60,7 @@ public class ProductoController {
 	
 	@PostMapping(path="/save/{productoId}")
 	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,
-								@RequestParam(value = "version", required = false) Integer version, @PathVariable("productoId") int productoId) {
-		String view="productos/listadoProducto";
+								@RequestParam(value = "version", required = false) Integer version, @PathVariable("productoId") int productoId) throws WrongDataProductosException {
 		if(result.hasErrors())
 		{
 			modelMap.addAttribute("producto", producto);
@@ -72,49 +71,39 @@ public class ProductoController {
 		}else {
 			Producto productoToUpdate = productoService.findProductoById(productoId).get();
 			if(productoToUpdate.getVersion() != version) {
-				log.error("Las versiones de producto no coinciden: productoToUpdate version " + productoToUpdate.getVersion() + " producto version "+version);
-				Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
-				modelMap.addAttribute("producto", producto);
-				modelMap.addAttribute("restaurante", restaurante);
+				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + productoToUpdate.getVersion() + " oferta version "+version);
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoProductos(modelMap, restauranteId);
-			}
-			try {
+			}else {
 				productoService.save(producto);
-			} catch (WrongDataProductosException e) {
-				e.printStackTrace();
-				modelMap.addAttribute("producto", producto);
-				log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-				return "productos/editProducto";
+				modelMap.addAttribute("message", "Event successfully saved!");
+				log.info("Producto creado con éxito");
+				return "redirect:/restaurantes/{restauranteId}/productos";
 			}
-			modelMap.addAttribute("message", "Product successfully saved!");
-			view=listadoProductos(modelMap, restauranteId);
-
-			log.info("Producto creado con éxito");
-			return "redirect:/restaurantes/{restauranteId}/productos";
 		}
 	}
 	
 	@PostMapping(path="/save")
-	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) throws WrongDataProductosException {
 		if(result.hasErrors())
 		{
 			modelMap.addAttribute("producto", producto);
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 			return "productos/editProducto";
 		}else {
-			try {
-				productoService.save(producto);
-			} catch (WrongDataProductosException e) {
-				e.printStackTrace();
+			if((producto.getName().length() < 3 || producto.getName().length() > 50) || !producto.getAlergenos().matches("^[a-zA-Z,.!? ]*$")||producto.getPrecio() <= 0) {
+				log.error("No se cumplen las condiciones al crear el producto");
 				modelMap.addAttribute("producto", producto);
 				log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-				return "productos/editProducto";
+				throw new WrongDataProductosException();
+				
+				//return "productos/editProducto";
+			}else {
+				productoService.save(producto);
+				modelMap.addAttribute("message", "Event successfully saved!");
+				log.info("Producto creado con éxito");
+				return "redirect:/restaurantes/{restauranteId}/productos";
 			}
-			modelMap.addAttribute("message", "Event successfully saved!");
-
-			log.info("Producto creado con éxito");
-			return "redirect:/restaurantes/{restauranteId}/productos";
 		}
 	}
 	@GetMapping(path="delete/{productoId}")
@@ -136,33 +125,10 @@ public class ProductoController {
 	public String initUpdateForm(@PathVariable("productoId") int productoId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Producto producto = this.productoService.findProductoById(productoId).get();
 		Restaurante restaurante = resService.findRestauranteById(restauranteId).get();
-		model.addAttribute(producto);
-		model.addAttribute("restauranteId",restauranteId);
+		model.addAttribute("producto", producto);
 		model.addAttribute("restaurante",restaurante);
 		log.info("Operación para editar producto en ejecucion");
 
 		return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
 	}
-//	@PostMapping(value="/{productoId}/edit")
-//	public String processUpdateProductoForm(@Valid Producto producto, BindingResult result, @PathVariable("productoId") int productoId) {
-//		if (result.hasErrors()) {
-//
-//			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-//
-//			return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
-//		}
-//		else {
-//			producto.setId(productoId);
-//			try {
-//				this.productoService.save(producto);
-//			} catch (WrongDataProductosException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//
-//				log.info("Producto editado satisfactoriamente");
-//			}
-//			return "redirect:/productos/{productoId}";
-//		}
-//	}
-
 }

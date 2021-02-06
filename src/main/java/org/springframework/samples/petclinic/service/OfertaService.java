@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Oferta;
+import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.repository.OfertaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ public class OfertaService {
 	
 	@Autowired
 	private OfertaRepository ofertaRepo;
+	@Autowired
+	private PedidoService pedidoService;
 
 	private static final Logger log = (Logger) LoggerFactory.getLogger(OfertaService.class);
 
@@ -55,7 +58,12 @@ public class OfertaService {
 	}
 	@Transactional
 	public void delete(Oferta oferta) {
-
+		oferta.setRestaurante(null);
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByOfertaId(oferta.getId());
+		for(Pedido i:pedidos) {
+			pedidoService.delete(i);
+		}
+		
 		log.info("Eliminado un elemento");
 		ofertaRepo.delete(oferta);
 	}

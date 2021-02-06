@@ -12,17 +12,24 @@
     <jsp:body>
         <h2>Pedidos</h2>
         
+        <c:choose>
+        	<c:when test="${pedido['new']}">
+            	<c:set var="action" value="/restaurantes/${restaurante.id}/pedidos/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/restaurantes/${restaurante.id}/pedidos/save/${pedido.id}"/>
+            </c:otherwise>
+       </c:choose>
         <form:form modelAttribute="pedido" class="form-horizontal" action="order">
 
             <div class="form-group has-feedback">
-            	<petclinic:inputField label="adress" name="adress"/>
-     
-               
+            	<petclinic:inputField label="adress" name="adress"/> 
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${pedido.id}"/>
-                    <input type="hidden" name="id" value="${restauranteId}"/>
+                    <input type="hidden" name="restaurante" value="${restauranteId}"/>
+                    <input type="hidden" name="version" value="${pedido.version}"/>
                     <button class="btn btn-default" type="submit">Encargar pedido</button>
                     
                     <spring:url value="/restaurantes/{restauranteId}/pedidos/${name}/order" var="pedidoUrl">

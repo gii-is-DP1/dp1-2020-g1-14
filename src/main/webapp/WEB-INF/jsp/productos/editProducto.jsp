@@ -10,11 +10,11 @@
         <h2>Productos</h2>
         
         <c:choose>
-        	<c:when test="${oferta['new']}">
+        	<c:when test="${producto['new']}">
             	<c:set var="action" value="/restaurantes/${restauranteId}/productos/save"/>
             </c:when>
             <c:otherwise>
-                <c:set var="action" value="/restaurantes/${restauranteId}/productos/save/${productoId}"/>
+                <c:set var="action" value="/restaurantes/${restauranteId}/productos/save/${producto.id}"/>
             </c:otherwise>
        </c:choose>
         <form:form modelAttribute="producto" class="form-horizontal" action="${action}">
@@ -28,7 +28,7 @@
         				<label class="col-sm-2 control-label">Precio</label>
 
         				<div class="col-sm-10">
-        					<input type="number" name="precio" value="1">
+        					<input type="number" name="precio" value="${producto.precio}" step=".01">
            					<c:if test="${valid}">
                					<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
             				</c:if>

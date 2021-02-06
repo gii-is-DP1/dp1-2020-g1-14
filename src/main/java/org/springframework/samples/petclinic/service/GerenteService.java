@@ -20,6 +20,8 @@ public class GerenteService {
 	private AuthoritiesService authoritiesService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RestauranteService restauranteService;
 	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(GerenteService.class);
 	
@@ -92,6 +94,7 @@ public class GerenteService {
 	    
 	    @Transactional
 	    public void delete(Gerente gerente) {
+	    	restauranteService.findRestauranteByGerenteUser(gerente.getUser().getUsername()).get().setGerente(null);
 	    	log.info("Eliminado un elemento");
 	    	userService.delete(gerente.getUser());
 	    	gerenteRepo.delete(gerente);

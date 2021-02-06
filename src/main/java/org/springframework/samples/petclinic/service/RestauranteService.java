@@ -4,6 +4,13 @@ package org.springframework.samples.petclinic.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Gerente;
+import org.springframework.samples.petclinic.model.Ingrediente;
+import org.springframework.samples.petclinic.model.Oferta;
+import org.springframework.samples.petclinic.model.Pedido;
+import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Reclamacion;
+import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.repository.RestauranteRepository;
 import org.springframework.stereotype.Service;
@@ -17,6 +24,20 @@ public class RestauranteService {
 
 	@Autowired
 	private RestauranteRepository RestaurantRepo;
+	@Autowired
+	private OfertaService ofertaService;
+	@Autowired
+	private PedidoService pedidoService;
+	@Autowired
+	private ReservaService reservaService;
+	@Autowired
+	private ProductoService productoService;
+	@Autowired
+	private ReclamacionService reclamacionService;
+	@Autowired
+	private IngredienteService ingredienteService;
+	@Autowired
+	private GerenteService gerenteService;
 	
 	@Transactional
 	public int Restaurantscount() {
@@ -49,20 +70,36 @@ public class RestauranteService {
 	
 	@Transactional
 	public void delete(Restaurante restaurante) {
+		Gerente gerente = restaurante.getGerente();
+		gerenteService.delete(gerente);
+		
+		Iterable<Oferta> ofertas = ofertaService.findOfertasByRestauranteId(restaurante.getId());
+		for(Oferta o:ofertas) {
+			ofertaService.delete(o);
+		}
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByRestauranteId(restaurante.getId());
+		for(Pedido p:pedidos) {
+			pedidoService.delete(p);
+		}
+		Iterable<Reserva> reservas = reservaService.findReservasByRestauranteId(restaurante.getId());
+		for(Reserva r:reservas) {
+			reservaService.delete(r);
+		}
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restaurante.getId());
+		for(Producto p:productos) {
+			productoService.delete(p);
+		}
+		Iterable<Reclamacion> reclamaciones = reclamacionService.findReclamacionByRestauranteId(restaurante.getId());
+		for(Reclamacion r:reclamaciones) {
+			reclamacionService.delete(r);
+		}
+		Iterable<Ingrediente> ingredientes = ingredienteService.findIngredientesByRestauranteId(restaurante.getId());
+		for(Ingrediente i:ingredientes) {
+			ingredienteService.delete(i);
+		}
+		
 		RestaurantRepo.delete(restaurante);
 		log.info("restaurante elimiinado");
 	}
-	/*@Documented
-	@Constraint(validatedBy = AforoResValidator.class)
-	@Target({ElementType.TYPE})
-	@Retention(RetentionPolicy.RUNTIME)
-	public @interface AforoResConstraint{
-		String message() default "El aforo restante no puede ser mayor que el máximo";
-		String afRes();
-		String afMax();
-		Class<?>[] groups() default {};
-	    Class<? extends Payload>[] payload() default {};
-		
-	}*/
 
 }

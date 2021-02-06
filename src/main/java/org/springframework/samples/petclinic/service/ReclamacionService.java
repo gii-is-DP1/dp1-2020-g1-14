@@ -46,4 +46,11 @@ public class ReclamacionService {
 		reclamacionRepo.save(reclamacion);
 	}
 	
+	@Transactional
+	public void delete(Reclamacion reclamacion) {
+		reclamacion.setRestaurante(null);
+		log.info("Eliminado un elemento");
+		reclamacionRepo.delete(reclamacion);
+	}
+	
 }

@@ -53,7 +53,6 @@
         <tbody>
         <c:forEach items="${pedidos}" var="pedido">
         	<sec:authorize access="hasAuthority('cliente')">
-        	<c:if test="${pedido.cliente.user.username==name}">
 	            <tr>
 	                <td>
 	                    <c:out value="${pedido.adress}"/>
@@ -72,14 +71,18 @@
 	                </td>
 	                
 	                <td>
-	            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
-	                        <c:out value="${lineaPedido.producto.name} "/>
+	            		<c:forEach var="lineaPedido" items="${lineaPedidos}">
+	            			<c:if test="${lineaPedido.pedido.id==pedido.id}">
+	            				<c:out value="${lineapedido.producto.name} "/>
+	            			</c:if>
 	                    </c:forEach>
 	            	</td>
 	            	
 	            	<td>
-	            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
-	                        <c:out value="${lineaPedido.cantidad} "/>
+	            		<c:forEach var="lineaPedido" items="${lineaPedidos}">
+	            			<c:if test="${lineaPedido.pedido.id==pedido.id}">
+	                        	<c:out value="${lineaPedido.cantidad} "/>
+	                        </c:if>
 	                    </c:forEach>
 					</td>
 					
@@ -126,8 +129,7 @@
 	                   <td>
 	                    <c:out value="${pedido.checkea}"/>
 	                </td>
-	              </tr>   
-              </c:if>
+	              </tr>
               </sec:authorize>
               
 
@@ -155,14 +157,19 @@
 		                </td>
 		                
 		                <td>
-		            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
-		                        <c:out value="${lineaPedido.producto.name} "/>
+		            		<c:forEach var="lineaPedido" items="${lineaPedidos}">
+		            			<c:if test="${lineaPedido.pedido.id==pedido.id}">
+	                        		<c:out value="${lineaPedido.producto.name} "/>
+	                        	</c:if>
 		                    </c:forEach>
 		            	</td>
 		            	
 		            	<td>
 		            		<c:forEach var="lineaPedido" items="${pedido.lineaPedido}">
-		                        <c:out value="${lineaPedido.cantidad} "/>
+		            			<c:if test="${lineaPedido.pedido.id==pedido.id}">
+		                        	<c:out value="${lineaPedido.cantidad} "/>
+	                        	</c:if>
+
 		                    </c:forEach>
 						</td>
 						

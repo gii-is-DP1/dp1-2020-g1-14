@@ -2,9 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -13,7 +11,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity
-//@AforoResConstraint(afRes = "aforores", afMax = "aforomax")
 public class Restaurante extends NamedEntity {
 	
 	@Version
@@ -36,10 +33,10 @@ public class Restaurante extends NamedEntity {
     @NotNull
     private int senial;
    
-    @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "restaurante")
     private Set<Reserva> reservas;
      
-	@OneToOne(cascade = CascadeType.ALL, optional=true)
+	@OneToOne(optional=true)
     private Gerente gerente;
 	
     public String getTipo() {
