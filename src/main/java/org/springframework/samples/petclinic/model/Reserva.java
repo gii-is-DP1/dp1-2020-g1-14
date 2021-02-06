@@ -5,23 +5,11 @@ import java.time.LocalTime;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Reserva extends BaseEntity{
-	
-	@Version
-	private Integer version;
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
 	
 	/*@NotNull*/
 	@DateTimeFormat(pattern = "yyyy/MM/dd")

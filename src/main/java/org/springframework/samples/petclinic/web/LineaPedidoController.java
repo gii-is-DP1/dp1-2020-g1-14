@@ -99,7 +99,6 @@ public class LineaPedidoController {
 	@PostMapping(path = "/save")
 	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("pedidoId") int pedidoId, @PathVariable("userName") String usuario) {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		String view = "lineaPedidos/listadoLineaPedidos";
 		if (result.hasErrors()) {
 			modelMap.addAttribute("lineaPedido", lineaPedido);
 			modelMap.addAttribute("name", usuario);
@@ -114,8 +113,6 @@ public class LineaPedidoController {
 			lineaPedidoService.save(lineaPedido);
 			modelMap.addAttribute("message", "Event successfully saved!");
 			modelMap.addAttribute("name", usuario);
-			view = listadoLineaPedidos(modelMap,restauranteId, usuario);
-
 			log.info("Linea de pedido creado con éxito");
 			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}
