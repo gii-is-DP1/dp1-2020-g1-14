@@ -61,6 +61,9 @@ public class AuthoritiesService {
 		}else
 			throw new DataAccessException("User '"+username+"' not found!") {};
 	}
-
-
+	
+	@Transactional
+	 public void delete(Authorities authorities) {
+		 authoritiesRepository.delete(authorities);
+	 }
 }

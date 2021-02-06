@@ -52,7 +52,8 @@ public class UserService {
 	}
 	
 	 @Transactional
-	    public void delete(User user) {
-	    	userRepository.delete(user);
-	    }
+	 public void delete(User user) {
+		 user.getAuthorities().setUser(null);;
+		 userRepository.delete(user);
+	 }
 }
