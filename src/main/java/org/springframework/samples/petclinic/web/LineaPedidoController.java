@@ -7,11 +7,13 @@ import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
@@ -42,6 +44,8 @@ public class LineaPedidoController {
 	private ProductoService productoService;
 	@Autowired
 	private RestauranteService restauranteService;
+	@Autowired
+	private ClienteService clienteService;
 
 
 	@ModelAttribute("nombres")
@@ -72,7 +76,8 @@ public class LineaPedidoController {
 	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId,@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
 		Optional<Restaurante> restaurante = restauranteService.findRestauranteById(restauranteId);
- 		Iterable<Pedido> pedidos =  pedidoService.findAll();
+		Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+ 		Iterable<Pedido> pedidos =  pedidoService.findPedidosByClienteIdYRestauranteId(cliente.getId(), restauranteId);
 		if (pedido.get().getEstado() != Estado.SIN_VERIFICAR) {
 			String view = "pedidos/listadoPedidos";
 			modelMap.addAttribute("pedidos", pedidos);
