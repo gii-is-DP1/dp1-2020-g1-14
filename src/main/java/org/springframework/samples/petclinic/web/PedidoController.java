@@ -14,6 +14,7 @@ import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.OfertaService;
