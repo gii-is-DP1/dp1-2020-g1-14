@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import ch.qos.logback.classic.Logger;
 
@@ -49,9 +50,9 @@ public class ProveedorController {
 		return view;
 	}
 	
-	@PostMapping(path="/save")
-	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
-	String view="proveedores/listadoProveedores";
+	@PostMapping(path="/save/{proveedorId}")
+	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap,
+			@RequestParam(value = "version", required = false) Integer version, @PathVariable("proveedorId") int proveedorId) {
 	if(result.hasErrors())
 	{
 		modelMap.addAttribute("proveedor", proveedor);
@@ -60,14 +61,36 @@ public class ProveedorController {
 		
 		return "proveedores/editProveedor";
 	}else {
+		Proveedor proveedorToUpdate = proveedorService.findProveedorById(proveedorId).get();
+		if(proveedorToUpdate.getVersion() != version) {
+			log.error("Las versiones de proveedor no coinciden: proveedorToUpdate version " + proveedorToUpdate.getVersion() + " oferta version "+version);
+			modelMap.addAttribute("proveedor", proveedor);
+			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
+			return listadoProveedores(modelMap);
+		}
 		proveedorService.save(proveedor);
 		modelMap.addAttribute("message", "Event successfully saved!");
-		view=listadoProveedores(modelMap);
 		
-		log.info("Proveedor creado con éxito");
+		log.info("Proveedor creado con éxito con id "+proveedorId);
+		return "redirect:/proveedores";
 	}
-	return view;
 	}
+	
+	@PostMapping(path="/save")
+	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
+		if(result.hasErrors())
+		{
+			modelMap.addAttribute("proveedor", proveedor);
+			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
+			return "proveedores/editProveedor";
+		}else {
+			proveedorService.save(proveedor);
+			log.info("Proveedor creado con éxito");
+			return "redirect:/proveedores";
+			
+		}		
+	}	
+	
 	@GetMapping(path="delete/{proveedorId}")
 	public String borrarProveedor(@PathVariable("proveedorId") int proveedorId, ModelMap modelMap) {
 	String view="proveedores/listadoProveedores";

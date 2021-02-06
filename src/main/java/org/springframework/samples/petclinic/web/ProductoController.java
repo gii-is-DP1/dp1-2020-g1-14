@@ -72,12 +72,12 @@ public class ProductoController {
 		}else {
 			Producto productoToUpdate = productoService.findProductoById(productoId).get();
 			if(productoToUpdate.getVersion() != version) {
-				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + productoToUpdate.getVersion() + " oferta version "+version);
+				log.error("Las versiones de producto no coinciden: productoToUpdate version " + productoToUpdate.getVersion() + " producto version "+version);
 				Restaurante restaurante= this.resService.findRestauranteById(restauranteId).get();
 				modelMap.addAttribute("producto", producto);
 				modelMap.addAttribute("restaurante", restaurante);
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
-				return "ofertas/editOferta";
+				return listadoProductos(modelMap, restauranteId);
 			}
 			try {
 				productoService.save(producto);
@@ -87,7 +87,7 @@ public class ProductoController {
 				log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
 				return "productos/editProducto";
 			}
-			modelMap.addAttribute("message", "Event successfully saved!");
+			modelMap.addAttribute("message", "Product successfully saved!");
 			view=listadoProductos(modelMap, restauranteId);
 
 			log.info("Producto creado con éxito");
@@ -97,7 +97,6 @@ public class ProductoController {
 	
 	@PostMapping(path="/save")
 	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
-		String view="productos/listadoProducto";
 		if(result.hasErrors())
 		{
 			modelMap.addAttribute("producto", producto);
@@ -113,7 +112,6 @@ public class ProductoController {
 				return "productos/editProducto";
 			}
 			modelMap.addAttribute("message", "Event successfully saved!");
-			view=listadoProductos(modelMap, restauranteId);
 
 			log.info("Producto creado con éxito");
 			return "redirect:/restaurantes/{restauranteId}/productos";
