@@ -136,8 +136,8 @@ INSERT INTO producto(id,name,alergenos,precio,restaurante_id,version) VALUES(4,'
 /*Usado para pruebas en LineaPedido*/---------------------
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id,version) VALUES(5,'Huevos','Frutos secos',10,3,1);
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id,version) VALUES(1,'2020-10-28','Mal trato por parte del camarero.',1,1);
-INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id,version) VALUES(2,'2020-11-15','Comida en mal estado.',2,1);
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(1,'2020-10-28','Mal trato por parte del camarero.',1);
+INSERT INTO reclamacion(id,fecha,descripcion,restaurante_id) VALUES(2,'2020-11-15','Comida en mal estado.',2);
 
 
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(1,'Nata',10,'L', 1,1);
@@ -146,8 +146,8 @@ INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(3,'H
 
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(1,'Calle A',true,'PROCESANDO','2020-08-13',17.3,1,1,1);
-INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id,version) VALUES (1,2,1,1,1);
-INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id,version) VALUES (5,3,1,2,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (5,3,1,2);
 ----------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,version) VALUES(1,'Descuento 3 euros',3.0,false,13.0,1,1);
@@ -156,17 +156,17 @@ INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,v
 INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,version) VALUES(4,'Descuento 15 euros',15.0,true,30.0,1,1);
 
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(2,'Calle B',true,'EN_REPARTO','2020-04-14',20.4,2,2,1);
-INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id,version) VALUES (2,1,2,4,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (2,1,2,4);
 
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(3,'Calle C',true,'RECIBIDO','2020-11-19',16.4,3,3,1);
-INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id,version) VALUES (3,13,3,2,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (3,13,3,2);
 
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(4,'Calle D',true,'PROCESANDO','2020-09-03',11.5,4,3,1);
-INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id,version) VALUES (4,14,4,3,1);
+INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (4,14,4,3);
 
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id,version) VALUES(1,'2000-10-22','12:00','15:00',false,5,1,1,1);
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id,version) VALUES(2,'2000-11-01','13:15','20:45',true,20,1,1,1);
-INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id,version) VALUES(3,'2000-09-30','20:00','22:00',false,4,2,2,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(1,'2000-10-22','12:00','15:00',false,5,1,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(2,'2000-11-01','13:15','20:45',true,20,1,1);
+INSERT INTO reserva(id,fecha,hora_inicio,hora_fin,evento,n_personas,restaurante_id,cliente_id) VALUES(3,'2000-09-30','20:00','22:00',false,4,2,2);
 
 
 

@@ -4,7 +4,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Reclamacion;
-import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ReclamacionService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;

@@ -1,15 +1,12 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Medida;
 import org.springframework.samples.petclinic.model.Restaurante;
@@ -131,6 +128,7 @@ public class IngredienteController {
 				modelMap.addAttribute("medidas", medidas);
 				modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 				modelMap.addAttribute("ingrediente", ingrediente);
+				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoIngredientes(restauranteId, modelMap);
 			}
 			ingService.save(ingrediente);

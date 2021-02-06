@@ -8,8 +8,17 @@
 <petclinic:layout pageName="Proveedores">
     <jsp:body>
         <h2>Proveedores</h2>
+       <c:choose>
+        	<c:when test="${proveedor['new']}">
+            	<c:set var="action" value="/proveedores/save"/>
+            </c:when>
+            <c:otherwise>
+                <c:set var="action" value="/proveedores/save/${proveedor.id}"/>
+            </c:otherwise>
+       </c:choose>        
         
-        <form:form modelAttribute="proveedor" class="form-horizontal" action="/proveedores/save">
+        
+        <form:form modelAttribute="proveedor" class="form-horizontal" action="${action}">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Name" name="name"/>
                 <petclinic:inputField label="Telephone" name="tlf"/>
@@ -18,6 +27,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${proveedor.id}"/>
+                    <input type="hidden" name="version" value="${proveedor.version}"/>
                     <c:choose>
                     	<c:when test="${proveedor['new']}">
                     		<button class="btn btn-default" type="submit">Añadir proveedor</button>

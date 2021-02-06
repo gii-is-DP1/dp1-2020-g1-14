@@ -32,7 +32,7 @@
                     <input type="hidden" name="restaurante" value="${restaurante}"/>
                     <input type="hidden" name= "version" value="${ingrediente.version}"/>
                     <c:choose>
-                    	<c:when test="${oferta['new']}">
+                    	<c:when test="${ingrediente['new']}">
                     		<button class="btn btn-default" type="submit">Crear ingrediente</button>
                     	</c:when>
                     	<c:otherwise>
