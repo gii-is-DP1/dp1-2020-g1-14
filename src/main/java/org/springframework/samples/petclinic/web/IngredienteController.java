@@ -131,6 +131,7 @@ public class IngredienteController {
 				modelMap.addAttribute("medidas", medidas);
 				modelMap.addAttribute("restaurante", resService.findRestauranteById(restauranteId).get());
 				modelMap.addAttribute("ingrediente", ingrediente);
+				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoIngredientes(restauranteId, modelMap);
 			}
 			ingService.save(ingrediente);
