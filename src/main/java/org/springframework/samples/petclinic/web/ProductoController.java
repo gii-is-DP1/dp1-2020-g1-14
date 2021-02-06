@@ -74,14 +74,6 @@ public class ProductoController {
 				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + productoToUpdate.getVersion() + " oferta version "+version);
 				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
 				return listadoProductos(modelMap, restauranteId);
-			}
-			if((producto.getName().length() < 3 || producto.getName().length() > 50) || !producto.getAlergenos().matches("^[a-zA-Z,.!? ]*$")||producto.getPrecio() <= 0) {
-				log.error("No se cumplen las condiciones al crear el producto");
-				modelMap.addAttribute("producto", producto);
-				log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-				throw new WrongDataProductosException();
-				
-				//return "productos/editProducto";
 			}else {
 				productoService.save(producto);
 				modelMap.addAttribute("message", "Event successfully saved!");
@@ -139,26 +131,4 @@ public class ProductoController {
 
 		return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
 	}
-//	@PostMapping(value="/{productoId}/edit")
-//	public String processUpdateProductoForm(@Valid Producto producto, BindingResult result, @PathVariable("productoId") int productoId) {
-//		if (result.hasErrors()) {
-//
-//			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-//
-//			return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
-//		}
-//		else {
-//			producto.setId(productoId);
-//			try {
-//				this.productoService.save(producto);
-//			} catch (WrongDataProductosException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//
-//				log.info("Producto editado satisfactoriamente");
-//			}
-//			return "redirect:/productos/{productoId}";
-//		}
-//	}
-
 }

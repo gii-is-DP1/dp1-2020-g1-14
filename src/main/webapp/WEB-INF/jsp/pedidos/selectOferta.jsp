@@ -24,7 +24,7 @@
                     
                     <button class="btn btn-default" type="submit">Agregar oferta</button>
                     
-                    <spring:url value="/restaurantes/{restauranteId}/pedidos" var="pedidoUrl">
+                    <spring:url value="/restaurantes/{restauranteId}/pedidos/${userName}" var="pedidoUrl">
     					<spring:param name="restauranteId" value="${restauranteId}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(pedidoUrl)}">Volver atrás</a>

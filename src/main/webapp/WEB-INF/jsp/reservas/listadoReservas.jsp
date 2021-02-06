@@ -6,15 +6,20 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="reservas">
     <h2>Reservas</h2>
+    
+    <sec:authorize access="hasAuthority('cliente')">
 	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
 	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}"  var="reservaUrl1">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl1)}" class="btn btn-default">Refrescar página</a>
+    </sec:authorize>                
+                   
     <table id="reservaTable" class="table table-striped">
         <thead>
         <tr>
@@ -29,7 +34,6 @@
         </thead>
         <tbody>
         <c:forEach items="${reservas}" var="reserva">
-            <c:if test="${reserva.cliente.user.username==name}">
 	            <tr>
 	                <td>
 	                    <c:out value="${reserva.fecha}"/>
@@ -53,7 +57,6 @@
 	                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
 	                </td>           
 	            </tr>
-	        </c:if>
         </c:forEach>
        
         </tbody>

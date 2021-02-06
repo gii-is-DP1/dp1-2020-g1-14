@@ -20,6 +20,7 @@ import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.OfertaService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,38 +52,49 @@ public class PedidoController {
 	private ClienteService clienteService;
 	@Autowired
 	private LineaPedidoService lineapedidoService;
+	@Autowired
+	private UserService userService;
 
 
 	@ModelAttribute("ofertas")
 	public Iterable<Oferta> oferta() {
+		List<Oferta> ofertas = new ArrayList<>();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
-		Optional<Cliente> cliente = clienteService.findClienteByUsuario(name);
-		log.info("ID DEL CLIENTE: "+cliente.get().getId());
-		List<Oferta> ofertasVIP = (List<Oferta>) ofertaService.findAll();
-		List<Oferta> ofertas = new ArrayList<>();
-		if(!cliente.get().getEsSocio()) {
-			for(int i=0;i<ofertasVIP.size();i++) {
-				Oferta oferta = ofertasVIP.get(i);
-				if(!oferta.getExclusivo()) {
-					ofertas.add(oferta);
-
+		String autoridad = userService.findUser(auth.getName()).get().getAuthorities().getAuthority();
+		if(autoridad.equals("cliente")) {
+			Optional<Cliente> cliente = clienteService.findClienteByUsuario(name);
+			log.info("ID DEL CLIENTE: "+cliente.get().getId());
+			List<Oferta> ofertasVIP = (List<Oferta>) ofertaService.findAll();
+			if(!cliente.get().getEsSocio()) {
+				for(int i=0;i<ofertasVIP.size();i++) {
+					Oferta oferta = ofertasVIP.get(i);
+					if(!oferta.getExclusivo()) {
+						ofertas.add(oferta);
+					}
 				}
+				return ofertas;
 			}
-			return ofertas;
+			return ofertasVIP;
 		}
-		return ofertasVIP;
+		return ofertas;
 	}
-	
+
 	@GetMapping()
 	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String vista = "pedidos/listadoPedidos";
-		Iterable<Pedido> pedidos = pedidoService.findPedidosByUsuarioIdYRestauranteId(usuario, restauranteId);
+		Iterable<Pedido> pedidos;
+		String autoridad = userService.findUser(usuario).get().getAuthorities().getAuthority();
+		if(autoridad.equals("cliente")) {
+			pedidos = pedidoService.findPedidosByUsuarioIdYRestauranteId(usuario, restauranteId);
+		}else {
+			pedidos = pedidoService.findPedidosByRestauranteId(restauranteId);
+		}
 		Iterable<LineaPedido> lineaPedidos = lineapedidoService.findAll();
 		modelMap.addAttribute("restauranteId", restauranteId);
 		modelMap.addAttribute("pedidos", pedidos);
 		modelMap.addAttribute("lineaPedidos", lineaPedidos);
-		modelMap.addAttribute("name", usuario);
+		modelMap.addAttribute("userName", usuario);
 		log.info("listando pedidos de un restaurante indicado y usuario actual");
 		return vista;
 	}
@@ -90,9 +102,11 @@ public class PedidoController {
 	@GetMapping(path = "/new")
 	public String nuevoPedido(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
 		String view = "pedidos/nuevoPedido";
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 		modelMap.addAttribute("pedido", new Pedido());
 		modelMap.addAttribute("restauranteId", restauranteId);
-		modelMap.addAttribute("name", usuario);
+		modelMap.addAttribute("restaurante", restaurante);
+		modelMap.addAttribute("userName", usuario);
 		log.info("Operación para añadir pedido en ejecucion");
 
 		return view;
@@ -101,56 +115,27 @@ public class PedidoController {
 	@PostMapping(path = "/order")
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario)  {
-		String view = "pedidos/listadoPedidos";
 		if (result.hasErrors()) {
+			log.error(result.toString());
+			Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 			modelMap.addAttribute("pedido", pedido);
 			modelMap.addAttribute("restauranteId", restauranteId);
+			modelMap.addAttribute("restaurante", restaurante);
+			modelMap.addAttribute("message", "Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
+			
 			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-
 			return "pedidos/nuevoPedido";
 		} else {
 			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
 			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			pedidoService.save(pedido);
 			modelMap.addAttribute("message", "Pedido creado con éxito");
-			view = listadoPedidos(modelMap, restauranteId, usuario);
-
-			log.info("Pedido creado con éxito");
-
-		}
-
-		return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
-	}
-	
-	@PostMapping(path = "/order/{pedidoId}")
-	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,
-								@PathVariable("userName") String usuario, @RequestParam(value = "version", required = false) Integer version,
-								@PathVariable("pedidoId") int pedidoId)  {
-		String view = "pedidos/listadoPedidos";
-		if (result.hasErrors()) {
-			modelMap.addAttribute("pedido", pedido);
-			modelMap.addAttribute("restauranteId", restauranteId);
-			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-
-			return "pedidos/nuevoPedido";
-		} else {
-			Pedido pedidoToUpdate = pedidoService.findPedidoById(pedidoId).get();
-			if(pedidoToUpdate.getVersion() != version) {
-				log.error("Las versiones de oferta no coinciden: ofertaToUpdate version " + pedidoToUpdate.getVersion() + " oferta version "+version);
-				Restaurante restaurante= this.restauranteService.findRestauranteById(restauranteId).get();
-				modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
-				return listadoPedidos(modelMap, restauranteId, usuario);
-			}
-			pedido.setRestaurante(restauranteService.findRestauranteById(restauranteId).get());
-			pedido.setCliente(clienteService.findClienteByUsuario(usuario).get());
-			pedidoService.save(pedido);
-			modelMap.addAttribute("message", "Pedido creado con éxito");
-			view = listadoPedidos(modelMap, restauranteId, usuario);
 
 			log.info("Pedido creado con éxito");
 			return "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 		}
 	}
+
 
 	@GetMapping(path = "/{pedidoId}/oferta")
 	public String seleccionaOferta(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
@@ -162,6 +147,7 @@ public class PedidoController {
 				view = "pedidos/selectOferta";
 				modelMap.addAttribute("restauranteId", restauranteId);
 				modelMap.addAttribute("pedido", pedido.get());
+				modelMap.addAttribute("userName", usuario);
 			}else {
 				modelMap.addAttribute("message", "Agrega productos y refresca el pedido antes de añadir una oferta");
 				view = listadoPedidos(modelMap,restauranteId, usuario);
@@ -294,7 +280,7 @@ public class PedidoController {
 				}
 
 			} else {
-				modelMap.addAttribute("message", "El pedido debe se debe de estar sin verificar previamente a procesarlo");
+				modelMap.addAttribute("message", "Este pedido ya ha sido confirmado");
 				view = listadoPedidos(modelMap, restauranteId, usuario);
 
 				log.error("No se puede pasar del estado actual a PROCESANDO");
