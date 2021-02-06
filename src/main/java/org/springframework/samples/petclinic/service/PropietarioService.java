@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Propietario;
 import org.springframework.samples.petclinic.repository.PropietarioRepository;
-import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
