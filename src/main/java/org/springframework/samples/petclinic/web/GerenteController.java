@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,32 +44,7 @@ public class GerenteController {
 		return view;
 	}
 	
-	//Hay que cambiar obligatoriamente el usuario del user porque si no se crea un nuevo ususario con el mismo nombre, 
-	//provocando que haya errores en la tabla de authorities
-	/*@PostMapping(path="/save/{gerenteId}")
-	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap,
-			@RequestParam(value = "version", required = false) Integer version, @PathVariable("gerenteId") int gerenteId) {
-	String view="gerentes/listadoGerentes";
-	if(result.hasErrors())
-	{
-		modelMap.addAttribute("gerentes", gerente);
-		log.warn("Error de validacion");
-		return "gerentes/editarGerente";
-	}else {
-		Gerente gerenteToUpdate = gerenteService.findGerenteById(gerenteId).get();
-		if(gerenteToUpdate.getVersion() != version) {
-			log.error("La version del gerente no coincide: gerenteToUpdate:" + gerenteToUpdate.getVersion() + "Gerente:" + version);
-			modelMap.addAttribute("gerente", gerente);
-			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentelo de nuevo");
-			return "gerentes/editarGerente";
-		}
-		gerenteService.actualiza(gerente);
-		modelMap.addAttribute("message", "Event successfully saved!");
-		log.info("Gerente creado");
-		view=listadoGerentes(modelMap);
-	}
-	return view;
-	}*/
+
 	
 	@PostMapping(path="/save")
 	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap) {

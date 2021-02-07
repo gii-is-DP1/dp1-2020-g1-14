@@ -68,20 +68,12 @@ public class ReservaValidator implements Validator {
 		if(HF.isBefore(HI)) {
 			errors.rejectValue("horaFin", REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin",REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin");
 		}
-		// Aforo validation
-		/*Restaurante res = reserva.getRestaurante();
-		if(res == null) {
-			
-		}else if (nPersonas>res.getAforores()) {
-			errors.rejectValue("nPersonas", REQUIRED+"  No hay aforo suficiente", REQUIRED+"  No hay aforo suficiente");
-		}*/
+
 
 			
 	}
 	
-	/**
-	 * This Validator validates *just* Reserva instances
-	 */
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Reserva.class.isAssignableFrom(clazz);

@@ -36,10 +36,7 @@ public class RestauranteController {
 	private ProductoService productoService;
 	
 	
-	/*@InitBinder("restaurante")
-	public void initRestauranteBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new RestauranteValidator());
-	}*/
+
 	
 	@GetMapping()
 	public String listadoRestaurantes(ModelMap modelMap) {
