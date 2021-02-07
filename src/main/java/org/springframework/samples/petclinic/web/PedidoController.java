@@ -55,7 +55,9 @@ public class PedidoController {
 	@Autowired
 	private UserService userService;
 
-
+	//Obtener todas las ofertas disponibles dependiendo del tipo de cliente.
+	//Los socios tendrán acceso a todas las ofertas.
+	//Los clientes que no son socios solo podrán aplicar algunas.
 	@ModelAttribute("ofertas")
 	public Iterable<Oferta> oferta() {
 		List<Oferta> ofertas = new ArrayList<>();
@@ -80,6 +82,7 @@ public class PedidoController {
 		return ofertas;
 	}
 
+	//Obtener la lista de pedidos por restaurante.
 	@GetMapping()
 	public String listadoPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 		String vista = "pedidos/listadoPedidos";
@@ -98,7 +101,8 @@ public class PedidoController {
 		log.info("listando pedidos de un restaurante indicado y usuario actual");
 		return vista;
 	}
-
+	
+	//Crear un nuevo pedido.
 	@GetMapping(path = "/new")
 	public String nuevoPedido(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
 		String view = "pedidos/nuevoPedido";
@@ -112,6 +116,7 @@ public class PedidoController {
 		return view;
 	}
 
+	//Guardamos el pedido. Se establecerá por defecto en el estado SIN_VERIFICAR.
 	@PostMapping(path = "/order")
 	public String tramitarPedido(@Valid Pedido pedido, BindingResult result, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario)  {
@@ -136,7 +141,10 @@ public class PedidoController {
 		}
 	}
 
-
+	
+	//Pantalla de selección de ofertas disponibles.
+	//Se debe de haber refrescado el pedido previamente para que precio tenga un valor.
+	//Solo se puede añadir ofertas si está sin verificar el pedido.
 	@GetMapping(path = "/{pedidoId}/oferta")
 	public String seleccionaOferta(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId,@PathVariable("userName") String usuario) {
@@ -160,7 +168,10 @@ public class PedidoController {
 		return view;
 	}
 
-
+	
+	//Aplicamos la oferta seleccionada.
+	//Saltará un aviso si no se selecciona ninguna oferta.
+	//Saltará otro aviso si se intenta añadir una oferta cuyo precio mínimo supere al precio actual del pedido.
 	@PostMapping(path = "/{pedidoId}/oferta")
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
@@ -190,6 +201,8 @@ public class PedidoController {
 		}
 	}
 
+	//Cancelar un pedido.
+	//No se podrán cancelar pedidos que se encuentren en reparto o ya se hayan recibido.
 	@GetMapping(path = "/cancel/{pedidoId}")
 	public String cancelarPedido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) throws CantCancelOrderException {
@@ -214,13 +227,17 @@ public class PedidoController {
 		}
 		return view;
 	}
-
+	
+	//Obtenemos todos los productos disponibles
 	@ModelAttribute("productos")
 	public Iterable<Producto> producto() {
 		return this.pedidoService.getAllProductos();
 
 	}
 
+	//Refresca los datos del pedido y cambia el estado de check a true.
+	//Sirve para actualizar el precio del pedido después de haber agregado una oferta o un nuevo producto.
+	//Se necesita refrescar el pedido para realizar diversas operaciones.
 	@GetMapping(path = "/refresh/{pedidoId}")
 	public String refreshPrice(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
@@ -244,6 +261,10 @@ public class PedidoController {
 		return view;
 	}
 
+	//Encarga el pedido después de añadir todos los datos necesarios.
+	//Cambia el estado de SIN_VERIFICAR a PROCESANDO.
+	//Comprobamos que el precio del pedido sea distinto de null y que supere el mínimo requerido.
+	//Se añaden restricciones para evitar verificar un pedido que ya ha sido verificado o está en un estado posterior.
 	@GetMapping(path = "/verify/{pedidoId}")
 	public String verificaPedido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
@@ -298,6 +319,8 @@ public class PedidoController {
 	////////////////////////////////////////////////////////////////// BOTONES PARA
 	////////////////////////////////////////////////////////////////// GERENTES///////////////////////////////////////////
 
+	//Actualiza el estado del pedido a PREPARANDO.
+	//Se verifica que para pasar a este estado, el pedido se encuentre en el estado previo adecuado.
 	@GetMapping(path = "/preparando/{pedidoId}")
 	public String actualizadoPedidoPreparando(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
@@ -329,7 +352,9 @@ public class PedidoController {
 		log.info("Se ha actualizado el estado del pedido a Preparando");
 		return view;
 	}
-
+	
+	//Actualiza el estado del pedido a EN_REPARTO.
+	//Se verifica que para pasar a este estado, el pedido se encuentre en el estado previo adecuado.
 	@GetMapping(path = "/reparto/{pedidoId}")
 	public String actualizadoPedidoReparto(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
@@ -362,7 +387,9 @@ public class PedidoController {
 		log.info("Se ha actualizado el estado del pedido a EN_REPARTO");
 		return view;
 	}
-
+	
+	//Actualiza el estado del pedido a RECIBIDO.
+	//Se verifica que para pasar a este estado, el pedido se encuentre en el estado previo adecuado.
 	@GetMapping(path = "/recibido/{pedidoId}")
 	public String actualizadoPedidoRecibido(@PathVariable("pedidoId") int pedidoId, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
