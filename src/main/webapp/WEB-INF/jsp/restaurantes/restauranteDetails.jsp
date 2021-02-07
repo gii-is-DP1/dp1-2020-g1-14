@@ -56,7 +56,7 @@
 	</spring:url>
     <a href="${fn:escapeXml(reservasUrl)}" class="btn btn-default">Listar reservas</a>
     
-    <spring:url value="/restaurantes/${restaurante.id}/reservas/{userName}" var="pedidosUrl">
+    <spring:url value="/restaurantes/${restaurante.id}/pedidos/{userName}" var="pedidosUrl">
     	<spring:param name="userName" value="${username}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Listar pedidos</a>
