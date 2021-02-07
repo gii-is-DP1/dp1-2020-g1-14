@@ -99,7 +99,7 @@ public class ProductoController {
 				//return "productos/editProducto";
 			}else {
 				productoService.save(producto);
-				modelMap.addAttribute("message", "Event successfully saved!");
+				modelMap.addAttribute("message", "product successfully saved!");
 				log.info("Producto creado con éxito");
 				return "redirect:/restaurantes/{restauranteId}/productos";
 			}
@@ -111,10 +111,10 @@ public class ProductoController {
 
 		if(producto.isPresent()) {
 			productoService.delete(producto.get());
-			modelMap.addAttribute("message","Event succesfully deleted!");
+			modelMap.addAttribute("message","product succesfully deleted!");
 			log.info("Producto eliminado con éxito");
 		}else {
-			modelMap.addAttribute("message","Event not found!");
+			modelMap.addAttribute("message","product not found!");
 			log.error("No se ha encontrado el producto para eliminar");
 		}
 		return listadoProductos(modelMap, restauranteId);
