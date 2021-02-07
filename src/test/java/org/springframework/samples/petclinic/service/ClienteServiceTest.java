@@ -49,7 +49,7 @@ public class ClienteServiceTest {
 	//En este test comprobamos que al pasar un cliente que no satisface las condiciciones para ser socio, se capture la excepción.
 	
 	@Test
-	public void shouldThrowDoesNotMeetConditionsException() {
+	public void shouldThrowCantBeAMemberException() {
 		Optional<Cliente> cliente = this.clienteService.findClienteById(4);
 		try {
 			clienteService.checkSocio(cliente.get());
