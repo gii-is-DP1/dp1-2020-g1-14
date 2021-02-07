@@ -30,6 +30,7 @@ public class ProveedorController {
 	@Autowired
 	private ProveedorService proveedorService;
 	
+	//Se obtiene la lista de proveedores.
 	@GetMapping()
 	public String listadoProveedores(ModelMap modelMap) {
 		String vista ="proveedores/listadoProveedores";
@@ -40,6 +41,7 @@ public class ProveedorController {
 		return vista;
 	}
 	
+	//Creación de un nuevo proveedor.
 	@GetMapping(path="/new")
 	public String crearProveedor(ModelMap modelMap) {
 		String view ="proveedores/editProveedor";
@@ -50,6 +52,7 @@ public class ProveedorController {
 		return view;
 	}
 	
+	//Guardamos un proveedor a crear.
 	@PostMapping(path="/save/{proveedorId}")
 	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap,
 			@RequestParam(value = "version", required = false) Integer version, @PathVariable("proveedorId") int proveedorId) {
@@ -76,6 +79,7 @@ public class ProveedorController {
 	}
 	}
 	
+	//Guardamos un proveedor a crear.
 	@PostMapping(path="/save")
 	public String salvarProveedor(@Valid Proveedor proveedor, BindingResult result, ModelMap modelMap) {
 		if(result.hasErrors())
@@ -91,6 +95,7 @@ public class ProveedorController {
 		}		
 	}	
 	
+	//Eliminamos un proveedor ya existente.
 	@GetMapping(path="delete/{proveedorId}")
 	public String borrarProveedor(@PathVariable("proveedorId") int proveedorId, ModelMap modelMap) {
 	String view="proveedores/listadoProveedores";
@@ -110,6 +115,8 @@ public class ProveedorController {
 	}
 	return view;
 }
+	
+	//Editamos un proveedor ya existente.
 	@GetMapping(path="/{proveedorId}/edit") 
 	public String initUpdateForm(@PathVariable("proveedorId") int proveedorId, ModelMap model) {
 		Proveedor proveedor = this.proveedorService.findProveedorById(proveedorId).get();
@@ -120,6 +127,7 @@ public class ProveedorController {
 		return VIEWS_PROVEEDORES_CREATE_OR_UPDATE_FORM;
 	}
 	
+	//Editamos un proveedor ya existente.
 	@PostMapping(value="/{proveedorId}/edit")
 	public String processUpdateProveedorForm(@Valid Proveedor proveedor, BindingResult result, @PathVariable("proveedorId") int proveedorId) {
 		if(result.hasErrors()) {

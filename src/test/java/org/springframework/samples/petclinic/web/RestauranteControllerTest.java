@@ -24,12 +24,13 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=RestauranteController.class,
+@WebMvcTest(controllers= {RestauranteController.class, CustomErrorController.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 public class RestauranteControllerTest {
@@ -42,6 +43,9 @@ public class RestauranteControllerTest {
 	
 	@MockBean
 	private AuthoritiesService authoritiesService;
+	
+	@MockBean
+	private ProductoService productoService;
 	
 	@Autowired
 	private MockMvc mockMvc;

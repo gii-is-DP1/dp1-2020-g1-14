@@ -34,6 +34,7 @@ public class ClienteController {
 	@Autowired
 	private UserService userService;
     
+	//Obtener la lista de clientes.
     @GetMapping()
     public String listadoClientes(ModelMap modelMap) {
         String vista="clientes/listadoClientes";
@@ -45,6 +46,7 @@ public class ClienteController {
         return vista;
     }
     
+    //Crear nuevo cliente.
     @GetMapping(path="/new")
     public String crearCliente(ModelMap modelMap) {
     	String view="clientes/editCliente";
@@ -55,6 +57,8 @@ public class ClienteController {
     	return view;
     }
     
+    
+    //Guardar el cliente.
     @PostMapping(path="/save")
     public String salvarCliente(@Valid Cliente cliente, BindingResult result, ModelMap modelMap) {
     	String view="clientes/listadoClientes";
@@ -74,7 +78,8 @@ public class ClienteController {
     	return view;
     }
     
-    @PostMapping(path="/save/{clienteId}")
+    
+    /*@PostMapping(path="/save/{clienteId}")
     public String salvarCliente(@Valid Cliente cliente, BindingResult result, ModelMap modelMap,
     							@RequestParam(value = "version", required = false) Integer version, @PathVariable("clienteId") int clienteId) {
     	String view="clientes/listadoClientes";
@@ -98,8 +103,9 @@ public class ClienteController {
     		log.info("Cliente creado con éxito");
     	}
     	return view;
-    }
+    }*/
     
+    //Elimina un cliente
     @GetMapping(path="delete/{clienteId}")
     public String borrarCliente(@PathVariable("clienteId") int clienteId, ModelMap modelMap) {
     String view="clientes/listadoCliente";
@@ -135,6 +141,7 @@ public class ClienteController {
     }
     return view;
 }
+    //Obtener el listado de socios.
     @GetMapping(path="/socios")
     public String listadoSocios(ModelMap modelMap) {
     	String vista="clientes/listadoSocios";
@@ -147,6 +154,7 @@ public class ClienteController {
     	
     }
    
+    //Convertir cliente a socio.
     @GetMapping(path="/upgrade/{clienteId}") 
     public String upgradeCliente(@PathVariable("clienteId") int clienteId, ModelMap modelMap)  {
     	String view = "clientes/listadoClientes";

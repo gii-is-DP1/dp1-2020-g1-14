@@ -105,7 +105,7 @@ public class ReservaController {
 		}else {
 			Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 			cliente.subMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-			clienteService.save(cliente);
+			clienteService.update(cliente);
 			reserva.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			reservaService.save(reserva);
 			modelMap.addAttribute("message", "Reserva guardado con exito");
@@ -125,7 +125,7 @@ public class ReservaController {
 					reservaService.delete(reserva.get());
 					Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 					cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-					clienteService.save(cliente);
+					clienteService.update(cliente);
 					modelMap.addAttribute("message","Reserva borrada con exito");
 					vista= listadoReservas(restauranteId, usuario, modelMap);
 					log.info("reserva eliminada y se devuelve la señal");
@@ -139,7 +139,7 @@ public class ReservaController {
 				reservaService.delete(reserva.get());
 				Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 				cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-				clienteService.save(cliente);
+				clienteService.update(cliente);
 				modelMap.addAttribute("message","Reserva borrada con exito");
 				vista= listadoReservas(restauranteId, usuario, modelMap);
 				log.info("reserva eliminada y se devuelve la señal");

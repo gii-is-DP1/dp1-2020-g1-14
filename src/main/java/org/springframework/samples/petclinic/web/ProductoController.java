@@ -34,6 +34,7 @@ public class ProductoController {
 	@Autowired
 	private RestauranteService resService;
 
+	//Se obtiene la lista de productos por restaurante.
 	@GetMapping()
 	public String listadoProductos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String vista= "productos/listadoProductos";
@@ -44,6 +45,7 @@ public class ProductoController {
 		return vista;
 	}
 
+	//Creación de un nuevo producto.
 	@GetMapping(path="/new")
 	public String crearProducto(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view ="productos/editProducto";
@@ -57,6 +59,7 @@ public class ProductoController {
 		return view;
 	}
 	
+	//Guardamos un nuevo producto creado.
 	@PostMapping(path="/save/{productoId}")
 	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,
 								@RequestParam(value = "version", required = false) Integer version, @PathVariable("productoId") int productoId) throws WrongDataProductosException {
@@ -82,6 +85,7 @@ public class ProductoController {
 		}
 	}
 	
+	//Guardamos un nuevo producto creado.
 	@PostMapping(path="/save")
 	public String salvarProducto(@Valid Producto producto, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) throws WrongDataProductosException {
 		if(result.hasErrors())
@@ -105,6 +109,8 @@ public class ProductoController {
 			}
 		}
 	}
+	
+	//Eliminamos un producto ya existente.
 	@GetMapping(path="delete/{productoId}")
 	public String borrarProducto(@PathVariable("productoId") int productoId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		Optional<Producto> producto=productoService.findProductoById(productoId);
@@ -120,6 +126,7 @@ public class ProductoController {
 		return listadoProductos(modelMap, restauranteId);
 	}
 	
+	//Se edita un producto ya existente.
 	@GetMapping(path = "/edit/{productoId}")
 	public String initUpdateForm(@PathVariable("productoId") int productoId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Producto producto = this.productoService.findProductoById(productoId).get();
