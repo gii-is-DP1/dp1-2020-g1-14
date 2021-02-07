@@ -26,13 +26,14 @@ import org.springframework.samples.petclinic.model.Medida;
 import org.springframework.samples.petclinic.model.Reclamacion;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.ReclamacionService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=ReclamacionController.class,
+@WebMvcTest(controllers= {ReclamacionController.class, CustomErrorController.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 
@@ -52,6 +53,9 @@ public class ReclamacionControllerTest {
 	
 	@MockBean
     private AuthoritiesService authoritiesService; 
+	
+	@MockBean
+	private ProductoService productoService;
 	
 	@Autowired
 	private MockMvc mockMvc;
