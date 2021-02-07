@@ -6,7 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Gerente;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.GerenteService;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,17 +16,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/gerentes")
+@RequestMapping("/restaurantes/{restauranteId}/gerentes")
 public class GerenteController {
 
 	@Autowired
 	private GerenteService gerenteService;
+	@Autowired
+	private RestauranteService restauranteService;
 	
 	private static final String VIEWS_GERENTES_CREATE_OR_UPDATE_FORM = "gerentes/editarGerente";
 	
@@ -38,9 +41,10 @@ public class GerenteController {
 	}
 	
 	@GetMapping(path="/new")
-	public String crearGerente(ModelMap modelMap) {
+	public String crearGerente(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view ="gerentes/editarGerente";
 		modelMap.addAttribute("gerente", new Gerente());
+		modelMap.addAttribute("restauranteId", restauranteId);
 		log.info("Inicialización creación de gerente");
 		return view;
 	}
@@ -73,26 +77,31 @@ public class GerenteController {
 	}*/
 	
 	@PostMapping(path="/save")
-	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap) {
+	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 	String view="gerentes/listadoGerentes";
 	if(result.hasErrors())
 	{
-		modelMap.addAttribute("gerentes", gerente);
+		modelMap.addAttribute("gerente", gerente);
+		modelMap.addAttribute("restauranteId", restauranteId);
 		log.warn("Error de validacion");
 		return "gerentes/editarGerente";
 	}else {
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		modelMap.addAttribute("restaurante", restaurante);
 		gerenteService.save(gerente);
-		modelMap.addAttribute("message", "Event successfully saved!");
+		restaurante.setGerente(gerente);
+		restauranteService.save(restaurante);
+		modelMap.addAttribute("message", "gerente successfully saved!");
 		log.info("Gerente creado");
-		view=listadoGerentes(modelMap);
+		view="restaurantes/restauranteDetails";
 	}
 	return view;
 	}
 	
 	@GetMapping(path = "/{gerenteId}/edit")
-	public String initUpdateForm(@PathVariable("gerenteId") int gerenteId, ModelMap model) {
+	public String initUpdateForm(@PathVariable("gerenteId") int gerenteId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Gerente gerente = this.gerenteService.findGerenteById(gerenteId).get();
-		model.addAttribute(gerente);
+		model.addAttribute("gerente", gerente);
 		log.info("Inicialización de la edición de gerente");
 		return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
 	}
