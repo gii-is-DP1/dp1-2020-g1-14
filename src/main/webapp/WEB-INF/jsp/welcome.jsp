@@ -29,6 +29,16 @@
     <a href="${fn:escapeXml(restauranteUrl)}" class="btn btn-default">Ir al restaurante</a>
     </sec:authorize>
     
+    <sec:authorize access="!(hasAuthority('admin') || hasAuthority('cliente') || hasAuthority('gerente'))">
+    <spring:url value="/clientes/new" var="clientesUrl"/>
+    <a href="${fn:escapeXml(clientesUrl)}" class="btn btn-default">Registrarse como Cliente</a>
+    </sec:authorize>
+    
+    <sec:authorize access="hasAuthority('cliente')">
+    <spring:url value="/clientes/delete/${cliente.id}" var="restaurantesUrl"/>
+    <a href="${fn:escapeXml(restaurantesUrl)}" class="btn btn-default">Eliminar mi cuenta</a>
+    </sec:authorize>
+    
     </div>
     <div class="row">
         <div class="col-md-12">

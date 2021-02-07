@@ -44,7 +44,11 @@
         <spring:param name="userName" value="${username}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidoClienteUrl)}" class="btn btn-default">Mis pedidos</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/reclamaciones/new" var="pedidosUrl"/>
+    <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Redactar Reclamación</a>
     </sec:authorize>
+    
     
     <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
 	<spring:url value="/restaurantes/${restaurante.id}/reservas/{userName}" var="reservasUrl">
@@ -56,6 +60,21 @@
     	<spring:param name="userName" value="${username}"/>
     </spring:url>
     <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Listar pedidos</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/ingredientes" var="ingredientesUrl"/>
+    <a href="${fn:escapeXml(ingredientesUrl)}" class="btn btn-default">Listar Ingredientes</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/reclamaciones" var="reclamacionesUrl"/>
+    <a href="${fn:escapeXml(reclamacionesUrl)}" class="btn btn-default">Listar Reclamaciones</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/ofertas" var="ofertasUrl"/>
+    <a href="${fn:escapeXml(ofertasUrl)}" class="btn btn-default">Listar Ofertas</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/productos" var="productosUrl"/>
+    <a href="${fn:escapeXml(productosUrl)}" class="btn btn-default">Listar Productos</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/proveedores" var="proveedoresUrl"/>
+    <a href="${fn:escapeXml(proveedoresUrl)}" class="btn btn-default">Listar Proveedores</a>
     </sec:authorize>
     
     <br/>
