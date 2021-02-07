@@ -79,7 +79,7 @@ public class ClienteController {
     }
     
     
-    @PostMapping(path="/save/{clienteId}")
+    /*@PostMapping(path="/save/{clienteId}")
     public String salvarCliente(@Valid Cliente cliente, BindingResult result, ModelMap modelMap,
     							@RequestParam(value = "version", required = false) Integer version, @PathVariable("clienteId") int clienteId) {
     	String view="clientes/listadoClientes";
@@ -103,7 +103,7 @@ public class ClienteController {
     		log.info("Cliente creado con éxito");
     	}
     	return view;
-    }
+    }*/
     
     //Elimina un cliente
     @GetMapping(path="delete/{clienteId}")
