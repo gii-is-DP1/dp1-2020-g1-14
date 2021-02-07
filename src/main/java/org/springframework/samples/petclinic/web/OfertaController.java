@@ -34,6 +34,8 @@ public class OfertaController {
 	@Autowired
 	private RestauranteService resService;
 	
+	
+	//Obtener la lista de ofertas
 	@GetMapping()
 	public String listadoOfertas(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String vista = "ofertas/listadoOfertas";
@@ -46,6 +48,7 @@ public class OfertaController {
 		return vista;
 	}
 	
+	//Crear una nueva oferta.
 	@GetMapping(path="/new")
 	public String crearOferta(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 		String view ="ofertas/editOferta";
@@ -59,6 +62,7 @@ public class OfertaController {
 		return view;
 	}
 	
+	//Guardar una nueva oferta.
 	@PostMapping(path="/save/{ofertaId}")
 	public String salvarOferta(@Valid Oferta oferta, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, 
 								@RequestParam(value = "version", required = false) Integer version, @PathVariable("ofertaId") int ofertaId) {
@@ -110,6 +114,7 @@ public class OfertaController {
 	}
 	}
 	
+	//Eliminar una oferta ya existente
 	@GetMapping(path="delete/{ofertaId}")
 	public String borrarOferta(@PathVariable("ofertaId") int ofertaId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
 	String view="ofertas/listadoOferta";
@@ -129,6 +134,7 @@ public class OfertaController {
 	return view;
 }
 	
+	//Editar una oferta ya existente.
 	@GetMapping(path="/edit/{ofertaId}") 
 	public String initUpdateForm(@PathVariable("ofertaId") int ofertaId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
 		Oferta oferta= this.ofertaService.findOfertaById(ofertaId).get();

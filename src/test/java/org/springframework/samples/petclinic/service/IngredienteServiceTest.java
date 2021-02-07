@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Medida;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -80,22 +81,15 @@ public class IngredienteServiceTest {
 	@Test
 	@Transactional
 	public void shouldDeleteIngrediente() {
-		Set<Ingrediente> setI = new HashSet<>();
-		Set<Producto> setP = new HashSet<>();
 		Ingrediente i = new Ingrediente();
 		i.setName("Sprite");
 		i.setStock(20.);
 		i.setMedida(Medida.L);
 		i.setRestaurante(resService.findRestauranteById(1).get());
-		setI.add(i);
-		Producto p = new Producto();
-		p.setName("producto");
-		p.setPrecio(15.);
-		p.setAlergenos("alergeno");
-		p.setRestaurante(resService.findRestauranteById(1).get());
-		p.setIngredientes(setI);
-		setP.add(p);
-		i.setProductos(setP);
+		Set<Producto> productos = new HashSet<>();
+		i.setProductos(productos);
+		Set<Proveedor> proveedores = new HashSet<>();
+		i.setProveedores(proveedores);
 		
 		try {
 			this.ingService.save(i);

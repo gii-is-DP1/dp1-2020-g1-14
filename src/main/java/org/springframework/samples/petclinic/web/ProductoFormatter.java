@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 public class ProductoFormatter implements Formatter<Producto>{
 	private final ProductoService productoService;
 
+	/*Formatter de producto para que se muestren correctamente los productos en el campo de select,
+	a la hora de seleccionarlos en la creación de un pedido.*/
+	
 	@Autowired
 	public ProductoFormatter(ProductoService productoService) {
 		this.productoService = productoService;

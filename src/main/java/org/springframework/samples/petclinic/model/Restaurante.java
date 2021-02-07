@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -38,6 +39,9 @@ public class Restaurante extends NamedEntity {
      
 	@OneToOne(optional=true)
     private Gerente gerente;
+	
+	@ManyToMany
+	private Set<Proveedor> proveedores;
 	
     public String getTipo() {
 		return tipo;
@@ -94,4 +98,14 @@ public class Restaurante extends NamedEntity {
 	public void setGerente(Gerente gerente) {
 		this.gerente = gerente;
 	}
+
+	public Set<Proveedor> getProveedores() {
+		return proveedores;
+	}
+
+	public void setProveedores(Set<Proveedor> proveedores) {
+		this.proveedores = proveedores;
+	}
+	
+	
 }

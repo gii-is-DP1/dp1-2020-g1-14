@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 public class OfertaFormatter implements Formatter<Oferta>{
 	private final OfertaService ofertaService;
 
+	/*Formatter de oferta para que se muestren correctamente las ofertas en el campo de select,
+	a la hora de seleccionar una en la creación de un pedido.*/
 	@Autowired
 	public OfertaFormatter(OfertaService ofertaService) {
 		this.ofertaService = ofertaService;

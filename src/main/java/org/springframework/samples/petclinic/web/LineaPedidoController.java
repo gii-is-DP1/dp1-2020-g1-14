@@ -47,7 +47,8 @@ public class LineaPedidoController {
 	@Autowired
 	private ClienteService clienteService;
 
-
+	
+	//Buscamos todos los productos para usarlos en la vista a la hora de seleccionarlos.
 	@ModelAttribute("nombres")
 	public Iterable<Producto> findAllProductos() {
 		return this.productoService.findAll();
@@ -60,6 +61,7 @@ public class LineaPedidoController {
 	 * }
 	 */
 
+	//Obtenemos la lista de lineaPedido.
 	@GetMapping()
 	public String listadoLineaPedidos(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario) {
 
@@ -72,6 +74,9 @@ public class LineaPedidoController {
 		return vista;
 	}
 	
+	//Creamos una nueva linea pedido.
+	//Nos aseguramos de que para crearlo, el pedido se encuentre en un estado adecuado.
+	//Se resetea el campo de checkea de pedido a false, para forzar el refresh de Pedido.
 	@GetMapping(path = "/new")
 	public String crearLineaPedido(ModelMap modelMap, @PathVariable("pedidoId") int pedidoId,@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario)  {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
@@ -100,7 +105,8 @@ public class LineaPedidoController {
 			return view;
 		}
 	}
-
+	
+	//Guardamos la linea de pedido.
 	@PostMapping(path = "/save")
 	public String salvarLineaPedido(@Valid LineaPedido lineaPedido, BindingResult result, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId,@PathVariable("pedidoId") int pedidoId, @PathVariable("userName") String usuario) {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
@@ -171,7 +177,8 @@ public class LineaPedidoController {
 	public List<Producto> producto() {
 		return this.lineaPedidoService.getAllProductos();
 	}
-
+	
+	//Buscamos todos los nombres de los productos que se visualizarán a la hora de crear la linea de pedido.
 	@ModelAttribute("nameProd")
 	public List<String> nombreProductos() {
 		return this.lineaPedidoService.getAllProductosName();
