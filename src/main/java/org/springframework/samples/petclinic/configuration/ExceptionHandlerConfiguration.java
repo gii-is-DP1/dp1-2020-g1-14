@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.samples.petclinic.web.CustomErrorController;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,11 +21,11 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHandlerConfiguration 
 {
 	@Autowired
-	private BasicErrorController errorController;
+	private CustomErrorController errorController;
     // add any exceptions/validations/binding problems
 
    @ExceptionHandler(Exception.class)
-   public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
+   public String defaultErrorHandler(HttpServletRequest request,  Exception ex, ModelMap modelMap)  {
         request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
         request.setAttribute("javax.servlet.error.status_code", 400);
         request.setAttribute("exeption", ex);
