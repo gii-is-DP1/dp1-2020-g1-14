@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.repository.IngredienteRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,8 @@ public class IngredienteService {
 	private IngredienteRepository ingRep;
 	@Autowired
 	private ProductoService productoService;
+	@Autowired
+	private ProveedorService proveedorService;
 	
 	private static final Logger log = (Logger) LoggerFactory.getLogger(IngredienteService.class);
 	
@@ -61,6 +64,13 @@ public class IngredienteService {
 			ingredientes.remove(ingrediente);
 			p.setIngredientes(ingredientes);
 			productoService.save(p);
+		}
+		Set<Proveedor> proveedores = ingrediente.getProveedores();
+		for(Proveedor p:proveedores) {
+			Set<Ingrediente> ingredientes = p.getIngredientes();
+			ingredientes.remove(ingrediente);
+			p.setIngredientes(ingredientes);
+			proveedorService.save(p);
 		}
 		log.info("Eliminado un elemento");
 		ingRep.delete(ingrediente);
