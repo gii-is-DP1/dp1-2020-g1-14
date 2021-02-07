@@ -66,8 +66,8 @@ public class ClienteController {
     		return "clientes/editCliente";
     	}else {
     		clienteService.save(cliente);
-    		modelMap.addAttribute("message","Event succesfully saved!");
-    		view=listadoClientes(modelMap);
+    		modelMap.addAttribute("message","client succesfully saved!");
+    		view="registrado";
     		
     		log.info("Cliente creado con éxito");
     	}
@@ -92,7 +92,7 @@ public class ClienteController {
     			return listadoClientes(modelMap);
     		}
     		clienteService.update(cliente);
-    		modelMap.addAttribute("message","Event succesfully saved!");
+    		modelMap.addAttribute("message","client succesfully saved!");
     		view=listadoClientes(modelMap);
     		
     		log.info("Cliente creado con éxito");

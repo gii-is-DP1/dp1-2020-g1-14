@@ -52,9 +52,15 @@
 	                </td>
 					<td>
 					<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/delete/{reservaId}" var="reservaUrl">
-	                        <spring:param name="reservaId" value="${reserva.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
+	                	<spring:param name="reservaId" value="${reserva.id}"/>
+	                </spring:url>
+	                <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
+	                <sec:authorize access="hasAuthority('gerente') || hasAuthority('admin')">
+	                <spring:url value="/restaurantes/${restauranteId}/reservas/${name}/present/{reservaId}" var="reservaUrl">
+	                	<spring:param name="reservaId" value="${reserva.id}"/>
+	                </spring:url>
+	                <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Presentado</a>
+	                </sec:authorize> 
 	                </td>           
 	            </tr>
         </c:forEach>

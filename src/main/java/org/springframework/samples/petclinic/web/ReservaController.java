@@ -158,5 +158,30 @@ public class ReservaController {
 		return vista;
 	}
 
+	@GetMapping(value = "/present/{reservaId}")
+	public String isPresent(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap){
+		Integer senial = restauranteService.findRestauranteById(restauranteId).get().getSenial();
+		Reserva reserva = reservaService.findReservaById(reservaId).get();
+		Cliente cliente = reserva.getCliente();
+		if(LocalDate.now().equals(reserva.getFecha()) && reserva.getHoraInicio().plusMinutes(30).isAfter(LocalTime.now())) {
+			log.info("cliente presentado, se le devuelve el dinero");
+			Integer monedero = cliente.getMonedero();
+			monedero += senial;
+			cliente.setMonedero(monedero);
+			clienteService.save(cliente);
+			modelMap.addAttribute("message","dinero devuelto al cliente");
+			modelMap.addAttribute("username", usuario);
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			return "reservas/listadoReservas";
+		}else {
+			modelMap.addAttribute("message","condiciones no aptas para delvolverle el dinero al cliente");
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			modelMap.addAttribute("username", usuario);
+			log.info("condiciones no aptas para delvolverle el dinero al cliente");
+			return "reservas/listadoReservas";
+		}
+
+	}
+
 }
 
