@@ -31,7 +31,7 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${restaurante.id}"/>
                     <input type="hidden" name="version" value="${restaurante.version}"/>
-                    <input type="hidden" name="gerente" value="${restaurante.gerente.id}"/>
+
                     <c:choose>
                     	<c:when test="${restaurante['new']}">
                     		<button class="btn btn-default" type="submit">Add Restaurante</button>

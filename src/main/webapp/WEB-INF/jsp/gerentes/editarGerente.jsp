@@ -8,16 +8,8 @@
 <petclinic:layout pageName="gerentes">
     <jsp:body>
         <h2>Gerentes</h2>
-        <c:choose>
-        	<c:when test="${gerente['new']}">
-        		<c:set var="action" value= "/gerentes/save"/>
-        	</c:when>
-        	<c:otherwise>
-        		<c:set var="action" value= "/gerentes/save/${gerente.id}"/>
-        	</c:otherwise>
-        </c:choose>
         
-        <form:form modelAttribute="gerente" class="form-horizontal" action="${action}">
+        <form:form modelAttribute="gerente" class="form-horizontal" action="/restaurantes/${restauranteId}/gerentes/save">
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Username" name="user.username"/>
             	<petclinic:inputField label="Password" name="user.password"/>
@@ -28,7 +20,6 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <input type="hidden" name="id" value="${gerente.id}"/>
-                    <input type="hidden" name="version" value="${gerente.version}"/>
                     <c:choose>
                     	<c:when test="${gerente['new']}">
                     		<button class="btn btn-default" type="submit">Añadir gerente</button>
@@ -37,8 +28,7 @@
                     		<button class="btn btn-default"type="submit">Update gerente</button>
                     	</c:otherwise>
                     </c:choose>
-                    <spring:url value="/gerentes" var="gerenteUrl">
-                    </spring:url>
+                    <spring:url value="/restaurantes/{restauranteId}" var="gerenteUrl"/>
                     <a class="btn btn-default" href="${fn:escapeXml(gerenteUrl)}">Volver atrás</a>
                 </div>
             </div>
