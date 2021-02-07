@@ -89,7 +89,7 @@ public class ClienteServiceTest {
 	@CsvSource({"2020-10-11,7"
 		,"2020-02-13,5",
 	"2020-10-10,9"})
-	public void shouldThrowDoesNotMeetConditionsExceptionParameterized(LocalDate fecha ,int nPedidos ) {
+	public void shouldThrowCantBeAMemberExceptionParameterized(LocalDate fecha ,int nPedidos ) {
 
 
 		User u = new User();
