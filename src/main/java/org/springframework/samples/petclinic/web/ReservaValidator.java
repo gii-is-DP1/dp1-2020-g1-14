@@ -16,8 +16,6 @@ import org.springframework.validation.Validator;
 public class ReservaValidator implements Validator {
 
 	private static final String REQUIRED = "required";
-	@Autowired
-	private ReservaService reservaService;
 	
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -47,7 +45,7 @@ public class ReservaValidator implements Validator {
 		}
 		
 		if(aforores+nPersonas>res.getAforomax()) {
-			errors.rejectValue("nPersonas", REQUIRED+"  no hay suficiente aforo disponoble", REQUIRED+"  no hay suficiente aforo disponoble");
+			errors.rejectValue("nPersonas", REQUIRED+"  no hay suficiente aforo disponible", REQUIRED+"  no hay suficiente aforo disponible");
 		}
 		
 		// evento validation

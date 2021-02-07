@@ -61,7 +61,7 @@ public class ReservaController {
 		}
 		modelMap.addAttribute("reservas", reservas);
 		modelMap.addAttribute("restaurante", restaurante);
-		modelMap.addAttribute("name", usuario);
+		modelMap.addAttribute("username", usuario);
 		log.info("listando reserva de un restaurante indicado del usuario actual");
 		return vista;
 	}
@@ -175,6 +175,7 @@ public class ReservaController {
 			return "reservas/listadoReservas";
 		}else {
 			modelMap.addAttribute("message","condiciones no aptas para delvolverle el dinero al cliente");
+			modelMap.addAttribute("reservas", reservaService.findReservasByRestauranteId(restauranteId));
 			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
 			modelMap.addAttribute("username", usuario);
 			log.info("condiciones no aptas para delvolverle el dinero al cliente");
