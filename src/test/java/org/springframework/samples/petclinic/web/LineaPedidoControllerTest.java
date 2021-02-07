@@ -22,15 +22,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Authorities;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.LineaPedidoService;
 import org.springframework.samples.petclinic.service.PedidoService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -61,6 +67,15 @@ private static final int TEST_RESTAURANTE_ID = 1;
 	
 	@MockBean
 	private RestauranteService restauranteService;
+	
+	@MockBean
+	private ClienteService clienteService;
+        
+	@MockBean
+	private UserService userService;
+	        
+	@MockBean
+	private AuthoritiesService authoritiesService; 
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -69,9 +84,32 @@ private static final int TEST_RESTAURANTE_ID = 1;
 	private Pedido ped1;
 	private Producto tarta;
 	private Restaurante restaurante;
+	private Cliente cliente1;
+	private User user1;
+	private Authorities authorities;
 	
 	@BeforeEach
 	void setup() {
+		
+		authorities = new Authorities();
+		authorities.setId(10);
+		authorities.setUser(user1);
+		authorities.setAuthority("cliente");
+		
+		user1=new User();
+		user1.setEnabled(true);
+		user1.setPassword("cliente1");
+		user1.setrDate(LocalDate.of(2020, 01, 01));
+		user1.setUsername("cliente1");
+		user1.setAuthorities(authorities);
+		
+		cliente1 = new Cliente();
+		cliente1.setEsSocio(false);
+		cliente1.setNumPedidos(12);
+		cliente1.setTlf("954765812");
+		cliente1.setMonedero(300);
+		cliente1.setUser(user1);
+
 		
 		restaurante = new Restaurante();
 		restaurante.setId(TEST_RESTAURANTE_ID);
@@ -81,9 +119,6 @@ private static final int TEST_RESTAURANTE_ID = 1;
 		restaurante.setAforomax(25);
 		restaurante.setSenial(20);
 		
-		
-		
-		
 		Pedido ped1 = new Pedido();
 		ped1.setAdress("Calle A");
 		ped1.setEstado(Estado.PROCESANDO);
@@ -92,6 +127,7 @@ private static final int TEST_RESTAURANTE_ID = 1;
 		ped1.setPrice(17.3);
 		ped1.setCheckea(true);
 		ped1.setRestaurante(restaurante);
+		ped1.setCliente(cliente1);
 	
 		
 		tarta = new Producto();
@@ -107,6 +143,7 @@ private static final int TEST_RESTAURANTE_ID = 1;
 		lineaPedido.setProducto(tarta);
 		
 		given(this.productoService.findProductoById(TEST_PRODUCTO_ID)).willReturn(Optional.of(tarta));
+		given(this.userService.findUser(user1.getUsername())).willReturn(Optional.of(user1));
 		given(this.pedidoService.findPedidoById(TEST_PEDIDO_ID)).willReturn(Optional.of(ped1));
 		given(this.lineaPedidoService.findLineaPedidoById(TEST_LINEAPEDIDO_ID)).willReturn(Optional.of(lineaPedido));
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante));
@@ -115,38 +152,25 @@ private static final int TEST_RESTAURANTE_ID = 1;
 		
 		
 }
-	//CREATION TESTS
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testInitCreationForm() throws Exception {
-	mockMvc.perform(get("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos/new", TEST_RESTAURANTE_ID, TEST_PEDIDO_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("lineaPedido"))
-			.andExpect(view().name("lineaPedidos/editLineaPedido"));
-}
-	
-	
-	
-	@WithMockUser(value = "spring")
-    @Test
-    void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos/new", TEST_RESTAURANTE_ID, TEST_PEDIDO_ID)
-				.with(csrf())
-				.param("producto", "Macarrones con Queso")
-				.param("cantidad", "2"))
-			.andExpect(status().is2xxSuccessful());
-}
-	
+
 
 	//TEST LISTAR LINEAPEDIDOS
 		@WithMockUser(value = "spring")
 	    @Test
 	    void testListadoLineaPedido() throws Exception {
-			mockMvc.perform(get("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos",TEST_RESTAURANTE_ID, TEST_PEDIDO_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("lineaPedidos"))
+			mockMvc.perform(get("/restaurantes/{restauranteId}/pedidos/{pedidoId}/lineaPedidos/new",TEST_RESTAURANTE_ID, TEST_PEDIDO_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("lineaPedidos"))
 			.andExpect(status().is2xxSuccessful()).andExpect(view().name("lineaPedidos/listadoLineaPedidos"));
 		}
 	
 	
+	//CREATION TESTS
 		
+		@WithMockUser(value = "spring")
+	    @Test
+	    void testInitCreationForm() throws Exception {
+			mockMvc.perform(get("/restaurantes/{restauranteId}/lineaPedidos/new",TEST_RESTAURANTE_ID, TEST_PEDIDO_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("lineaPedido"))
+				.andExpect(view().name("lineaPedidos/editLineaPedido"));
+	}	
 	
 	
 	
