@@ -54,21 +54,6 @@
                     <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Hacer socio</a>
                 </td>
              
-            
-                
-                
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
-
-                </td>               
 
             </tr>
         </c:forEach>

@@ -7,6 +7,5 @@ import org.springframework.samples.petclinic.model.Proveedor;
 
 public interface ProveedorRepository extends CrudRepository<Proveedor, Integer>{
 
-//	@Query("SELECT p FROM Proveedor p WHERE p.restaurante.id =:restauranteId") 
-//	public Iterable<Proveedor> findProveedoresByRestauranteId(@Param("restauranteId") Integer restauranteId);
+
 }

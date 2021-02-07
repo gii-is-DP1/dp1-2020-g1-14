@@ -60,20 +60,7 @@ public class GerenteServiceTest {
 		assertThat(gerentes.size()).isEqualTo(found+1);
 	}
 	
-	@Test
-	@Transactional
-	public void shouldUpdateGerente() {
-		Gerente gerente = this.gerenteService.findGerenteById(1).get();
-		String newName = "Emilio";
-		gerente.setName("Emilio");
-		
-		String newPassword = "alfkh34as";
-		gerente.getUser().setPassword(newPassword);
-		
-		gerente = this.gerenteService.findGerenteById(1).get();
-		assertThat(gerente.getName()).isEqualTo(newName);
-		assertThat(gerente.getUser().getPassword()).isEqualTo(newPassword);
-	}
+
 	
 	@Test
 	@Transactional

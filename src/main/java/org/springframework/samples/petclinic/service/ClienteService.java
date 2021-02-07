@@ -126,23 +126,7 @@ public class ClienteService {
 		return (int) noOfMonths;
 	}
 
-	/*
-	 * @Documented
-	 * 
-	 * @Documented
-	 * 
-	 * @Constraint(validatedBy= TelephoneNumberValidator.class)
-	 * 
-	 * @Target( { ElementType.METHOD, ElementType.FIELD})
-	 * 
-	 * @Retention(RetentionPolicy.RUNTIME) public @interface
-	 * TelephoneNumberConstraint{ String message() default
-	 * "El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'."
-	 * ; Class<?>[] groups() default {}; Class<? extends Payload>[] payload()
-	 * default {};
-	 * 
-	 * }
-	 */
+	
 	public Collection<Cliente> findSocios() {
 
 		log.info("Buscando socios entre todos los clientes");
