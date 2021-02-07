@@ -12,10 +12,10 @@
     <h2>Reservas</h2>
     
     <sec:authorize access="hasAuthority('cliente')">
-	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/new" var="reservaUrl">
+	<spring:url value="/restaurantes/${restauranteId}/reservas/${username}/new" var="reservaUrl">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">New</a>
-	<spring:url value="/restaurantes/${restauranteId}/reservas/${name}"  var="reservaUrl1">
+	<spring:url value="/restaurantes/${restauranteId}/reservas/${username}"  var="reservaUrl1">
                     </spring:url>
                     <a href="${fn:escapeXml(reservaUrl1)}" class="btn btn-default">Refrescar página</a>
     </sec:authorize>                
@@ -51,10 +51,16 @@
 	                    <c:out value="${reserva.nPersonas}"/>
 	                </td>
 					<td>
-					<spring:url value="/restaurantes/${restauranteId}/reservas/${name}/delete/{reservaId}" var="reservaUrl">
-	                        <spring:param name="reservaId" value="${reserva.id}"/>
-	                    </spring:url>
-	                    <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
+					<spring:url value="/restaurantes/${restauranteId}/reservas/${username}/delete/{reservaId}" var="reservaUrl">
+	                	<spring:param name="reservaId" value="${reserva.id}"/>
+	                </spring:url>
+	                <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Delete</a>
+	                <sec:authorize access="hasAuthority('gerente') || hasAuthority('admin')">
+	                <spring:url value="/restaurantes/${restauranteId}/reservas/${username}/present/{reservaId}" var="reservaUrl">
+	                	<spring:param name="reservaId" value="${reserva.id}"/>
+	                </spring:url>
+	                <a href="${fn:escapeXml(reservaUrl)}" class="btn btn-default">Presentado</a>
+	                </sec:authorize> 
 	                </td>           
 	            </tr>
         </c:forEach>
