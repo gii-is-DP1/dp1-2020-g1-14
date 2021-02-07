@@ -38,8 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/users/new").hasAnyAuthority("admin")
 				.antMatchers("/reclamaciones").hasAnyAuthority("gerente","admin")
 				.antMatchers("/reclamaciones/**").authenticated()
-				/*.antMatchers("/ingredientes").permitAll()
-				.antMatchers("/ingredientes/**").permitAll()*/
 				.antMatchers("/gerentes").hasAnyAuthority("admin")
 				.antMatchers("/gerentes/**").hasAnyAuthority("admin")
 				.antMatchers("/lineaPedidos").authenticated()
@@ -52,10 +50,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/pedidos/**").authenticated()
 				.antMatchers("/ofertas").hasAnyAuthority("gerente","admin","cliente")
 				.antMatchers("/ofertas/**").hasAnyAuthority("gerente","admin")
-				/*.antMatchers("/reservas").hasAnyAuthority("gerente","admin","cliente")
-				.antMatchers("/reservas/**").hasAnyAuthority("gerente","admin","cliente")*/
 				.antMatchers("/clientes").hasAnyAuthority("admin")
-                .antMatchers("/clientes/**").hasAnyAuthority("admin","cliente")
+                .antMatchers("/clientes/new").anonymous()
+                .antMatchers("/clientes/delete/**").hasAnyAuthority("cliente", "admin")
 				.antMatchers("/restaurantes").authenticated()
 				.antMatchers("/restaurantes/**").authenticated()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")

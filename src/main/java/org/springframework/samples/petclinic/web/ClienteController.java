@@ -7,10 +7,11 @@ import javax.validation.Valid;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Oferta;
-import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,6 +31,8 @@ public class ClienteController {
 	
     @Autowired
     private ClienteService clienteService;
+	@Autowired
+	private UserService userService;
     
     @GetMapping()
     public String listadoClientes(ModelMap modelMap) {
@@ -102,16 +105,32 @@ public class ClienteController {
     String view="clientes/listadoCliente";
     Optional<Cliente> cliente=clienteService.findClienteById(clienteId);
     if(cliente.isPresent()) {
-        clienteService.delete(cliente.get());
-        modelMap.addAttribute("message","Event succesfully deleted!");
-        view=listadoClientes(modelMap);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth.isAuthenticated() && auth.getPrincipal() != "anonymousUser") {
+    		String autoridad = userService.findUser(auth.getName()).get().getAuthorities().getAuthority(); //get logged in username
+    		if(autoridad.equals("admin")) {
+    			view=listadoClientes(modelMap);
+    		} else {
+    			view="welcome";
+    		}
+    	}
+    	
+    	clienteService.delete(cliente.get());
+        modelMap.addAttribute("message","client succesfully deleted!");
         
         log.info("Cliente eliminado con éxito");
         
     }else {
-        modelMap.addAttribute("message","Event not found!");
-        view=listadoClientes(modelMap);
-        
+        modelMap.addAttribute("message","client not found!");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if(auth.isAuthenticated() && auth.getPrincipal() != "anonymousUser") {
+    		String autoridad = userService.findUser(auth.getName()).get().getAuthorities().getAuthority(); //get logged in username
+    		if(autoridad.equals("admin")) {
+    			view=listadoClientes(modelMap);
+    		} else {
+    			view="welcome";
+    		}
+    	}
         log.error("No se ha encontrado el cliente para eliminar");
     }
     return view;

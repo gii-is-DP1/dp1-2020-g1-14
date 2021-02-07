@@ -6,9 +6,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Person;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.model.User;
+import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.GerenteService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.samples.petclinic.service.UserService;
@@ -26,6 +28,8 @@ public class WelcomeController {
 	private RestauranteService restauranteService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ClienteService clienteService;
 	
 	  @GetMapping({"/","/welcome"})
 	  public String welcome(Map<String, Object> model) {	    
@@ -62,6 +66,10 @@ public class WelcomeController {
 				String name = auth.getName();
 			  	Restaurante restaurante = restauranteService.findRestauranteByGerenteUser(name).get();
 			  	model.put("restaurante", restaurante);
+			  } else if(autoridad.equals("cliente")) {
+					String name = auth.getName();
+				  	Cliente cliente = clienteService.findClienteByUsuario(name).get();
+				  	model.put("cliente", cliente);
 			  }
 		  }
 		  
