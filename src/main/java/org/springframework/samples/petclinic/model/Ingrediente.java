@@ -34,7 +34,7 @@ public class Ingrediente extends NamedEntity {
 	@ManyToOne
 	private Restaurante restaurante;
 	
-	@ManyToMany
+	@ManyToMany()
 	@JoinColumn(name = "producto_id")
 	private Set<Producto> productos;
 	
