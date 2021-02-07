@@ -20,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.User;
@@ -36,9 +37,7 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 
 
 public class ClienteControllerTest {
-
 	
-	private static final int TEST_CLIENTE_ID = 10;
 
 	@Autowired
 	private ClienteController clienteController;
@@ -61,27 +60,45 @@ public class ClienteControllerTest {
 	private User cliente1;
 	private User cliente2;
 	private User cliente3;
+	private Authorities authorities;
+	private Authorities authorities2;
+	private Authorities authorities3;
 
 	@BeforeEach
 	void setup() {
 		
+		authorities = new Authorities();
+		authorities.setId(10);
+		authorities.setUser(cliente1);
+		authorities.setAuthority("cliente");
+		
 		cliente1=new User();
 		cliente1.setEnabled(true);
 		cliente1.setPassword("cliente1");
-		cliente1.setrDate(LocalDate.of(2000, 10, 11));
+		cliente1.setrDate(LocalDate.of(2020, 01, 01));
 		cliente1.setUsername("cliente1");
+		cliente1.setAuthorities(authorities);
 		
 		juan = new Cliente();
-		juan.setId(TEST_CLIENTE_ID);
-		juan.setEsSocio(true);
+		juan.setEsSocio(false);
 		juan.setNumPedidos(12);
 		juan.setTlf("954765812");
+		juan.setMonedero(300);
 		juan.setUser(cliente1);
 		
-		given(this.clienteService.findClienteById(TEST_CLIENTE_ID)).willReturn(Optional.of(juan));
+		given(this.userService.findUser(cliente1.getUsername())).willReturn(Optional.of(cliente1));
 
 	}
 	
+	 //TEST QUE COMPRUEBA QUE LISTA TODOS LOS CLIENTES
+		@WithMockUser(value = "spring")
+		@Test
+		void testListadoClientes() throws Exception {
+			mockMvc.perform(get("/clientes")).andExpect(status().isOk())
+					.andExpect(model().attributeExists("clientes"))
+					.andExpect(view().name("clientes/listadoClientes"));
+		}
+		
 	//CREATION TESTS
 	
 	@WithMockUser(value = "spring")
@@ -93,11 +110,11 @@ public class ClienteControllerTest {
 	
 	@WithMockUser(value = "spring")
     @Test
-    void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/clientes/new")
+    void testSaveSuccess() throws Exception {
+		mockMvc.perform(post("/clientes/new").with(csrf())
 						.param("user.username", "cliente4")
-						.with(csrf())
 						.param("user.rDate", "2005-12-03")
+						.param("user.password", "cliente4")
 						.param("numPedidos", "15")
 						.param("esSocio", "true")
 						.param("tlf", "955857896"))
@@ -112,6 +129,7 @@ public class ClienteControllerTest {
 						.with(csrf())
 						.param("user.username", "cliente4")
 						.param("user.rDate", "2005-12-03")
+						.param("user.password", "cliente4")
 						.param("numPedidos", "15")
 						.param("esSocio", "true")
 						.param("tlf", ""))
@@ -130,30 +148,40 @@ public class ClienteControllerTest {
     @Test
     void testListaSocios() throws Exception {
 		
+		authorities2 = new Authorities();
+		authorities2.setId(11);
+		authorities2.setUser(cliente2);
+		authorities2.setAuthority("cliente");
+		
+		authorities2 = new Authorities();
+		authorities2.setId(12);
+		authorities2.setUser(cliente3);
+		authorities2.setAuthority("cliente");
+		
 		cliente2=new User();
 		cliente2.setEnabled(true);
 		cliente2.setPassword("cliente2");
-		cliente2.setrDate(LocalDate.of(1998, 01, 13));
+		cliente2.setrDate(LocalDate.of(2020, 01, 01));
 		cliente2.setUsername("cliente2");
 		
 		cliente3=new User();
 		cliente3.setEnabled(true);
 		cliente3.setPassword("cliente3");
-		cliente3.setrDate(LocalDate.of(1999, 8, 10));
+		cliente3.setrDate(LocalDate.of(2020, 01, 01));
 		cliente3.setUsername("cliente3");
 		
 		francisco = new Cliente();
-		francisco.setId(11);
 		francisco.setEsSocio(true);
 		francisco.setNumPedidos(12);
+		francisco.setMonedero(100);
 		francisco.setTlf("954357811");
 		francisco.setUser(cliente2);
 		
 		javier = new Cliente();
-		javier.setId(12);
 		javier.setEsSocio(false);
 		javier.setNumPedidos(11);
 		javier.setTlf("954736516");
+		javier.setMonedero(30);
 		javier.setUser(cliente3);
 		
 		
@@ -163,74 +191,8 @@ public class ClienteControllerTest {
 }
 		
 
-   //TEST QUE COMPRUEBA QUE LISTA TODOS LOS CLIENTES
-	@WithMockUser(value = "spring")
-	@Test
-	void testListadoClientes() throws Exception {
-		mockMvc.perform(get("/clientes")).andExpect(status().isOk())
-				.andExpect(model().attributeExists("clientes"))
-				.andExpect(view().name("clientes/listadoClientes"));
-	}
-	
 	
     
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

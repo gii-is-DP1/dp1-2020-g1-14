@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 import static org.hamcrest.Matchers.hasProperty;
 
 
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -33,7 +34,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-@WebMvcTest(controllers = ProductoController.class,
+@WebMvcTest(value = ProductoController.class,
+includeFilters = @ComponentScan.Filter(value = ProductoFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 
@@ -77,9 +79,18 @@ public class ProductoControllerTest {
 		tarta.setRestaurante(restaurante);
 		given(this.productoService.findProductoById(TEST_PRODUCTO_ID)).willReturn(Optional.of(tarta));
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante));
-
-		
+	
 }
+	
+	//TEST LISTAR PRODUCTOS
+		@WithMockUser(value = "spring")
+	    @Test
+	    void testListadoProducto() throws Exception {
+			mockMvc.perform(get("/restaurantes/{restauranteId}/productos", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("productos"))
+			.andExpect(status().is2xxSuccessful()).andExpect(view().name("productos/listadoProductos"));
+		}
+	
+	
 	//CREATION TESTS
 	
 	@WithMockUser(value = "spring")
@@ -92,7 +103,7 @@ public class ProductoControllerTest {
 	
 	@WithMockUser(value = "spring")
     @Test
-    void testProcessCreationFormSuccess() throws Exception {
+    void testSaveSuccess() throws Exception {
 		mockMvc.perform(post("/restaurantes/{restauranteId}/productos/new", TEST_RESTAURANTE_ID).with(csrf())
 				.param("name", "Macarrones con Queso")
 				.param("alergenos", "Queso")
@@ -100,16 +111,6 @@ public class ProductoControllerTest {
 				.param("precio", "6.0"))
 			.andExpect(status().is2xxSuccessful());
 }
-	
-	
-	
-	//TEST LISTAR PRODUCTOS
-	@WithMockUser(value = "spring")
-    @Test
-    void testListadoProducto() throws Exception {
-		mockMvc.perform(get("/restaurantes/{restauranteId}/productos", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("productos"))
-		.andExpect(status().is2xxSuccessful()).andExpect(view().name("productos/listadoProductos"));
-	}
 	
 	
 	//UPDATE TESTS
