@@ -52,11 +52,11 @@ public class GerenteService {
 	    
 	    @Transactional
 	    public void save(Gerente gerente) {
-	    	log.info("Guardando elemento");
-	    	gerenteRepo.save(gerente);
-	    	
 	    	log.info("Creando usuario");
 			userService.saveUser(gerente.getUser());
+	    	
+	    	log.info("Guardando elemento");
+	    	gerenteRepo.save(gerente);
 			
 			log.info("Creando authorities");
 			authoritiesService.saveAuthorities(gerente.getUser().getUsername(), "gerente");
