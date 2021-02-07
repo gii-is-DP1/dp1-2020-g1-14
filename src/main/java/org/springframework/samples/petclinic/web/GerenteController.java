@@ -47,7 +47,7 @@ public class GerenteController {
 	
 	//Hay que cambiar obligatoriamente el usuario del user porque si no se crea un nuevo ususario con el mismo nombre, 
 	//provocando que haya errores en la tabla de authorities
-	@PostMapping(path="/save/{gerenteId}")
+	/*@PostMapping(path="/save/{gerenteId}")
 	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap,
 			@RequestParam(value = "version", required = false) Integer version, @PathVariable("gerenteId") int gerenteId) {
 	String view="gerentes/listadoGerentes";
@@ -70,7 +70,7 @@ public class GerenteController {
 		view=listadoGerentes(modelMap);
 	}
 	return view;
-	}
+	}*/
 	
 	@PostMapping(path="/save")
 	public String salvarGerente(@Valid Gerente gerente, BindingResult result, ModelMap modelMap) {

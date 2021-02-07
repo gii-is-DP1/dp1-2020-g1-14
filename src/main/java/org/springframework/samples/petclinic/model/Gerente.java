@@ -8,16 +8,7 @@ import javax.persistence.Version;
 @Entity
 public class Gerente extends NamedEntity{
 	
-	@Version
-	private Integer version;
 
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
 
 	//	@NotBlank(message="El número DNI es obligatorio.")
 //	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")

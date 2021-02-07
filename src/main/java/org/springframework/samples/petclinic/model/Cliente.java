@@ -17,16 +17,7 @@ import lombok.Setter;
 @Entity
 public class Cliente extends BaseEntity {
 	
-	@Version
-	private Integer version;
 
-	public Integer getVersion() {
-		return version;
-	}
-
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
 	
     @NotNull
     private Boolean esSocio;
