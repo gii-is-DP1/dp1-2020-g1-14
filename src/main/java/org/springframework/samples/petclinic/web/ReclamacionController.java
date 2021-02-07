@@ -3,9 +3,13 @@ package org.springframework.samples.petclinic.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Reclamacion;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.ReclamacionService;
 import org.springframework.samples.petclinic.service.RestauranteService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,12 +24,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/restaurantes/{restauranteId}/reclamaciones")
 public class ReclamacionController {
-	
+
 	@Autowired
 	private ReclamacionService reclamacionService;
 	@Autowired
 	private RestauranteService resService;
-	
+	@Autowired
+	private ProductoService	productoService;
+
 	@GetMapping()
 	public String listadoReclamaciones(@PathVariable("restauranteId") int restauranteId,ModelMap modelMap) {
 		String vista="reclamaciones/listadoReclamaciones";
@@ -35,7 +41,7 @@ public class ReclamacionController {
 		log.info("Mostrando listado de reclamaciones");
 		return vista;
 	}
-	
+
 	@GetMapping(path="/new")
 	public String crearReclamacion(@PathVariable("restauranteId") int restauranteId,ModelMap modelMap) {
 		String view ="reclamaciones/crearReclamacion";
@@ -45,24 +51,30 @@ public class ReclamacionController {
 		log.info("Inicialización de creación de reclamacion");
 		return view;
 	}
-	
+
 	@PostMapping(path="/save")
 	public String guardarReclamacion(@PathVariable("restauranteId") int restauranteId, @Valid Reclamacion reclamacion, BindingResult result, ModelMap modelMap) {
-	String view="reclamaciones/listadoReclamaciones";
-	if(result.hasErrors())
-	{
-		modelMap.addAttribute("reclamacion", reclamacion);
-		modelMap.addAttribute("restauranteId", restauranteId);
-		log.warn("Error de validación");
-		return "/reclamaciones/crearReclamacion";
-		
-	}else {
-		reclamacionService.save(reclamacion);
-		modelMap.addAttribute("message", "Reclamación guardada");
-		view=listadoReclamaciones(restauranteId, modelMap);
-		log.info("Reclamacion creada");
-	}
-	return view;
+		String view="reclamaciones/listadoReclamaciones";
+		if(result.hasErrors())
+		{
+			modelMap.addAttribute("reclamacion", reclamacion);
+			modelMap.addAttribute("restauranteId", restauranteId);
+			log.warn("Error de validación");
+			return "/reclamaciones/crearReclamacion";
+
+		}else {
+			reclamacionService.save(reclamacion);
+			modelMap.addAttribute("message", "Reclamación guardada");
+			view="restaurantes/restauranteDetails";
+			Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+			modelMap.addAttribute("productos",productos);
+			modelMap.addAttribute("restaurante",this.resService.findRestauranteById(restauranteId).get());
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String name = auth.getName(); //get logged in username
+			modelMap.addAttribute("username", name);
+			log.info("Reclamacion creada");
+			return view;
+		}
 	}	
-	
+
 }
