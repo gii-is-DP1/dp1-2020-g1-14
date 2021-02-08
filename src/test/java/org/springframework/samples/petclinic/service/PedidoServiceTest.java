@@ -105,7 +105,19 @@ public class PedidoServiceTest {
 	
 	//Test para verificar el funcionamiento de getTotalPrice, para determinar el dinero exacto a través de un pedido y sus lineas de pedido.
 	@Test
-	public void testGetTotalPrice() throws WrongDataProductosException, MinOrderPriceException  {
+	public void testGetTotalPrice() {
+		Optional<Pedido> pedido = pedidoService.findPedidoById(1);
+		Iterable<LineaPedido> lineasPedido = lineaPedidoService.findLineaPedidoByPedidoId(1);
+		Double suma = 0.;
+		for(LineaPedido l: lineasPedido) {
+			Integer c = l.getCantidad();
+			Double p = l.getProducto().getPrecio();
+			suma += (c*p);
+
+		}
+	
+		Double total = pedidoService.getTotalPrice(pedido.get().getId());
+		assertThat(total).isEqualTo(suma);
 		/*
 		Pedido p = new Pedido();
 		p.setId(99);
@@ -150,18 +162,7 @@ public class PedidoServiceTest {
 		productoService.save(pr1);
 		productoService.save(pr2);
 		*/
-		Optional<Pedido> pedido = pedidoService.findPedidoById(1);
-		Iterable<LineaPedido> lineasPedido = lineaPedidoService.findLineaPedidoByPedidoId(1);
-		Double suma = 0.;
-		for(LineaPedido l: lineasPedido) {
-			Integer c = l.getCantidad();
-			Double p = l.getProducto().getPrecio();
-			suma += (c*p);
 
-		}
-	
-		Double total = pedidoService.getTotalPrice(pedido.get().getId());
-		assertThat(total).isEqualTo(suma);
 		
 		
 		/*Optional<Pedido> pedido = pedidoService.findPedidoById(1);
