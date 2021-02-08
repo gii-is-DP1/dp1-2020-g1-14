@@ -33,8 +33,8 @@ public class ReservaValidator implements Validator {
 		}
 		
 		//nPersonas validator
-		if(nPersonas==null) {
-			errors.rejectValue("nPersonas", REQUIRED+"  es necesario indicar el número de personas", REQUIRED+"  es necesario indicar el número de personas");
+		if(nPersonas==null || nPersonas<=0) {
+			errors.rejectValue("nPersonas", REQUIRED+"  indique un número de personas adecuado", REQUIRED+"  indique un número de personas adecuado");
 		}
 		
 		Integer aforores=0;
@@ -68,7 +68,6 @@ public class ReservaValidator implements Validator {
 		if(HF.isBefore(HI)) {
 			errors.rejectValue("horaFin", REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin",REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin");
 		}
-
 
 			
 	}
