@@ -75,6 +75,7 @@ public class IngredienteControllerTest {
 		ingrediente.setStock(50);
 		ingrediente.setMedida(Medida.L);
 		ingrediente.setRestaurante(restaurante);
+		ingrediente.setVersion(0);
 		given(this.ingredienteService.findIngredienteById(TEST_INGREDIENTE_ID)).willReturn(Optional.of(ingrediente));
 	}
 	
@@ -137,13 +138,13 @@ public class IngredienteControllerTest {
     @Test
     void testProcessUpdateFormSuccess() throws Exception {
 	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save/{ingredienteId}", TEST_RESTAURANTE_ID, TEST_INGREDIENTE_ID)
+						.param("version", String.valueOf(ingrediente.getVersion()))
 						.param("Name", "Harina")
 						.param("Medida", "KG")
 						.with(csrf())
 						.param("restaurante", String.valueOf(TEST_RESTAURANTE_ID))
 						.param("stock", "30")
-						.param("id", String.valueOf(TEST_INGREDIENTE_ID))
-						.param("version", String.valueOf(ingrediente.getVersion())))
+						.param("id", String.valueOf(TEST_INGREDIENTE_ID)))
 						.andExpect(status().is3xxRedirection())
 						.andExpect(view().name("redirect:/restaurantes/{restauranteId}/ingredientes"));
 	}
@@ -163,5 +164,20 @@ public class IngredienteControllerTest {
 						.andExpect(model().attributeHasFieldErrors("ingrediente", "Medida"))
 						.andExpect(model().attributeHasFieldErrors("ingrediente", "stock"))
 						.andExpect(view().name("ingredientes/editarIngrediente"));
+	}
+	
+	@WithMockUser(value = "spring")
+    @Test
+    void testProcessUpdateFormHasVersionError() throws Exception {
+	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save/{ingredienteId}", TEST_RESTAURANTE_ID, TEST_INGREDIENTE_ID)
+						.param("version", String.valueOf(ingrediente.getVersion()+1))
+						.param("Name", "Harina")
+						.param("Medida", "KG")
+						.with(csrf())
+						.param("restaurante", String.valueOf(TEST_RESTAURANTE_ID))
+						.param("stock", "30")
+						.param("id", String.valueOf(TEST_INGREDIENTE_ID)))
+						.andExpect(status().isOk())
+						.andExpect(view().name("ingredientes/listadoIngredientes"));
 	}
 }
