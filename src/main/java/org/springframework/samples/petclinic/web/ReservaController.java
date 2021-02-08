@@ -165,7 +165,7 @@ public class ReservaController {
 		Cliente cliente = reserva.getCliente();
 		if(LocalDate.now().equals(reserva.getFecha()) && reserva.getHoraInicio().plusMinutes(30).isAfter(LocalTime.now())) {
 			log.info("cliente presentado, se le devuelve el dinero");
-			Integer monedero = cliente.getMonedero();
+			Double monedero = cliente.getMonedero();
 			monedero += senial;
 			cliente.setMonedero(monedero);
 			clienteService.save(cliente);

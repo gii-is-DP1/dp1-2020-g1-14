@@ -30,7 +30,7 @@ public class Cliente extends BaseEntity {
     private int numPedidos;
     
     @Min(value = 0,message="no se puede tener dinero negativo")
-    private int monedero;
+    private Double monedero;
     
     @OneToOne
     @JoinColumn(name = "username", referencedColumnName = "username")
