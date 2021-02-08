@@ -27,6 +27,7 @@
             <th style="width: 120px">Señal</th>
             </sec:authorize>
             <sec:authorize access="hasAuthority('admin')">
+            <th style="width: 150px">gerente</th>
             <th style="width: 120px">Actions</th>
             </sec:authorize>
             
@@ -56,6 +57,9 @@
                 </td>
                 </sec:authorize>
                 <sec:authorize access="hasAuthority('admin')">
+                <td>
+                	<c:out value="${restaurantes.gerente.user.username}"/>
+                </td>
 				<td>
 				<spring:url value="/restaurantes/delete/{restaurantesId}" var="restauranteUrl">
                         <spring:param name="restaurantesId" value="${restaurantes.id}"/>

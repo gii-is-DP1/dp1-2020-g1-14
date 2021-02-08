@@ -21,8 +21,6 @@ public class User{
 	@Id
 	String username;
 	
-	@NotEmpty(message="El campo de la contraseña es obligatorio.")
-    @Pattern(regexp="^.*(?=.{6,})(?=.*\\d)(?=.*[a-zA-Z]).*$", message="La contraseña debe tener 6 carácteres y contener al menos un número. ")
 	String password;
 	
 	boolean enabled;

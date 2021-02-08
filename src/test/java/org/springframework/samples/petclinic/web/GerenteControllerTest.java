@@ -21,11 +21,15 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.GerenteService;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 @WebMvcTest(controllers= {GerenteController.class, CustomErrorController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 classes = WebSecurityConfigurer.class), excludeAutoConfiguration= SecurityConfiguration.class)
@@ -44,16 +48,37 @@ public class GerenteControllerTest {
 	@MockBean
 	private RestauranteService restauranteService;
 	
+	@MockBean
+	private GerenteValidator validator;
+	
+	@MockBean
+	private ProductoService productoService;
+	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	private Gerente nombre1;
-	private Gerente nombre2;
-	
 	private Restaurante restaurante1;
+	private User usuario1;
+	
+	@InitBinder("gerente")
+	public void initGerenteBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(validator);
+	}
 	
 	@BeforeEach
 	void setup() {
+		
+		usuario1 = new User();
+		usuario1.setPassword("gerente1");
+		usuario1.setrDate(LocalDate.of(2000, 10, 11));
+		
+		nombre1 = new Gerente();
+		nombre1.setId(TEST_GERENTE_ID);
+		nombre1.setName("nombre1");
+		nombre1.setUser(usuario1);
+		nombre1.setDni("12345678F");
+		given(this.gerenteService.findGerenteById(TEST_GERENTE_ID)).willReturn(Optional.of(nombre1));
 		
 		restaurante1 = new Restaurante();
 		restaurante1.setId(TEST_RESTAURANTE_ID);
@@ -61,16 +86,8 @@ public class GerenteControllerTest {
 		restaurante1.setTipo("Italiano");
 		restaurante1.setLocalizacion("Reina Mercedes, 34");
 		restaurante1.setAforomax(26);
+		restaurante1.setGerente(nombre1);
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante1));
-		
-		nombre1 = new Gerente();
-		nombre1.setId(TEST_GERENTE_ID);
-		nombre1.setName("nombre1");
-		nombre1.getUser().setPassword("gerente1");
-		nombre1.getUser().setrDate(LocalDate.of(2000, 10, 11));
-		nombre1.setDni("12345678F");
-		//nombre1.setRestaurante(restauranteService.findRestauranteById(1).get());
-		given(this.gerenteService.findGerenteById(TEST_GERENTE_ID)).willReturn(Optional.of(nombre1));
 	
 
 	}
@@ -80,17 +97,20 @@ public class GerenteControllerTest {
 	@WithMockUser(value = "spring")
     @Test
     void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/gerentes/new")).andExpect(status().isOk()).andExpect(model().attributeExists("gerente"))
-		.andExpect(view().name("gerentes/editarGerente"));
+		mockMvc.perform(get("/restaurantes/{restauranteId}/gerentes/new", TEST_RESTAURANTE_ID))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("gerente"))
+				.andExpect(view().name("gerentes/editarGerente"));
 	}
 
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/gerentes/new")
+		mockMvc.perform(post("/restaurantes/{restauranteId}/gerentes/save", TEST_RESTAURANTE_ID)
 				.param("name", "Alex")
 				.with(csrf())
-				.param("password","gerente3")
+				.param("user.username", "gerente3")
+				.param("user.password","gerente3")
 				.param("rDate", "2018-12-03")
 				.param("dni", "42869434T"))
 		.andExpect(status().is2xxSuccessful());
@@ -99,14 +119,14 @@ public class GerenteControllerTest {
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormHasErrors() throws Exception {
-		mockMvc.perform(post("/gerentes/save")	
+		mockMvc.perform(post("/restaurantes/{restauranteId}/gerentes/save", TEST_RESTAURANTE_ID)	
 						.with(csrf())
 						.param("name", "")
 						.param("password","")
 						.param("rDate", "2018-12-03")
 						.param("dni", "75927501T"))
 			.andExpect(status().isOk())
-			.andExpect(model().attributeHasErrors("gerente"))
+			.andExpect(model().attributeHasErrors("user"))
 			.andExpect(model().attributeHasFieldErrors("gerente", "password"))
 			.andExpect(model().attributeHasFieldErrors("gerente", "name"))
 			.andExpect(view().name("gerentes/editarGerente"));
@@ -116,8 +136,9 @@ public class GerenteControllerTest {
 	@WithMockUser(value = "spring")
 	@Test
 	void testListadoGerentes() throws Exception {
-		mockMvc.perform(get("/gerentes")).andExpect(status().isOk())
-		.andExpect(model().attributeExists("gerentes"))
-		.andExpect(view().name("gerentes/listadoGerentes"));
+		mockMvc.perform(get("/restaurantes/{restauranteId}/gerentes", TEST_RESTAURANTE_ID))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("gerentes"))
+				.andExpect(view().name("gerentes/listadoGerentes"));
 	}
 }

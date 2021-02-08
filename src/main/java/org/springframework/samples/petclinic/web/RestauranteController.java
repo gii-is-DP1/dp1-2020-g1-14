@@ -128,9 +128,11 @@ public class RestauranteController {
 	@GetMapping("/{restauranteId}")
 	public ModelAndView showRestaurante(@PathVariable("restauranteId") int restauranteId) {
 		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
 		mav.addObject("productos",productos);
-		mav.addObject("restaurante",this.restauranteService.findRestauranteById(restauranteId).get());
+		mav.addObject("restaurante",restaurante);
+		mav.addObject("gerente",restaurante.getGerente());
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String name = auth.getName(); //get logged in username
 	    mav.addObject("username", name);
