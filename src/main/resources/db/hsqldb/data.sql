@@ -155,7 +155,7 @@ INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,v
 INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,version) VALUES(3,'Descuento 1 euro',1.0,true,11.0,1,1);
 INSERT INTO oferta(id,descripcion,descuento,exclusivo,min_price,restaurante_id,version) VALUES(4,'Descuento 15 euros',15.0,true,30.0,1,1);
 
-INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(2,'Calle B',true,'EN_REPARTO','2020-04-14',20.4,2,2,1);
+INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version,oferta_id) VALUES(2,'Calle B',true,'EN_REPARTO','2020-04-14',20.4,2,2,1,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (2,1,2,4);
 
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(3,'Calle C',true,'RECIBIDO','2020-11-19',16.4,3,3,1);

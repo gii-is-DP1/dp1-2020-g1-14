@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.stereotype.Service;
@@ -93,4 +94,18 @@ public class OfertaServiceTest {
 		
 	}
 	
-}
+	@Test
+	@Transactional
+	public void shouldFindOfertasByRestauranteId() {
+		Iterable<Oferta> ofertas = ofertaService.findOfertasByRestauranteId(1);
+		boolean ofertasCorrectas=true;
+		for(Oferta o:ofertas) {
+			if(!o.getRestaurante().getId().equals(1)) {
+				ofertasCorrectas=false;
+			}
+		}
+		assertThat(ofertasCorrectas).isEqualTo(true);
+	}		
+	}
+	
+

@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Estado;
 import org.springframework.samples.petclinic.model.LineaPedido;
+import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.CantCancelOrderException;
@@ -188,5 +189,66 @@ public class PedidoServiceTest {
 		assertThat(tamaño).isEqualTo(productosL);
 	}
 	
+	
+	@Test
+	public void getAllOfertasTest() {
+		Collection<Oferta> ofertas = (Collection<Oferta>) pedidoService.getAllOfertas();
+		int tamaño = ofertas.size();
+		Integer ofertasL = (int) ofertas.stream().count();
+		assertThat(tamaño).isEqualTo(ofertasL);
+	}
 
+	
+	@Test
+	@Transactional
+	public void shouldFindPedidosByRestauranteId() {
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByRestauranteId(1);
+		boolean pedidosCorrectos=true;
+		for(Pedido p:pedidos) {
+			if(!p.getRestaurante().getId().equals(1)) {
+				pedidosCorrectos=false;
+			}
+		}
+		assertThat(pedidosCorrectos).isEqualTo(true);
+	}		
+	
+	@Test
+	@Transactional
+	public void shouldFindPedidosByOfertaId() {
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByOfertaId(1);
+		boolean pedidosCorrectos=true;
+		for(Pedido p:pedidos) {
+			if(!p.getOferta().getId().equals(1)) {
+				pedidosCorrectos=false;
+			}
+		}
+		assertThat(pedidosCorrectos).isEqualTo(true);
+	}		
+	
+	@Test
+	@Transactional
+	public void shouldFindPedidosByClienteId() {
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByClienteId(1);
+		boolean pedidosCorrectos=true;
+		for(Pedido p:pedidos) {
+			if(!p.getCliente().getId().equals(1)) {
+				pedidosCorrectos=false;
+			}
+		}
+		assertThat(pedidosCorrectos).isEqualTo(true);
+	}		
+	
+	@Test
+	@Transactional
+	public void shouldFindPedidosByClienteIdYRestauranteId() {
+		Iterable<Pedido> pedidos = pedidoService.findPedidosByClienteIdYRestauranteId(1,1);
+		boolean pedidosCorrectos=true;
+		for(Pedido p:pedidos) {
+			if(!p.getRestaurante().getId().equals(1) && !p.getCliente().getId().equals(1) ) {
+				pedidosCorrectos=false;
+			}
+		}
+		assertThat(pedidosCorrectos).isEqualTo(true);
+	}	
+	
 }
