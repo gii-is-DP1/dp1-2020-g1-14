@@ -75,6 +75,9 @@
     
     <spring:url value="/restaurantes/${restaurante.id}/proveedores" var="proveedoresUrl"/>
     <a href="${fn:escapeXml(proveedoresUrl)}" class="btn btn-default">Listar Proveedores</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/proveedores/selectProveedor" var="proveedoresUrl"/>
+    <a href="${fn:escapeXml(proveedoresUrl)}" class="btn btn-default">Añadir Proveedor</a>
     </sec:authorize>
     
     <sec:authorize access="hasAuthority('admin')">

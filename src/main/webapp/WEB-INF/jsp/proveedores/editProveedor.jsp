@@ -10,10 +10,10 @@
         <h2>Proveedores</h2>
        <c:choose>
         	<c:when test="${proveedor['new']}">
-            	<c:set var="action" value="/proveedores/save"/>
+            	<c:set var="action" value="/restaurantes/${restauranteId}/proveedores/save"/>
             </c:when>
             <c:otherwise>
-                <c:set var="action" value="/proveedores/save/${proveedor.id}"/>
+                <c:set var="action" value="/restaurantes/${restauranteId}/proveedores/save/${proveedor.id}"/>
             </c:otherwise>
        </c:choose>        
         

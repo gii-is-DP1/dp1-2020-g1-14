@@ -53,7 +53,7 @@ public class UserService {
 	
 	 @Transactional
 	 public void delete(User user) {
-		 user.getAuthorities().setUser(null);;
+		 user.getAuthorities().setUser(null);
 		 userRepository.delete(user);
 	 }
 }
