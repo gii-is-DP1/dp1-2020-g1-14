@@ -82,7 +82,7 @@ public class ClienteControllerTest {
 		cliente1.setEsSocio(false);
 		cliente1.setNumPedidos(12);
 		cliente1.setTlf("954765812");
-		cliente1.setMonedero(300);
+		cliente1.setMonedero(300.);
 		cliente1.setUser(user);
 	
 
@@ -174,7 +174,7 @@ public class ClienteControllerTest {
 		cliente2.setId(2);
 		cliente2.setEsSocio(true);
 		cliente2.setNumPedidos(12);
-		cliente2.setMonedero(100);
+		cliente2.setMonedero(100.);
 		cliente2.setTlf("954357811");
 		cliente2.setUser(user);
 
@@ -183,7 +183,7 @@ public class ClienteControllerTest {
 		cliente3.setEsSocio(false);
 		cliente3.setNumPedidos(11);
 		cliente3.setTlf("954736516");
-		cliente3.setMonedero(30);
+		cliente3.setMonedero(30.);
 		cliente3.setUser(user);
 
 
