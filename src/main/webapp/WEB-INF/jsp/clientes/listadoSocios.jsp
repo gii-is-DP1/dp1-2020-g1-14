@@ -50,18 +50,6 @@
                     <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Eliminar</a>
                 </td>
                 
-            
-                
-                
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
                 
             </tr>
             

@@ -83,15 +83,7 @@ public class ReservaController {
 
 	}
 
-	//	@GetMapping(path = "/{reservaId}/edit")
-	//	public String initUpdateForm(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap) {
-	//		Reserva reserva = this.reservaService.findReservaById(reservaId).get();
-	//		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
-	//		modelMap.addAttribute("reserva",reserva);
-	//		modelMap.addAttribute("username", usuario);
-	//		log.info("inicializando edición de una reserva");
-	//		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
-	//	}
+
 
 	@PostMapping(path="/save")
 	public String salvarReservas(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, @Valid Reserva reserva, BindingResult res, ModelMap modelMap){

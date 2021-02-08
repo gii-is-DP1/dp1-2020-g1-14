@@ -54,12 +54,7 @@ public class LineaPedidoController {
 		return this.productoService.findAll();
 	}
 
-	/*
-	 * @InitBinder("productos") public void initProductoBinder(WebDataBinder
-	 * dataBinder) { dataBinder.setValidator(new ProductoValidator());
-	 * 
-	 * }
-	 */
+
 
 	//Obtenemos la lista de lineaPedido.
 	@GetMapping()
@@ -129,50 +124,7 @@ public class LineaPedidoController {
 		}
 	}
 
-	/*
-	 * @GetMapping(path="delete/{lineaPedidoId}") public String
-	 * borrarProveedor(@PathVariable("lineaPedidoId") int lineaPedidoId, ModelMap
-	 * modelMap) { String view="lineaPedidos/listadoLineaPedidos";
-	 * Optional<LineaPedido>
-	 * lineaPedido=lineaPedidoService.findLineaPedidoById(lineaPedidoId);
-	 * 
-	 * if(lineaPedido.isPresent()) { lineaPedidoService.delete(lineaPedido.get());
-	 * modelMap.addAttribute("message","Event succesfully deleted!");
-	 * view=listadoLineaPedidos(modelMap);
-	 * 
-	 * log.info("LineaPedido eliminada con éxito"); }else {
-	 * modelMap.addAttribute("message","Event not found!");
-	 * view=listadoLineaPedidos(modelMap);
-	 * 
-	 * log.error("No se ha encontrado la lineaPedido para eliminar"); } return view;
-	 * }
-	 * 
-	 * @GetMapping(path = "/{lineaPedidoId}/edit") public String
-	 * initUpdateForm(@PathVariable("lineaPedidoId") int lineaPedidoId, ModelMap
-	 * model) { LineaPedido lineaPedido =
-	 * this.lineaPedidoService.findLineaPedidoById(lineaPedidoId).get();
-	 * model.addAttribute(lineaPedido);
-	 * 
-	 * log.info("Operación para editar lineaPedido en ejecucion");
-	 * 
-	 * return VIEWS_LINEAPEDIDO_CREATE_OR_UPDATE_FORM; }
-	 * 
-	 * @PostMapping(value="/{lineaPedidoId}/edit") public String
-	 * processUpdateProductoForm(@Valid LineaPedido lineaPedido, BindingResult
-	 * result, @PathVariable("lineaPedidoId" ) int lineaPedidoId) { if
-	 * (result.hasErrors()) {
-	 * 
-	 * log.
-	 * error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos"
-	 * );
-	 * 
-	 * return VIEWS_LINEAPEDIDO_CREATE_OR_UPDATE_FORM; } else {
-	 * lineaPedido.setId(lineaPedidoId); this.lineaPedidoService.save(lineaPedido);
-	 * 
-	 * 
-	 * log.info("LineaPedido editada satisfactoriamente"); } return
-	 * "redirect:/productos/{productoId}"; }
-	 */
+
 	@ModelAttribute("productos")
 	public List<Producto> producto() {
 		return this.lineaPedidoService.getAllProductos();

@@ -47,11 +47,6 @@ public class ProveedorService {
 		return proveedorRepo.findById(id);
 	}
 	
-//	@Transactional
-//	public Iterable<Proveedor> findProveedoresByRestauranteId(Integer restauranteId){
-//		log.info("Buscando proveedores por restaurante");
-//		return proveedorRepo.findProveedoresByRestauranteId(restauranteId);
-//	}
 
 	@Transactional
 	public void save(Proveedor proveedor) {

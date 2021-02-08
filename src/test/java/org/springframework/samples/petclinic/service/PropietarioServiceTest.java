@@ -33,26 +33,6 @@ public class PropietarioServiceTest {
 		assertThat(propietario.get().getId()).isEqualTo(1);
 	}
 
-	@Test
-	void shouldUpdatePropietario() {
-		Optional<Propietario> propietario = this.propietarioService.findPropietarioById(1);
-		propietario.get().setName("editNombre");
-		propietario.get().setDni("12345678X");
-		propietario.get().setPassword("editPass1");
-		assertThat(propietario.get().getName()).startsWith("editNombre");
-		assertThat(propietario.get().getDni()).isEqualTo("12345678X");
-		assertThat(propietario.get().getPassword()).isEqualTo("editPass1");
-	}
 
-	/*@Test
-	@Transactional
-	void shouldNotUpdatePropietario() {
-		Optional<Propietario> propietario = this.propietarioService.findPropietarioById(1);
-		String oldDni = propietario.get().getDni();
-		String newDni = oldDni + "X";
-
-		propietario.get().setDni(newDni);
-		assertThat(propietario.get().getDni()).isNotEqualTo(newDni);
-	}*/
 
 }

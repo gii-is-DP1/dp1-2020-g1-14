@@ -53,11 +53,7 @@ public class ProductoService {
 		return productoRepo.findProductosByRestauranteId(restauranteId);
 	}
 	
-	public void save(Producto producto) /*throws WrongDataProductosException*/ {
-//		if((producto.getName().length() < 3 || producto.getName().length() > 50) || !producto.getAlergenos().matches("^[a-zA-Z,.!? ]*$")||producto.getPrecio() <= 0) {
-//			log.error("No se cumplen las condiciones al crear el producto");
-//			throw new WrongDataProductosException();
-//		}else
+	public void save(Producto producto)  {
 		
 		log.info("Guardando elemento");
 		productoRepo.save(producto);

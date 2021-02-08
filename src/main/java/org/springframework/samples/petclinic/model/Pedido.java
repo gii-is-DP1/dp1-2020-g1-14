@@ -63,7 +63,7 @@ public class Pedido extends BaseEntity {
 	public Pedido() {
 		super();
 		this.orderDate = LocalDate.now();
-		this.estado =  estado.SIN_VERIFICAR;
+		this.estado =  Estado.SIN_VERIFICAR;
 		this.checkea = false;
 	}
 	

@@ -77,8 +77,7 @@ public class IngredienteController {
 		}else {
 			ingService.save(ingrediente);
 			modelMap.addAttribute("mensaje", "Ingrediente guardado");
-      
-//			String vista = listadoIngredientes(restauranteId, modelMap);
+
 			log.info("Restaurante creado");
 			return "redirect:/restaurantes/{restauranteId}/ingredientes";
 		}
@@ -154,7 +153,7 @@ public class IngredienteController {
 			log.warn("ingrediente no encontrado");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
-//		vista = "redirect:/restaurantes/{restaurantesId}/ingredientes";
+
 
 		return vista;
 	}

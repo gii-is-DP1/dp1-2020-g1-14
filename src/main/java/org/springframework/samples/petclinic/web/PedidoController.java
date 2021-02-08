@@ -176,9 +176,6 @@ public class PedidoController {
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		// modelMap.addAttribute("pedido", pedido.get());
-		// pedido.get().setOferta(oferta);
-		// System.out.println("cualquier cosa" + pedido.get().getOferta().getId());
 
 		if(oferta != null) {
 			if(pedido.get().getPrice() < oferta.getMinPrice()) {

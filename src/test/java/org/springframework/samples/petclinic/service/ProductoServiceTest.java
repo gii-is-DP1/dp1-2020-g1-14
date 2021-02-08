@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductoServiceTest {
 	@Autowired
 	private ProductoService productoService;
-	@Autowired
-	private LineaPedidoService lineaPedidoService;
+
 	@Autowired
 	private IngredienteService ingredienteService;
 		
@@ -56,25 +55,7 @@ public class ProductoServiceTest {
 		productos = (Collection<Producto>) this.productoService.findAll();
 		assertThat(productos.size()).isEqualTo(found+1);
 	}
-	/*
-	@ParameterizedTest
-	@Transactional
-	@CsvSource({"Bacalao, Pescado, 0.", "T,Frutos secos,5", "Tortilla,2Huevos,5"})
-	public void shouldThrowWrongDataProductosException(String name, String al, Double pr) {
-		
-		Producto p = new Producto();
-		p.setName(name);
-		p.setAlergenos(al);
-		p.setPrecio(pr);
-			
-                               
-                
-		this.productoService.save(p);
-		Assertions.assertThrows(WrongDataProductosException.class, ()->{
-			this.productoService.save(p);
-		});
-	}
-	*/
+	
 	
 	//Test para comprobar que se elimina un producto correctamente.
 	@ParameterizedTest

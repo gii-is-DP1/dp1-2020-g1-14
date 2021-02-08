@@ -9,9 +9,6 @@ import javax.persistence.Version;
 public class Gerente extends NamedEntity{
 	
 
-
-	//	@NotBlank(message="El número DNI es obligatorio.")
-//	@Pattern(regexp="^[0-9]{8}[a-Z]$", message="Debe introducir DNI válido p.ej: '95467897E'.")
 	private String dni;
 	
 	@OneToOne

@@ -72,9 +72,7 @@ public class ReservaValidator implements Validator {
 			
 	}
 	
-	/**
-	 * This Validator validates *just* Reserva instances
-	 */
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Reserva.class.isAssignableFrom(clazz);

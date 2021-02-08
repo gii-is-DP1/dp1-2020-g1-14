@@ -23,8 +23,7 @@ public class Cliente extends BaseEntity {
     private Boolean esSocio;
     
     @NotEmpty(message="El número de teléfono es obligatorio.")
-    //@Pattern(regexp="^([0-9]|7[1-9])[0-9]{8}$", message="El número de teléfono no es válido. Debe introducir un número de teléfono válido p.ej: '954678970' o en caso de teléfono móvil: '657908756'.")
-    //@TelephoneNumberConstraint
+
     private String tlf;
     
     private int numPedidos;
