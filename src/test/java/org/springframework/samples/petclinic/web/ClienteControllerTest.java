@@ -54,43 +54,43 @@ public class ClienteControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	private Cliente juan;
-	private Cliente francisco;
-	private Cliente javier;
-	private User cliente1;
-	private User cliente2;
-	private User cliente3;
+	private Cliente cliente1;
+	private Cliente cliente2;
+	private Cliente cliente3;
+	private Cliente cliente4;
+	private User user;
 	private Authorities authorities;
-	private Authorities authorities2;
-	private Authorities authorities3;
+	
 
 	@BeforeEach
 	void setup() {
 
 		authorities = new Authorities();
 		authorities.setId(10);
-		authorities.setUser(cliente1);
+		authorities.setUser(user);
 		authorities.setAuthority("cliente");
 
-		cliente1=new User();
-		cliente1.setEnabled(true);
-		cliente1.setPassword("cliente1");
-		cliente1.setrDate(LocalDate.of(2020, 01, 01));
-		cliente1.setUsername("cliente1");
-		cliente1.setAuthorities(authorities);
+		user=new User();
+		user.setEnabled(true);
+		user.setPassword("cliente1");
+		user.setrDate(LocalDate.of(2020, 01, 01));
+		user.setUsername("cliente1");
+		user.setAuthorities(authorities);
 
-		juan = new Cliente();
-		juan.setEsSocio(false);
-		juan.setNumPedidos(12);
-		juan.setTlf("954765812");
-		juan.setMonedero(300);
-		juan.setUser(cliente1);
+		cliente1 = new Cliente();
+		cliente1.setId(1);
+		cliente1.setEsSocio(false);
+		cliente1.setNumPedidos(12);
+		cliente1.setTlf("954765812");
+		cliente1.setMonedero(300);
+		cliente1.setUser(user);
+	
 
-		given(this.userService.findUser(cliente1.getUsername())).willReturn(Optional.of(cliente1));
+		given(this.clienteService.findClienteById(1)).willReturn(Optional.of(cliente1));
 
 	}
 
-	//TEST QUE COMPRUEBA QUE LISTA TODOS LOS CLIENTES
+	//TEST QUE COMPRUEBA QUE LISTA LOS CLIENTES
 	@WithMockUser(value = "spring")
 	@Test
 	void testListadoClientes() throws Exception {
@@ -110,13 +110,13 @@ public class ClienteControllerTest {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testSaveSuccess() throws Exception {
-		mockMvc.perform(post("/clientes/new").with(csrf())
+	void testSaveClienteSuccess() throws Exception {
+		mockMvc.perform(post("/clientes/save").with(csrf())
 				.param("user.username", "cliente4")
 				.param("user.rDate", "2005-12-03")
 				.param("user.password", "cliente4")
 				.param("numPedidos", "15")
-				.param("esSocio", "true")
+				.param("esSocio", "false")
 				.param("tlf", "955857896"))
 		.andExpect(status().is2xxSuccessful());
 	}
@@ -124,14 +124,14 @@ public class ClienteControllerTest {
 
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessCreationFormHasErrors() throws Exception {
+	void testSaveClienteHasErrors() throws Exception {
 		mockMvc.perform(post("/clientes/save")
 				.with(csrf())
 				.param("user.username", "cliente4")
 				.param("user.rDate", "2005-12-03")
 				.param("user.password", "cliente4")
 				.param("numPedidos", "15")
-				.param("esSocio", "true")
+				.param("esSocio", "false")
 				.param("tlf", ""))
 		.andExpect(status().isOk())
 		.andExpect(model().attributeHasErrors("cliente"))
@@ -140,7 +140,7 @@ public class ClienteControllerTest {
 	}
 
 
-
+	
 	//TEST QUE COMPRUEBA QUE LISTA LOS SOCIOS
 
 
@@ -148,51 +148,49 @@ public class ClienteControllerTest {
 	@Test
 	void testListaSocios() throws Exception {
 
-		authorities2 = new Authorities();
-		authorities2.setId(11);
-		authorities2.setUser(cliente2);
-		authorities2.setAuthority("cliente");
+		authorities = new Authorities();
+		authorities.setId(11);
+		authorities.setUser(user);
+		authorities.setAuthority("cliente");
 
-		authorities2 = new Authorities();
-		authorities2.setId(12);
-		authorities2.setUser(cliente3);
-		authorities2.setAuthority("cliente");
+		authorities = new Authorities();
+		authorities.setId(12);
+		authorities.setUser(user);
+		authorities.setAuthority("cliente");
 
-		cliente2=new User();
-		cliente2.setEnabled(true);
-		cliente2.setPassword("cliente2");
-		cliente2.setrDate(LocalDate.of(2020, 01, 01));
-		cliente2.setUsername("cliente2");
+		user=new User();
+		user.setEnabled(true);
+		user.setPassword("cliente2");
+		user.setrDate(LocalDate.of(2020, 01, 01));
+		user.setUsername("cliente2");
 
-		cliente3=new User();
-		cliente3.setEnabled(true);
-		cliente3.setPassword("cliente3");
-		cliente3.setrDate(LocalDate.of(2020, 01, 01));
-		cliente3.setUsername("cliente3");
+		user=new User();
+		user.setEnabled(true);
+		user.setPassword("cliente3");
+		user.setrDate(LocalDate.of(2020, 01, 01));
+		user.setUsername("cliente3");
 
-		francisco = new Cliente();
-		francisco.setEsSocio(true);
-		francisco.setNumPedidos(12);
-		francisco.setMonedero(100);
-		francisco.setTlf("954357811");
-		francisco.setUser(cliente2);
+		cliente2 = new Cliente();
+		cliente2.setId(2);
+		cliente2.setEsSocio(true);
+		cliente2.setNumPedidos(12);
+		cliente2.setMonedero(100);
+		cliente2.setTlf("954357811");
+		cliente2.setUser(user);
 
-		javier = new Cliente();
-		javier.setEsSocio(false);
-		javier.setNumPedidos(11);
-		javier.setTlf("954736516");
-		javier.setMonedero(30);
-		javier.setUser(cliente3);
+		cliente3 = new Cliente();
+		cliente3.setId(3);
+		cliente3.setEsSocio(false);
+		cliente3.setNumPedidos(11);
+		cliente3.setTlf("954736516");
+		cliente3.setMonedero(30);
+		cliente3.setUser(user);
 
 
-		given(this.clienteService.findSocios()).willReturn(Lists.newArrayList(juan, francisco, javier));
+		given(this.clienteService.findSocios()).willReturn(Lists.newArrayList(cliente1, cliente2, cliente3));
 
 		mockMvc.perform(get("/clientes/socios")).andExpect(status().isOk()).andExpect(view().name("clientes/listadoSocios"));
 	}
-
-
-
-
 
 
 
