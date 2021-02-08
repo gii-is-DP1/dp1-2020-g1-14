@@ -9,9 +9,6 @@
 
 <petclinic:layout pageName="gerentes">
     <h2>Gerentes</h2>
-    <spring:url value="/gerentes/new" var="gerenteUrl">
-                    </spring:url>
-                    <a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">New</a>
 
     <table id="gerentesTable" class="table table-striped">
         <thead>
@@ -47,10 +44,6 @@
                         <spring:param name="gerenteId" value="${gerente.id}"/>
                     </spring:url>
                 	<a href="${fn:escapeXml(gerenteUrl)}" >Borrar</a>
-                	<spring:url value="/gerentes/{gerenteId}/edit" var="gerenteUrl">
-        				<spring:param name="gerenteId" value="${gerente.id}"/>
-    				</spring:url>
-    				<a href="${fn:escapeXml(gerenteUrl)}" >Editar</a>
                 </td>
             </tr>
         </c:forEach>

@@ -23,10 +23,7 @@
 
             <div class="form-group has-feedback">
             	<petclinic:inputField label="Username" name="user.username"/>
-            	<petclinic:inputField label="rDate" name="user.rDate"/>
             	<petclinic:inputField label="Password" name="user.password"/>
-            	<petclinic:inputField label="numPedidos" name="numPedidos"/>
-            	<petclinic:inputField label="esSocio" name="esSocio"/>
           		<petclinic:inputField label="tlf"  name="tlf"/>
                	
               </div>

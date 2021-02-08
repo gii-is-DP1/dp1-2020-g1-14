@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
@@ -32,7 +34,7 @@ public class Proveedor extends NamedEntity{
 	@ManyToMany
 	private Set<Ingrediente> ingredientes;
 
-	@ManyToMany
+	@ManyToMany(mappedBy = "proveedores")
 	private Set<Restaurante> restaurantes;
 	
 	public String getTlf() {

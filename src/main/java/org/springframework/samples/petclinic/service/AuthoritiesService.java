@@ -63,7 +63,7 @@ public class AuthoritiesService {
 	}
 	
 	@Transactional
-	 public void delete(Authorities authorities) {
-		 authoritiesRepository.delete(authorities);
-	 }
+	public void delete(Authorities authorities) {
+		authoritiesRepository.delete(authorities);
+	}
 }

@@ -75,14 +75,21 @@
     
     <spring:url value="/restaurantes/${restaurante.id}/proveedores" var="proveedoresUrl"/>
     <a href="${fn:escapeXml(proveedoresUrl)}" class="btn btn-default">Listar Proveedores</a>
+    
+    <spring:url value="/restaurantes/${restaurante.id}/proveedores/selectProveedor" var="proveedoresUrl"/>
+    <a href="${fn:escapeXml(proveedoresUrl)}" class="btn btn-default">Añadir Proveedor</a>
     </sec:authorize>
     
     <sec:authorize access="hasAuthority('admin')">
+    	
     	<spring:url value="/restaurantes/${restaurante.id}/gerentes/new" var="gerenteUrl"/>
     	<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Añadir Gerente</a>
-    
-   		<spring:url value="/restaurantes/${restaurante.id}/gerentes/delete/${restaurante.gerente.id}" var="gerenteUrl"/>
-    	<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Eliminar Gerente</a>
+    	<c:if test="${not empty restaurante.gerente}">
+   			<spring:url value="/restaurantes/${restaurante.id}/gerentes/delete/${restaurante.gerente.id}" var="gerenteUrl"/>
+    		<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Eliminar Gerente</a>
+    	</c:if>    	
+    	<spring:url value="/restaurantes/${restaurante.id}/gerentes" var="gerenteUrl"/>
+    	<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Listado de Gerentes</a>
     </sec:authorize>
     <br/>
     <br/>

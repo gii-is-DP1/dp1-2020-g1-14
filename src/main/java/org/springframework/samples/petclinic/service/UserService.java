@@ -18,12 +18,15 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Optional;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import ch.qos.logback.classic.Logger;
 
 /**
  * Mostly used as a facade for all Petclinic controllers Also a placeholder
@@ -34,12 +37,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
-	private UserRepository userRepository;
-
 	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	private UserRepository userRepository;
+	
+	private static final Logger log = (Logger) LoggerFactory.getLogger(UserService.class);
 
 	@Transactional
 	public void saveUser(User user) throws DataAccessException {
@@ -51,9 +52,14 @@ public class UserService {
 		return userRepository.findById(username);
 	}
 	
+	public Iterable<User> findAll(){
+		log.info("Buscando todos los elementos");
+		return userRepository.findAll();
+	}
+	
 	 @Transactional
 	 public void delete(User user) {
-		 user.getAuthorities().setUser(null);;
+		 user.getAuthorities().setUser(null);
 		 userRepository.delete(user);
 	 }
 }
