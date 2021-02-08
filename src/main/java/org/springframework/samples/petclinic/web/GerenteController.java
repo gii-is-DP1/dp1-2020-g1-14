@@ -6,8 +6,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Gerente;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.GerenteService;
+import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,6 +30,8 @@ public class GerenteController {
 	private GerenteService gerenteService;
 	@Autowired
 	private RestauranteService restauranteService;
+	@Autowired
+	private ProductoService productoService;
 	
 	private static final String VIEWS_GERENTES_CREATE_OR_UPDATE_FORM = "gerentes/editarGerente";
 	
@@ -97,17 +101,23 @@ public class GerenteController {
 	}
 	
 	@GetMapping(path="delete/{gerenteId}")
-	public String borrarGerente(@PathVariable("gerenteId") int gerenteId, ModelMap modelMap) {
-	String view="gerentes/listadoGerentes";
+	public String borrarGerente(@PathVariable("gerenteId") int gerenteId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	String view="restaurantes/restauranteDetails";
 	Optional<Gerente> gerente=gerenteService.findGerenteById(gerenteId);
 	if(gerente.isPresent()) {
 		gerenteService.delete(gerente.get());
-		modelMap.addAttribute("message","Event succesfully deleted!");
-		view=listadoGerentes(modelMap);
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+		modelMap.addAttribute("restaurante",restaurante);
+		modelMap.addAttribute("productos",productos);
+		modelMap.addAttribute("message","gerente succesfully deleted!");
 		log.info("Gerente borrado");
 	}else {
-		modelMap.addAttribute("message","Event not found!");
-		view=listadoGerentes(modelMap);
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+		modelMap.addAttribute("restaurante",restaurante);
+		modelMap.addAttribute("productos",productos);
+		modelMap.addAttribute("message","gerente not found!");
 		log.warn("Gerente no encontrado");
 	}
 	return view;
