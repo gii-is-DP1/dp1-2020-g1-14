@@ -4,16 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Cliente;
-import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Proveedor;
-import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
+import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProveedorServiceTest {
 	@Autowired
 	private ProveedorService proveedorService;
+	@Autowired
+	private IngredienteService ingredienteService;
+	@Autowired
+	private RestauranteService restauranteService;
 	
 	@Test
 	public void testCountWithInitialData() {
@@ -51,12 +56,21 @@ public class ProveedorServiceTest {
 	}
 	
 	//Test para comprobar que se elimina un proveedor.
+	
 	@Test
 	@Transactional
 	public void shouldDeleteProveedor() {
+		Ingrediente i = ingredienteService.findIngredienteById(1).get();
+		Restaurante r = restauranteService.findRestauranteById(1).get();
+		Set<Restaurante> res = new HashSet<>();
+		res.add(r);
+		Set<Ingrediente> is = new HashSet<>();
+		is.add(i);
 		Proveedor p = new Proveedor();
 		p.setName("Pepe Gomez");
 		p.setTlf("954484848");
+		p.setIngredientes(is);
+		p.setRestaurantes(res);
 		this.proveedorService.save(p);
 	
 		Collection<Proveedor> elementoAñadido = (Collection<Proveedor>) this.proveedorService.findAll();
