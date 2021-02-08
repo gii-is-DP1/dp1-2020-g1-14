@@ -114,4 +114,18 @@ public class IngredienteServiceTest {
 		assertThat(ingrediente.get().getRestaurante().getId()).isEqualTo(1);
 	}
 	
+	@Test
+	@Transactional
+	public void shouldFindIngredientesByRestauranteId(){
+		Iterable<Ingrediente> ingredientes = ingService.findIngredientesByRestauranteId(1);
+		boolean ingredientesCorrectos=true;
+		for(Ingrediente i:ingredientes) {
+			if(!i.getRestaurante().getId().equals(1)) {
+				ingredientesCorrectos=false;
+			}
+		}
+		assertThat(ingredientesCorrectos).isEqualTo(true);
+	}
+	
+	
 }

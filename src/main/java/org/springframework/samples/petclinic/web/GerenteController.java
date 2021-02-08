@@ -130,7 +130,6 @@ public class GerenteController {
 
 	@GetMapping(path="delete/{gerenteId}")
 	public String borrarGerente(@PathVariable("gerenteId") int gerenteId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
-		log.info("asjklgadhlskjghkldjfghfilsg");
 		String view="restaurantes/restauranteDetails";
 		Optional<Gerente> gerente=gerenteService.findGerenteById(gerenteId);
 
@@ -153,5 +152,4 @@ public class GerenteController {
 		}
 		return view;
 	}	
-
 }

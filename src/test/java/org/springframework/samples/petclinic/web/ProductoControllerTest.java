@@ -103,16 +103,40 @@ public class ProductoControllerTest {
 	
 	@WithMockUser(value = "spring")
     @Test
-    void testSaveSuccess() throws Exception {
-		mockMvc.perform(post("/restaurantes/{restauranteId}/productos/new", TEST_RESTAURANTE_ID).with(csrf())
+    void testSaveProductoSuccess() throws Exception {
+		mockMvc.perform(post("/restaurantes/{restauranteId}/productos/save/{productoId}", TEST_RESTAURANTE_ID, TEST_PRODUCTO_ID).with(csrf())
 				.param("name", "Macarrones con Queso")
 				.param("alergenos", "Queso")
 				.param("restaurante", "Restaurante 6")
 				.param("precio", "6.0"))
-			.andExpect(status().is2xxSuccessful());
+			.andExpect(status().is3xxRedirection());
+}
+	
+	@WithMockUser(value = "spring")
+    @Test
+void testSaveProductoHasErrors() throws Exception {
+	mockMvc.perform(post("/restaurantes/{restauranteId}/productos/save/{productoId}", TEST_RESTAURANTE_ID, TEST_PRODUCTO_ID)
+						.with(csrf())
+						.param("name", "")
+						.param("alergenos", "Queso")
+						.param("restaurante", "Restaurante 6")
+						.param("precio", "6.0"))
+			.andExpect(status().isOk())
+			.andExpect(model().attributeHasErrors("producto"))
+			.andExpect(model().attributeHasFieldErrors("producto", "name"))
+			.andExpect(view().name("productos/editProducto"));
 }
 	
 	
+	//DELETE TESTS
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteProducto() throws Exception{
+		mockMvc.perform(get("/restaurantes/{restauranteId}/productos/delete/{productoId}", TEST_RESTAURANTE_ID, TEST_PRODUCTO_ID))
+		.andExpect(status().is2xxSuccessful());
+	}
+	
+
 	//UPDATE TESTS
 	
 	@WithMockUser(value = "spring")
@@ -129,18 +153,7 @@ public class ProductoControllerTest {
 }
 	
 
-	
-		@WithMockUser(value = "spring")
-		@Test
-		void testProcessUpdateProductoFormSuccess() throws Exception {
-			mockMvc.perform(post("/restaurantes/{restauranteId}/productos/edit/{productoId}", TEST_RESTAURANTE_ID, TEST_PRODUCTO_ID)
-								.with(csrf())
-								.param("name", "Macarrones con Queso")
-								.param("alergenos", "Queso")
-								.param("precio", "7.70")
-								.param("restaurante", "Restaurante 6"))
-								.andExpect(status().is2xxSuccessful());
-		}
+
 
 	
 	
@@ -153,19 +166,7 @@ public class ProductoControllerTest {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	

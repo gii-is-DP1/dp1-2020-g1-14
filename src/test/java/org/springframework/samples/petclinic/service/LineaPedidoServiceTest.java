@@ -100,4 +100,18 @@ public class LineaPedidoServiceTest {
 		assertThat(names.get(3)).isEqualTo("Cacahuetes");
 		
 	}
+	
+	@Test
+	@Transactional
+	public void shouldFindLineaPedidoByProducto(){
+		Iterable<LineaPedido> lineas = lineaPedidoService.findLineaPedidoByProductoId(1);
+		boolean lineasPedidoCorrectas = true;
+		for(LineaPedido l:lineas) {
+			if(!l.getProducto().getId().equals(1)) {
+				lineasPedidoCorrectas = false;
+			}
+		}
+		assertThat(lineasPedidoCorrectas).isEqualTo(true);
+	}
+	
 }

@@ -37,6 +37,10 @@
     <sec:authorize access="hasAuthority('cliente')">
     <spring:url value="/clientes/delete/${cliente.id}" var="restaurantesUrl"/>
     <a href="${fn:escapeXml(restaurantesUrl)}" class="btn btn-default">Eliminar mi cuenta</a>
+    <spring:url value="/clientes/ingresa/20" var="ingresoUrl"/>
+    <a href="${fn:escapeXml(ingresoUrl)}" class="btn btn-default">Ingresar 20 euros en mi cuenta</a>
+    <spring:url value="/clientes/ingresa/50" var="ingresoUrl"/>
+    <a href="${fn:escapeXml(ingresoUrl)}" class="btn btn-default">Ingresar 50 euros en mi cuenta</a>
     </sec:authorize>
     
     </div>
