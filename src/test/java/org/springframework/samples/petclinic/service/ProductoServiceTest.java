@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Ingrediente;
+import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
 import org.springframework.stereotype.Service;
@@ -142,5 +143,19 @@ public class ProductoServiceTest {
 		assertThat(productos.isEmpty()).isTrue();
 		
 	}
+	
+	@Test
+	@Transactional
+	public void shouldFindProductosByRestauranteId() {
+		Iterable<Producto> productos = productoService.findProductosByRestauranteId(1);
+		boolean productosCorrectos=true;
+		for(Producto p:productos) {
+			if(!p.getRestaurante().getId().equals(1)) {
+				productosCorrectos=false;
+			}
+		}
+		assertThat(productosCorrectos).isEqualTo(true);
+	}		
+	}
 
-}
+

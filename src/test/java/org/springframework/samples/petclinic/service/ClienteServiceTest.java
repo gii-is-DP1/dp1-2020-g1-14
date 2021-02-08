@@ -210,7 +210,17 @@ public class ClienteServiceTest {
 		assertThat(socios.size()).isEqualTo(nSocios);
 	}
 	
-	
+	@Test
+	@Transactional
+	public void shouldFindClienteByUsuario() {
+		Optional<Cliente> cliente = clienteService.findClienteByUsuario("cliente1");
+		boolean clienteCorrecto=true;
+		if(!cliente.get().getUser().getUsername().equals("cliente1")) {
+			clienteCorrecto=false;
+		}
+		
+		assertThat(clienteCorrecto).isEqualTo(true);
+	}
 	
 	
 	

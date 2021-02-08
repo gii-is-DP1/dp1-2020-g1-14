@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Reclamacion;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -64,5 +65,17 @@ public class ReclamacionServiceTest {
 		assertThat(reclamaciones.size()).isEqualTo(found+1);
 	}
 	
+	@Test
+	@Transactional
+	public void shouldFindReclamacionByRestauranteId() {
+		Iterable<Reclamacion> reclamaciones = reclamacionService.findReclamacionByRestauranteId(1);
+		boolean reclamacionesCorrectas=true;
+		for(Reclamacion r:reclamaciones) {
+			if(!r.getRestaurante().getId().equals(1)) {
+				reclamacionesCorrectas=false;
+			}
+		}
+		assertThat(reclamacionesCorrectas).isEqualTo(true);
+	}			
 	
 }

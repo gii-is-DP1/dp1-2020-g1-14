@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
@@ -98,4 +99,16 @@ public class GerenteServiceTest {
 		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
 	 }
 	
+	@Test
+	@Transactional
+	public void shouldFindGerenteByUsuario() {
+		Optional<Gerente> gerente = gerenteService.findGerenteByUsuario("gerente3");
+		boolean gerenteCorrecto=true;
+		if(!gerente.get().getUser().getUsername().equals("gerente3")) {
+			gerenteCorrecto=false;
+		}
+			
+			assertThat(gerenteCorrecto).isEqualTo(true);
+		}
+	 
 }
