@@ -42,4 +42,13 @@ public class Cliente extends BaseEntity {
     	this.monedero= this.monedero - cantidad;
     }
 
+	public Cliente() {
+		super();
+		this.esSocio = false;
+		this.numPedidos = 0;
+		this.monedero = 0.;
+	}
+    
+    
+
 }

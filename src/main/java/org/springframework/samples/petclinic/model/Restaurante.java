@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.JoinColumn;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -41,6 +43,10 @@ public class Restaurante extends NamedEntity {
     private Gerente gerente;
 	
 	@ManyToMany
+	@JoinTable(
+			  name = "proveedores", 
+			  joinColumns = @JoinColumn(name = "restaurante_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "proveedor_id"))
 	private Set<Proveedor> proveedores;
 	
     public String getTipo() {

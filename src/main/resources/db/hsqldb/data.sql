@@ -128,6 +128,9 @@ INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id,ver
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id,version) VALUES(2,'Restaurante 2','Italiaco','Avd. de la palmera, 100',30,13,2,1);
 INSERT INTO restaurante(id,name,tipo,localizacion,aforomax,senial,gerente_id,version) VALUES(3,'Restaurante 3','Mexicano','Avd. nombe avenida, 14',20,0,3,1);
 
+INSERT INTO proveedores(proveedor_id,restaurante_id) VALUES (1,1);
+INSERT INTO proveedores(proveedor_id,restaurante_id) VALUES (2,1);
+INSERT INTO proveedores(proveedor_id,restaurante_id) VALUES (2,2);
 
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id,version) VALUES(1,'Tarta','Lacteos, Huevo y Gluten',6,1,1);
 INSERT INTO producto(id,name,alergenos,precio,restaurante_id,version) VALUES(2,'Ensalada','Pescado',8,1,1);
@@ -144,6 +147,8 @@ INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(1,'N
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2,1);
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(3,'Harina',17,'KG', 3,1);
 
+INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,1);
+INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,2);
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(1,'Calle A',true,'PROCESANDO','2020-08-13',17.3,1,1,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);
