@@ -9,9 +9,9 @@
 
 <petclinic:layout pageName="proveedores">
     <h2>Proveedores</h2>
-	<spring:url value="/proveedores/new" var="proveedorUrl">
+	<spring:url value="/restaurantes/${restauranteId}/proveedores/new" var="proveedorUrl">
                     </spring:url>
-                    <a  class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Agregar proveedor</a>
+                    <a  class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Agregar proveedor nuevo</a>
     <table id="proveedoresTable" class="table table-striped">
         <thead>
         <tr>
@@ -31,15 +31,18 @@
                     <c:out value="${proveedor.tlf}"/>
                 </td>
 				<td>
-				<spring:url value="/proveedores/delete/{proveedorId}" var="proveedorUrl">
+				<spring:url value="/restaurantes/${restauranteId}/proveedores/delete/{proveedorId}" var="proveedorUrl">
                         <spring:param name="proveedorId" value="${proveedor.id}"/>
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(proveedorUrl)}">Eliminar</a>
                     
-                     <spring:url value="/proveedores/{proveedorId}/edit" var="proveedorUrl">
+                     <spring:url value="/restaurantes/${restauranteId}/proveedores/{proveedorId}/edit" var="proveedorUrl">
         				<spring:param name="proveedorId" value="${proveedor.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(proveedorUrl)}" class="btn btn-default">Editar</a>
+    				
+    				<spring:url value="/restaurantes/${restauranteId}/proveedores/select/${proveedor.id}" var="proveedorUrl"/>
+    				<a href="${fn:escapeXml(proveedorUrl)}" class="btn btn-default">Añadir Proveedor</a>
                 </td>
                 
                        

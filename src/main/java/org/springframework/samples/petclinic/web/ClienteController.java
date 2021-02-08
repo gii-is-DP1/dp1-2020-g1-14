@@ -153,4 +153,17 @@ public class ClienteController {
         return view;
   
     }
+    
+    //ingresa dinero a su monedero.
+    @GetMapping(path="/ingresa/{ingreso}")
+    public String processIngresaMonedero(ModelMap modelMap, @PathVariable("ingreso") int ingreso) {
+    	String view="/welcome";
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String name = auth.getName(); //get logged in username
+	    Cliente cliente = clienteService.findClienteByUsuario(name).get();
+	    cliente.setMonedero(cliente.getMonedero()+ingreso);
+	    clienteService.update(cliente);
+	    modelMap.addAttribute("message", "Se han ingresado " + ingreso + " correctamente en su monedero");
+    	return view;
+    }
 }

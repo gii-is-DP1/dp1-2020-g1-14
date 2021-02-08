@@ -82,7 +82,15 @@ public class OfertaControllerTests {
 			
 		}
 	
-	
+		//TEST LISTAR OFERTAS
+		@WithMockUser(value = "spring")
+		@Test
+			void testListadoOferta() throws Exception {
+				mockMvc.perform(get("/restaurantes/{restauranteId}/ofertas", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("ofertas"))
+				.andExpect(status().is2xxSuccessful()).andExpect(view().name("ofertas/listadoOfertas"));
+				}
+		
+		
 		//CREATION TESTS
 		
 		@WithMockUser(value = "spring")
@@ -94,25 +102,43 @@ public class OfertaControllerTests {
 	
 		@WithMockUser(value = "spring")
         @Test
-        void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/restaurantes/{restauranteId}/ofertas/new", TEST_RESTAURANTE_ID)
+        void testSaveOfertaSuccess() throws Exception {
+		mockMvc.perform(post("/restaurantes/{restauranteId}/ofertas/save/{ofertaId}", TEST_RESTAURANTE_ID, TEST_OFERTA_ID)
 							.with(csrf())
 							.param("descripcion", "Descuento de 2 euros")
 							.param("descuento", "2.0")
 							.param("minPrice", "15.0")
 							.param("exclusivo", "false")
 							.param("restaurante","Restaurante 7"))
-				.andExpect(status().is2xxSuccessful());
+				.andExpect(status().is3xxRedirection());
 	}
-
-
-		//TEST LISTAR OFERTAS
+		
 		@WithMockUser(value = "spring")
 	    @Test
-	    void testListadoOferta() throws Exception {
-			mockMvc.perform(get("/restaurantes/{restauranteId}/ofertas", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("ofertas"))
-			.andExpect(status().is2xxSuccessful()).andExpect(view().name("ofertas/listadoOfertas"));
+		void testSaveOfertaHasErrors() throws Exception {
+			mockMvc.perform(post("/restaurantes/{restauranteId}/ofertas/save/{ofertaId}", TEST_RESTAURANTE_ID, TEST_OFERTA_ID)
+								.with(csrf())
+								.param("descripcion", "Descuento de 2 euros")
+								.param("descuento", "")
+								.param("minPrice", "")
+								.param("exclusivo", "false")
+								.param("restaurante","Restaurante 7"))
+					.andExpect(model().attributeHasNoErrors("restaurante"))
+					.andExpect(model().attributeHasErrors("oferta"))
+					.andExpect(status().isOk())
+					.andExpect(view().name("ofertas/editOferta"));
 		}
+
+
+		//DELETE TEST
+		@WithMockUser(value = "spring")
+		@Test
+		void testDeleteOferta() throws Exception{
+			mockMvc.perform(get("/restaurantes/{restauranteId}/ofertas/delete/{ofertaId}", TEST_RESTAURANTE_ID, TEST_OFERTA_ID))
+			.andExpect(status().is2xxSuccessful());
+		}
+		
+		
 		
 	
 		//UPDATE TESTS
@@ -132,36 +158,6 @@ public class OfertaControllerTests {
 	}
 		
 
-		
-			@WithMockUser(value = "spring")
-			@Test
-			void testProcessUpdateOfertaFormSuccess() throws Exception {
-				mockMvc.perform(post("/restaurantes/{restauranteId}/ofertas/edit/{ofertaId}", TEST_RESTAURANTE_ID, TEST_OFERTA_ID)
-									.with(csrf())
-									.param("descripcion", "Descuento de 2 euros")
-									.param("descuento", "2.0")
-									.param("minPrice", "15.0")
-									.param("exclusivo", "false")
-									.param("restaurante","Restaurante 7"))
-									.andExpect(status().is2xxSuccessful());
-			}
-
-		
-		
-		
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

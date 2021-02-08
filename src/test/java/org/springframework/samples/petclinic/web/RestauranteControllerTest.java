@@ -74,7 +74,7 @@ public class RestauranteControllerTest {
 	 @WithMockUser(value = "spring")
 	 @Test
 	 void testProcessCreationFormSuccess() throws Exception {
-		 mockMvc.perform(post("/restaurantes/new").param("name", "restaurante").param("tipo", "japones")
+		 mockMvc.perform(get("/restaurantes/new").param("name", "restaurante").param("tipo", "japones")
 				 .param("localizacion", "C/ Camas")
 				 .param("aforoMax", "50")
 				 .with(csrf()))
