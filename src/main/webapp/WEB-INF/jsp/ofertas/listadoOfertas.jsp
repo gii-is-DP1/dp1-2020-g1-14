@@ -67,18 +67,7 @@
     				<a href="${fn:escapeXml(ofertaUrl)}" class="btn btn-default">Editar</a>
                 </td>
                 
-                
-                
-      
-<!--
-                <td> 
-                    <c:out value="${owner.user.username}"/> 
-                </td>
-                <td> 
-                   <c:out value="${owner.user.password}"/> 
-                </td> 
--->
-                
+     
             </tr>
         </c:forEach>
        

@@ -35,12 +35,6 @@ public class RestauranteController {
 	@Autowired
 	private ProductoService productoService;
 	
-	
-	/*@InitBinder("restaurante")
-	public void initRestauranteBinder(WebDataBinder dataBinder) {
-		dataBinder.setValidator(new RestauranteValidator());
-	}*/
-	
 	@GetMapping()
 	public String listadoRestaurantes(ModelMap modelMap) {
 		String vista = "restaurantes/listadoRestaurantes";
@@ -64,21 +58,6 @@ public class RestauranteController {
 		model.addAttribute(restaurante);
 		log.info("Inicialización de edición de Restaurante");
 		return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-	}
-	
-	@PostMapping(value = "/{restauranteId}/edit")
-	public String processUpdateRestauranteForm(@Valid Restaurante restaurante, BindingResult result,
-			@PathVariable("restauranteId") int restauranteId) {
-		if (result.hasErrors()) {
-			log.error("error de validación");
-			return VIEWS_RESTAURANTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			restaurante.setId(restauranteId);
-			this.restauranteService.save(restaurante);
-			log.info("Guardado de cambios realizados");
-			return "redirect:/restaurantes/{restauranteId}";
-		}
 	}
 	
 	@PostMapping(path="/save/{restauranteId}")
@@ -110,6 +89,7 @@ public class RestauranteController {
 		String vista = "restaurantes/listadoRestaurantes";
 		if(res.hasErrors()) {
 			modelMap.addAttribute("restaurante", restaurante);
+			log.warn("Error de validación " + res.toString());
 			log.warn("Error de validación");
 			return "restaurantes/editRestaurantes";
 		}else {

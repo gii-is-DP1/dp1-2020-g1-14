@@ -33,7 +33,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=IngredienteController.class,
+@WebMvcTest(controllers= {IngredienteController.class, CustomErrorController.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 public class IngredienteControllerTest {
@@ -96,13 +96,14 @@ public class IngredienteControllerTest {
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/new", TEST_RESTAURANTE_ID)
+	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save", TEST_RESTAURANTE_ID)
 						.param("Name", "Harina")
 						.param("Medida", "KG")
 						.with(csrf())
-						.param("restaurante", "Prueba")
+						.param("restaurante", String.valueOf(TEST_RESTAURANTE_ID))
 						.param("stock", "30"))
-						.andExpect(status().isOk());
+						.andExpect(status().is3xxRedirection())
+						.andExpect(view().name("redirect:/restaurantes/{restauranteId}/ingredientes"));
 	}
 	
 	@WithMockUser(value = "spring")
@@ -129,6 +130,38 @@ public class IngredienteControllerTest {
 				.andExpect(model().attribute("ingrediente", hasProperty("name", is("Leche"))))
 				.andExpect(model().attribute("ingrediente", hasProperty("medida", is(Medida.L))))
 				.andExpect(model().attribute("ingrediente", hasProperty("stock", is(50.))))
-				.andExpect(view().name("/restaurantes/{restaurantesId}/ingredientes/editarIngrediente"));
+				.andExpect(view().name("ingredientes/editarIngrediente"));
+	}
+	
+	@WithMockUser(value = "spring")
+    @Test
+    void testProcessUpdateFormSuccess() throws Exception {
+	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save/{ingredienteId}", TEST_RESTAURANTE_ID, TEST_INGREDIENTE_ID)
+						.param("Name", "Harina")
+						.param("Medida", "KG")
+						.with(csrf())
+						.param("restaurante", String.valueOf(TEST_RESTAURANTE_ID))
+						.param("stock", "30")
+						.param("id", String.valueOf(TEST_INGREDIENTE_ID))
+						.param("version", String.valueOf(ingrediente.getVersion())))
+						.andExpect(status().is3xxRedirection())
+						.andExpect(view().name("redirect:/restaurantes/{restauranteId}/ingredientes"));
+	}
+	
+	@WithMockUser(value = "spring")
+    @Test
+    void testProcessUpdateFormHasErrors() throws Exception {
+	mockMvc.perform(post("/restaurantes/{restauranteId}/ingredientes/save/{ingredienteId}", TEST_RESTAURANTE_ID, TEST_INGREDIENTE_ID)
+						.with(csrf())
+						.param("Name", "Harina")
+						.param("Medida", "error")
+						.param("stock", "no")
+						.param("id", String.valueOf(TEST_INGREDIENTE_ID))
+						.param("version", String.valueOf(ingrediente.getVersion())))
+						.andExpect(status().isOk())
+						.andExpect(model().attributeHasErrors("ingrediente"))
+						.andExpect(model().attributeHasFieldErrors("ingrediente", "Medida"))
+						.andExpect(model().attributeHasFieldErrors("ingrediente", "stock"))
+						.andExpect(view().name("ingredientes/editarIngrediente"));
 	}
 }

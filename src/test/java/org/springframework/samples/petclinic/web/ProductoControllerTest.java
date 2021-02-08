@@ -34,7 +34,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 
-@WebMvcTest(value = ProductoController.class,
+@WebMvcTest(value = {ProductoController.class, CustomErrorController.class},
 includeFilters = @ComponentScan.Filter(value = ProductoFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)

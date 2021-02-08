@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -31,8 +29,7 @@ public class PedidoServiceTest {
 	
 	@Autowired
 	private PedidoService pedidoService;
-	@Autowired
-	private ProductoService productoService;
+	
 	@Autowired
 	private LineaPedidoService lineaPedidoService;
 
@@ -161,19 +158,7 @@ public class PedidoServiceTest {
 		pedidoService.save(p);
 		productoService.save(pr1);
 		productoService.save(pr2);
-		*/
-
-		
-		
-		/*Optional<Pedido> pedido = pedidoService.findPedidoById(1);
-		Integer c1 =pedido.get().getLineaPedido().get(0).getCantidad();
-		Integer c2 =pedido.get().getLineaPedido().get(1).getCantidad();
-		
-		Double p1=pedido.get().getLineaPedido().get(0).getProducto().getPrecio();
-		Double p2=pedido.get().getLineaPedido().get(1).getProducto().getPrecio();
-		*/
-		
-		
+		*/	
 		
 	}
 	

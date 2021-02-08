@@ -61,7 +61,7 @@ public class ReservaController {
 		}
 		modelMap.addAttribute("reservas", reservas);
 		modelMap.addAttribute("restaurante", restaurante);
-		modelMap.addAttribute("name", usuario);
+		modelMap.addAttribute("username", usuario);
 		log.info("listando reserva de un restaurante indicado del usuario actual");
 		return vista;
 	}
@@ -83,15 +83,7 @@ public class ReservaController {
 
 	}
 
-	//	@GetMapping(path = "/{reservaId}/edit")
-	//	public String initUpdateForm(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap) {
-	//		Reserva reserva = this.reservaService.findReservaById(reservaId).get();
-	//		modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
-	//		modelMap.addAttribute("reserva",reserva);
-	//		modelMap.addAttribute("username", usuario);
-	//		log.info("inicializando edición de una reserva");
-	//		return VIEWS_RESERVAS_CREATE_OR_UPDATE_FORM;
-	//	}
+
 
 	@PostMapping(path="/save")
 	public String salvarReservas(@PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, @Valid Reserva reserva, BindingResult res, ModelMap modelMap){
@@ -105,7 +97,7 @@ public class ReservaController {
 		}else {
 			Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 			cliente.subMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-			clienteService.save(cliente);
+			clienteService.update(cliente);
 			reserva.setCliente(clienteService.findClienteByUsuario(usuario).get());
 			reservaService.save(reserva);
 			modelMap.addAttribute("message", "Reserva guardado con exito");
@@ -125,7 +117,7 @@ public class ReservaController {
 					reservaService.delete(reserva.get());
 					Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 					cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-					clienteService.save(cliente);
+					clienteService.update(cliente);
 					modelMap.addAttribute("message","Reserva borrada con exito");
 					vista= listadoReservas(restauranteId, usuario, modelMap);
 					log.info("reserva eliminada y se devuelve la señal");
@@ -139,7 +131,7 @@ public class ReservaController {
 				reservaService.delete(reserva.get());
 				Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
 				cliente.addMonedero(restauranteService.findRestauranteById(restauranteId).get().getSenial());
-				clienteService.save(cliente);
+				clienteService.update(cliente);
 				modelMap.addAttribute("message","Reserva borrada con exito");
 				vista= listadoReservas(restauranteId, usuario, modelMap);
 				log.info("reserva eliminada y se devuelve la señal");
@@ -156,6 +148,32 @@ public class ReservaController {
 			log.warn("reserva no encontrada");
 		}		
 		return vista;
+	}
+
+	@GetMapping(value = "/present/{reservaId}")
+	public String isPresent(@PathVariable("reservaId") int reservaId, @PathVariable("restauranteId") int restauranteId, @PathVariable("userName") String usuario, ModelMap modelMap){
+		Integer senial = restauranteService.findRestauranteById(restauranteId).get().getSenial();
+		Reserva reserva = reservaService.findReservaById(reservaId).get();
+		Cliente cliente = reserva.getCliente();
+		if(LocalDate.now().equals(reserva.getFecha()) && reserva.getHoraInicio().plusMinutes(30).isAfter(LocalTime.now())) {
+			log.info("cliente presentado, se le devuelve el dinero");
+			Double monedero = cliente.getMonedero();
+			monedero += senial;
+			cliente.setMonedero(monedero);
+			clienteService.save(cliente);
+			modelMap.addAttribute("message","dinero devuelto al cliente");
+			modelMap.addAttribute("username", usuario);
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			return "reservas/listadoReservas";
+		}else {
+			modelMap.addAttribute("message","condiciones no aptas para delvolverle el dinero al cliente");
+			modelMap.addAttribute("reservas", reservaService.findReservasByRestauranteId(restauranteId));
+			modelMap.addAttribute("restaurante", restauranteService.findRestauranteById(restauranteId).get());
+			modelMap.addAttribute("username", usuario);
+			log.info("condiciones no aptas para delvolverle el dinero al cliente");
+			return "reservas/listadoReservas";
+		}
+
 	}
 
 }

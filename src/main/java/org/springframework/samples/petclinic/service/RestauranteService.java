@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Gerente;
@@ -9,6 +10,7 @@ import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Oferta;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Reclamacion;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.model.Restaurante;
@@ -38,6 +40,8 @@ public class RestauranteService {
 	private IngredienteService ingredienteService;
 	@Autowired
 	private GerenteService gerenteService;
+	@Autowired
+	private ProveedorService proveedorService;
 	
 	@Transactional
 	public int Restaurantscount() {
@@ -96,6 +100,13 @@ public class RestauranteService {
 		Iterable<Ingrediente> ingredientes = ingredienteService.findIngredientesByRestauranteId(restaurante.getId());
 		for(Ingrediente i:ingredientes) {
 			ingredienteService.delete(i);
+		}
+		Set<Proveedor> proveedores = restaurante.getProveedores();
+		for(Proveedor p: proveedores) {
+			Set<Restaurante> restaurantes = p.getRestaurantes();
+			restaurantes.remove(restaurante);
+			p.setRestaurantes(restaurantes);;
+			proveedorService.save(p);
 		}
 		
 		RestaurantRepo.delete(restaurante);

@@ -105,10 +105,7 @@ public class OfertaController {
 		
 		return "ofertas/editOferta";
 	}else {
-		ofertaService.save(oferta);
-//		modelMap.addAttribute("message", "Offer successfully saved!");
-//		view=listadoOfertas(modelMap, restauranteId);
-		
+		ofertaService.save(oferta);	
 		log.info("Oferta creada con éxito");
 		return "redirect:/restaurantes/{restauranteId}/ofertas";
 	}
@@ -147,19 +144,5 @@ public class OfertaController {
 		return VIEWS_OFERTAS_CREATE_OR_UPDATE_FORM;
 	}
 	
-//	@PostMapping(value="/edit/{ofertaId}")
-//	public String processUpdateOfertaForm(@Valid Oferta oferta, BindingResult result, @PathVariable("ofertaId") int ofertaId) {
-//		if(result.hasErrors()) {
-//			
-//			log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-//			
-//			return VIEWS_OFERTAS_CREATE_OR_UPDATE_FORM;
-//		}
-//		else {
-//			this.ofertaService.save(oferta);
-//			
-//			log.info("Oferta editada satisfactoriamente");
-//		}
-//		return "redirect:/oferta/{ofertaId}";
-//	}
+
 }

@@ -74,6 +74,7 @@ public class ClienteServiceTest {
 
 		Cliente c = new Cliente();
 		c.setUser(u);
+		c.setTlf("684312254");
 		c.setEsSocio(esSocio);
 		c.setNumPedidos(nPedidos);
 		clienteService.checkSocio(c);

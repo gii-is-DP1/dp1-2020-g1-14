@@ -16,8 +16,6 @@ import org.springframework.validation.Validator;
 public class ReservaValidator implements Validator {
 
 	private static final String REQUIRED = "required";
-	@Autowired
-	private ReservaService reservaService;
 	
 	@Override
 	public void validate(Object target, Errors errors) {
@@ -35,8 +33,8 @@ public class ReservaValidator implements Validator {
 		}
 		
 		//nPersonas validator
-		if(nPersonas==null) {
-			errors.rejectValue("nPersonas", REQUIRED+"  es necesario indicar el número de personas", REQUIRED+"  es necesario indicar el número de personas");
+		if(nPersonas==null || nPersonas<=0) {
+			errors.rejectValue("nPersonas", REQUIRED+"  indique un número de personas adecuado", REQUIRED+"  indique un número de personas adecuado");
 		}
 		
 		Integer aforores=0;
@@ -47,7 +45,7 @@ public class ReservaValidator implements Validator {
 		}
 		
 		if(aforores+nPersonas>res.getAforomax()) {
-			errors.rejectValue("nPersonas", REQUIRED+"  no hay suficiente aforo disponoble", REQUIRED+"  no hay suficiente aforo disponoble");
+			errors.rejectValue("nPersonas", REQUIRED+"  no hay suficiente aforo disponible", REQUIRED+"  no hay suficiente aforo disponible");
 		}
 		
 		// evento validation
@@ -70,20 +68,11 @@ public class ReservaValidator implements Validator {
 		if(HF.isBefore(HI)) {
 			errors.rejectValue("horaFin", REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin",REQUIRED+"  La hora de inicio debe ser anterior a la hora de fin");
 		}
-		// Aforo validation
-		/*Restaurante res = reserva.getRestaurante();
-		if(res == null) {
-			
-		}else if (nPersonas>res.getAforores()) {
-			errors.rejectValue("nPersonas", REQUIRED+"  No hay aforo suficiente", REQUIRED+"  No hay aforo suficiente");
-		}*/
 
 			
 	}
 	
-	/**
-	 * This Validator validates *just* Reserva instances
-	 */
+	
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return Reserva.class.isAssignableFrom(clazz);

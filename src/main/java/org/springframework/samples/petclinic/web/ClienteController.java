@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import ch.qos.logback.classic.Logger;
 
@@ -70,40 +70,14 @@ public class ClienteController {
     		return "clientes/editCliente";
     	}else {
     		clienteService.save(cliente);
-    		modelMap.addAttribute("message","Event succesfully saved!");
-    		view=listadoClientes(modelMap);
+    		modelMap.addAttribute("message","client succesfully saved!");
+    		view="registrado";
     		
     		log.info("Cliente creado con éxito");
     	}
     	return view;
     }
     
-    
-    @PostMapping(path="/save/{clienteId}")
-    public String salvarCliente(@Valid Cliente cliente, BindingResult result, ModelMap modelMap,
-    							@RequestParam(value = "version", required = false) Integer version, @PathVariable("clienteId") int clienteId) {
-    	String view="clientes/listadoClientes";
-    	if(result.hasErrors()) {
-    		modelMap.addAttribute("cliente", cliente);
-    		
-    		log.error("Los datos introducidos no cumplen ciertas condiciones, revisar los campos");
-    		
-    		return "clientes/editCliente";
-    	}else {
-    		Cliente clienteToUpdate = clienteService.findClienteById(clienteId).get();
-    		if(clienteToUpdate.getVersion() != version) {
-    			log.error("Las versiones de cliente no coinciden: clienteToUpdate version " + clienteToUpdate.getVersion() + " cliente version "+version);
-    			modelMap.addAttribute("message", "Ha ocurrido un error inesperado por favor intentalo de nuevo");
-    			return listadoClientes(modelMap);
-    		}
-    		clienteService.update(cliente);
-    		modelMap.addAttribute("message","Event succesfully saved!");
-    		view=listadoClientes(modelMap);
-    		
-    		log.info("Cliente creado con éxito");
-    	}
-    	return view;
-    }
     
     //Elimina un cliente
     @GetMapping(path="delete/{clienteId}")

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Gerente;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +21,9 @@ public class GerenteServiceTest {
 	
 	@Autowired
 	private GerenteService gerenteService;
-	/*@Autowired
-	private RestauranteService restauranteService;*/
+	
+	@Autowired
+	private UserService userService;
 	
 	@Test
 	public void testCountWithInitialData() {
@@ -35,12 +37,18 @@ public class GerenteServiceTest {
 	Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
 		int found = gerentes.size();
 
+
+		User s = new User();
+		s.setUsername("Pable_gerente");
+		s.setPassword("contras1eñaTest");
+		s.setEnabled(true);
+		s.setrDate(LocalDate.now());
+		userService.saveUser(s);
+		
 		Gerente g = new Gerente();
+		g.setUser(s);
 		g.setName("Pable");
-		g.getUser().setPassword("contras1eñaTest"); //error aquí
-		g.getUser().setrDate(LocalDate.now());
 		g.setDni("34596703H");
-		//g.setRestaurante(restauranteService.findRestauranteById(1).get());
 		
 		try {
 			this.gerenteService.save(g);
@@ -52,38 +60,32 @@ public class GerenteServiceTest {
 		assertThat(gerentes.size()).isEqualTo(found+1);
 	}
 	
-	@Test
-	@Transactional
-	public void shouldUpdateGerente() {
-		Gerente gerente = this.gerenteService.findGerenteById(1).get();
-		String newName = "Emilio";
-		gerente.setName("Emilio");
-		
-		String newPassword = "alfkh34as";
-		gerente.getUser().setPassword(newPassword);
-		
-		gerente = this.gerenteService.findGerenteById(1).get();
-		assertThat(gerente.getName()).isEqualTo(newName);
-		assertThat(gerente.getUser().getPassword()).isEqualTo(newPassword);
-	}
+
 	
 	@Test
 	@Transactional
 	public void shouldDeleteGerente() {
+		
+		
+		User s = new User();
+		s.setUsername("Juan_gerente");
+		s.setPassword("contrasenya2");
+		s.setEnabled(true);
+		s.setrDate(LocalDate.now());
+		userService.saveUser(s);
+		
 		Gerente g = new Gerente();
+		g.setUser(s);
 		g.setName("Juan");
-		g.getUser().setPassword("contrasenya2"); //error aquí
-		g.getUser().setrDate(LocalDate.now());
-		g.setDni("34788543H");
-		//g.setRestaurante(restauranteService.findRestauranteById(2).get());
+		g.setDni("34788543G");
 		
 		try {
 			this.gerenteService.save(g);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Collection<Gerente> gerenteAdded = (Collection<Gerente>) this.gerenteService.findAll();
-		int found = gerenteAdded.size();
+		Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
+		int found = gerentes.size();
 		this.gerenteService.delete(g);
 		Collection<Gerente> gerenteDeleted = (Collection<Gerente>) this.gerenteService.findAll();
 		assertThat(gerenteDeleted.size()).isEqualTo(found-1);
@@ -94,7 +96,6 @@ public class GerenteServiceTest {
 	 public void shouldFindGerenteWithCorrectId() {
 		 Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
 		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
-		 //assertThat(gerente.get().getRestaurante().getId()).isEqualTo(1);
 	 }
 	
 }

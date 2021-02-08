@@ -1,13 +1,14 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 @Entity
@@ -30,7 +31,7 @@ public class Restaurante extends NamedEntity {
     private String localizacion;
     @Positive
     private int aforomax;
-    @NotNull
+    @Positive
     private int senial;
    
     @OneToMany(mappedBy = "restaurante")
@@ -38,6 +39,9 @@ public class Restaurante extends NamedEntity {
      
 	@OneToOne(optional=true)
     private Gerente gerente;
+	
+	@ManyToMany
+	private Set<Proveedor> proveedores;
 	
     public String getTipo() {
 		return tipo;
@@ -73,6 +77,8 @@ public class Restaurante extends NamedEntity {
 	
 	public Restaurante() {
 		super();
+		this.proveedores = new HashSet<>();
+		this.reservas = new HashSet<>();
 	}
 	
 	public Set<Reserva> getReservas() {
@@ -94,4 +100,14 @@ public class Restaurante extends NamedEntity {
 	public void setGerente(Gerente gerente) {
 		this.gerente = gerente;
 	}
+
+	public Set<Proveedor> getProveedores() {
+		return proveedores;
+	}
+
+	public void setProveedores(Set<Proveedor> proveedores) {
+		this.proveedores = proveedores;
+	}
+	
+	
 }

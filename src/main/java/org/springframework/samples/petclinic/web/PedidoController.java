@@ -176,9 +176,6 @@ public class PedidoController {
 	public String añadeOferta(@RequestParam("oferta") Oferta oferta, ModelMap modelMap,
 			@PathVariable("restauranteId") int restauranteId, @PathVariable("pedidoId") int pedidoId,@PathVariable("userName") String usuario) {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(pedidoId);
-		// modelMap.addAttribute("pedido", pedido.get());
-		// pedido.get().setOferta(oferta);
-		// System.out.println("cualquier cosa" + pedido.get().getOferta().getId());
 
 		if(oferta != null) {
 			if(pedido.get().getPrice() < oferta.getMinPrice()) {
@@ -215,7 +212,10 @@ public class PedidoController {
 				log.error("No se puede cancelar el pedido debido al estado en el que se encuentra");
 				throw new CantCancelOrderException();
 			} else {
+				Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+				cliente.setMonedero(cliente.getMonedero()+pedido.get().getPrice());
 				pedidoService.delete(pedido.get());
+				clienteService.update(cliente);
 				view = "redirect:/restaurantes/{restauranteId}/pedidos/{userName}";
 				log.info("Pedido eliminado con éxito");
 			}
@@ -279,8 +279,11 @@ public class PedidoController {
 				if (pedido.get().getPrice() >= 10) {
 
 					if (pedido.get().getCheckea() == true) {
+						Cliente cliente = clienteService.findClienteByUsuario(usuario).get();
+						cliente.setMonedero(cliente.getMonedero()-pedido.get().getPrice());
 						pedido.get().setEstado(Estado.PROCESANDO);
 						pedidoService.save(pedido.get());
+						clienteService.update(cliente);
 						modelMap.addAttribute("pedido", pedido);
 						modelMap.addAttribute("message",
 								"Se ha realizado el pedido satisfactoriamente y ahora está se está procesando en nuestra central.");
