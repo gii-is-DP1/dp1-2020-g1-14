@@ -2,18 +2,14 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Optional;
 
-import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +21,6 @@ import org.springframework.samples.petclinic.configuration.SecurityConfiguration
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.Estado;
-import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.LineaPedido;
 import org.springframework.samples.petclinic.model.Pedido;
 import org.springframework.samples.petclinic.model.Producto;
@@ -42,11 +37,13 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(controllers=PedidoController.class,
+
+@WebMvcTest(controllers = {PedidoController.class, CustomErrorController.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 
-public class PedidoControllerTest {
+
+public class PedidoControllerTests {
 
 	private static final int TEST_PEDIDO_ID = 1;
 	private static final int TEST_RESTAURANTE_ID = 1;
@@ -147,22 +144,18 @@ public class PedidoControllerTest {
 		given(this.userService.findUser(user1.getUsername())).willReturn(Optional.of(user1));
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante));
 		given(this.lineaPedidoService.findLineaPedidoById(TEST_LINEAPEDIDO_ID)).willReturn(Optional.of(lineaPedido));
-		
+		given(this.clienteService.findClienteByUsuario(user1.getUsername())).willReturn(Optional.of(cliente1));
+		given(this.clienteService.findClienteById(cliente1.getId())).willReturn(Optional.of(cliente1));
 	}
 	
-
-
 	
-	
-		
-	
-	
-	
-	
-	
-	
-	
-	
+	//TEST LISTAR OFERTAS
+	@WithMockUser(value = "spring")
+	@Test
+	void testListadoPedidos() throws Exception {
+		mockMvc.perform(get("/restaurantes/{restauranteId}/pedidos", TEST_RESTAURANTE_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("pedidos"))
+		.andExpect(status().is2xxSuccessful()).andExpect(view().name("pedidos/listadoPedidos"));
+					}
 	
 	
 	

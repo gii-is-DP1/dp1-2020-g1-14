@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.hamcrest.Matchers.hasProperty;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -20,12 +21,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
-import org.springframework.samples.petclinic.model.Restaurante;
-import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.ProveedorService;
-import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -64,6 +61,16 @@ public class ProveedorControllerTests {
 
 		
 }
+	
+    //TEST LISTAR PROVEEDORES
+	@WithMockUser(value = "spring")
+    @Test
+    void testListadoProveedores() throws Exception {
+		mockMvc.perform(get("/proveedores")).andExpect(status().isOk()).andExpect(model().attributeExists("proveedores"))
+		.andExpect(status().is2xxSuccessful()).andExpect(view().name("proveedores/listadoProveedores"));
+	}
+	
+	
 	//CREATION TESTS
 	
 	@WithMockUser(value = "spring")
@@ -75,19 +82,19 @@ public class ProveedorControllerTests {
 	
 	@WithMockUser(value = "spring")
     @Test
-    void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/proveedores/new")
+    void testSaveProveedorSuccess() throws Exception {
+		mockMvc.perform(post("/proveedores/save/{proveedorId}", TEST_PROVEEDOR_ID)
 				.with(csrf())
 				.param("name", "Fernando")
 				.param("tlf", "655789809"))
-			.andExpect(status().is2xxSuccessful());
+			.andExpect(status().is3xxRedirection());
 }
 	
 	
 	@WithMockUser(value = "spring")
     @Test
-void testProcessCreationFormHasErrors() throws Exception {
-	mockMvc.perform(post("/proveedores/save")
+void testSaveProveedorHasErrors() throws Exception {
+	mockMvc.perform(post("/proveedores/save/{proveedorId}",TEST_PROVEEDOR_ID)
 						.with(csrf())
 						.param("name", "Fernando")
 						.param("tlf", ""))
@@ -96,6 +103,15 @@ void testProcessCreationFormHasErrors() throws Exception {
 			.andExpect(model().attributeHasFieldErrors("proveedor", "tlf"))
 			.andExpect(view().name("proveedores/editProveedor"));
 }
+	
+	
+	//DELETE TESTS
+	@WithMockUser(value = "spring")
+	@Test
+	void testDeleteProveedor() throws Exception{
+		mockMvc.perform(get("/proveedores/delete/{proveedorId}", TEST_PROVEEDOR_ID))
+		.andExpect(status().is2xxSuccessful());
+	}
 	
 	
 	//UPDATE TESTS
@@ -135,13 +151,7 @@ void testProcessCreationFormHasErrors() throws Exception {
 
 	    
 
-	      //TEST LISTAR PROVEEDORES
-	    	@WithMockUser(value = "spring")
-	        @Test
-	        void testListadoProveedores() throws Exception {
-	    		mockMvc.perform(get("/proveedores")).andExpect(status().isOk()).andExpect(model().attributeExists("proveedores"))
-	    		.andExpect(status().is2xxSuccessful()).andExpect(view().name("proveedores/listadoProveedores"));
-	    	}
+	  
 	
 	
 	
