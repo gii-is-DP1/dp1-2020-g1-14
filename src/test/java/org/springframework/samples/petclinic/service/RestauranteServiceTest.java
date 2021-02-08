@@ -33,6 +33,12 @@ public class RestauranteServiceTest {
 	}
 	
 	@Test
+	void shouldFindRestauranteByGerenteUser() {
+		Optional<Restaurante> restaurante = restauranteService.findRestauranteByGerenteUser("gerente1");
+		assertThat(restaurante.get().getGerente().getUser().getUsername()).isEqualTo("gerente1");
+	}
+	
+	@Test
 	@Transactional
 	public void shouldInsertRestaurante() {
 		Collection<Restaurante> restaurantes = (Collection<Restaurante>) this.restauranteService.findAll();
@@ -42,7 +48,8 @@ public class RestauranteServiceTest {
 		nuevoRestaurante.setName("Restaurante de Prueba");
 		nuevoRestaurante.setTipo("Mexicano");
 		nuevoRestaurante.setLocalizacion("Calle de prueba");
-		nuevoRestaurante.setAforomax(25);      
+		nuevoRestaurante.setAforomax(25);     
+		nuevoRestaurante.setSenial(3);
         this.restauranteService.save(nuevoRestaurante);
 		assertThat(restaurante.get().getId().longValue()).isNotEqualTo(0);
 

@@ -39,6 +39,42 @@ public class ReservaServiceTest {
 	}
 	
 	@Test
+	void shouldFindReservaByRestauranteId() {
+		Iterable<Reserva> reservas = reservaService.findReservasByRestauranteId(1);
+		boolean reservasCorrectas=true;
+		for(Reserva r:reservas) {
+			if(r.getRestaurante().getId()!=1) {
+				reservasCorrectas=false;
+			}
+		}
+		assertThat(reservasCorrectas).isEqualTo(true);
+	}
+	
+	@Test
+	void shouldFindReservaByClienteId() {
+		Iterable<Reserva> reservas = reservaService.findReservasByClienteId(1);
+		boolean reservasCorrectas=true;
+		for(Reserva r:reservas) {
+			if(r.getCliente().getId()!=1) {
+				reservasCorrectas=false;
+			}
+		}
+		assertThat(reservasCorrectas).isEqualTo(true);
+	}
+	
+	@Test
+	void shouldFindReservaByUsuarioYReservaId() {
+		Iterable<Reserva> reservas = reservaService.findReservasByRestauranteIdYCliente(1, "Cliente1");
+		boolean reservasCorrectas=true;
+		for(Reserva r:reservas) {
+			if(!r.getCliente().getUser().getUsername().equals("Cliente1") || r.getRestaurante().getId()!=1) {
+				reservasCorrectas=false;
+			}
+		}
+		assertThat(reservasCorrectas).isEqualTo(true);
+	}
+	
+	@Test
 	@Transactional
 	public void shouldInsertReserva() {
 		Collection<Reserva> reservas = (Collection<Reserva>) this.reservaService.findAll();
