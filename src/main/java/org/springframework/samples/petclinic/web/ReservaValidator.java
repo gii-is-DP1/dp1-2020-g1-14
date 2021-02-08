@@ -4,10 +4,8 @@ package org.springframework.samples.petclinic.web;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Reserva;
 import org.springframework.samples.petclinic.model.Restaurante;
-import org.springframework.samples.petclinic.service.ReservaService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

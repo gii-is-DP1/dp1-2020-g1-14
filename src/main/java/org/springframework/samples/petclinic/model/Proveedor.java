@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -56,6 +57,12 @@ public class Proveedor extends NamedEntity{
 
 	public void setRestaurantes(Set<Restaurante> restaurantes) {
 		this.restaurantes = restaurantes;
+	}
+
+	public Proveedor() {
+		super();
+		this.ingredientes = new HashSet<>();
+		this.restaurantes = new HashSet<>();
 	}
 	
 	
