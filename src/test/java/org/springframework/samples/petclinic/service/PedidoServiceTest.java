@@ -102,8 +102,7 @@ public class PedidoServiceTest {
 	
 	//Test para verificar el funcionamiento de getTotalPrice, para determinar el dinero exacto a través de un pedido y sus lineas de pedido.
 	@Test
-	public void testGetTotalPrice() throws WrongDataProductosException, MinOrderPriceException  {
-	
+	public void testGetTotalPrice() {
 		Optional<Pedido> pedido = pedidoService.findPedidoById(1);
 		Iterable<LineaPedido> lineasPedido = lineaPedidoService.findLineaPedidoByPedidoId(1);
 		Double suma = 0.;
@@ -116,7 +115,50 @@ public class PedidoServiceTest {
 	
 		Double total = pedidoService.getTotalPrice(pedido.get().getId());
 		assertThat(total).isEqualTo(suma);
+		/*
+		Pedido p = new Pedido();
+		p.setId(99);
 		
+		
+		p.setAdress("A");
+		p.setOrderDate(LocalDate.now());
+		
+		Producto pr1 = new Producto();
+		pr1.setId(99);
+		pr1.setPrecio(6.);
+		
+		
+		Producto pr2 = new Producto();
+		pr2.setId(100);
+		pr2.setPrecio(8.);
+		
+	
+		LineaPedido lp1 = new LineaPedido();
+		lp1.setId(99);
+		lp1.setCantidad(2);
+		lp1.setProducto(pr1);
+		lp1.setPedido(p);
+	
+		LineaPedido lp2 = new LineaPedido();
+		lp2.setId(100);
+		lp2.setCantidad(3);
+		lp2.setProducto(pr2);
+		lp2.setPedido(p);
+		
+		List<LineaPedido> lineas = new ArrayList<>();
+		lineas.add(lp1); lineas.add(lp2);
+		
+		p.setLineaPedido(lineas);
+		p.setPrice(pr1.getPrecio()*lp1.getCantidad()+pr2.getPrecio()*lp2.getCantidad());
+		pr1.setLineaPedido(lineas);
+		pr2.setLineaPedido(lineas);
+		
+		lineaPedidoService.save(lp1);
+		lineaPedidoService.save(lp2);
+		pedidoService.save(p);
+		productoService.save(pr1);
+		productoService.save(pr2);
+		*/	
 		
 	}
 	
