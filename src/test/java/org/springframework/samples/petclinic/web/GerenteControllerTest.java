@@ -9,6 +9,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,7 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.GerenteService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
+import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,7 +36,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 
 @WebMvcTest(controllers= {GerenteController.class, CustomErrorController.class}, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE,
 classes = WebSecurityConfigurer.class), excludeAutoConfiguration= SecurityConfiguration.class)
-
+//@ContextConfiguration(classes= {GerenteValidator.class})
 public class GerenteControllerTest {
 
 	private static final int TEST_GERENTE_ID = 1;
@@ -50,6 +53,9 @@ public class GerenteControllerTest {
 	
 	@MockBean
 	private GerenteValidator validator;
+	
+	@MockBean
+	private UserService userService;
 	
 	@MockBean
 	private ProductoService productoService;
@@ -73,6 +79,10 @@ public class GerenteControllerTest {
 		usuario1.setPassword("gerente1");
 		usuario1.setrDate(LocalDate.of(2000, 10, 11));
 		
+		List<User> usersList = new ArrayList<User>();
+		usersList.add(usuario1);
+		given(this.userService.findAll()).willReturn(usersList);
+		
 		nombre1 = new Gerente();
 		nombre1.setId(TEST_GERENTE_ID);
 		nombre1.setName("nombre1");
@@ -86,7 +96,7 @@ public class GerenteControllerTest {
 		restaurante1.setTipo("Italiano");
 		restaurante1.setLocalizacion("Reina Mercedes, 34");
 		restaurante1.setAforomax(26);
-		restaurante1.setGerente(nombre1);
+//		restaurante1.setGerente(nombre1);
 		given(this.restauranteService.findRestauranteById(TEST_RESTAURANTE_ID)).willReturn(Optional.of(restaurante1));
 	
 
