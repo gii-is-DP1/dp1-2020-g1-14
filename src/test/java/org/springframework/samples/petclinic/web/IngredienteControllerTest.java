@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.AuthoritiesService;
 import org.springframework.samples.petclinic.service.IngredienteService;
+import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -51,7 +52,10 @@ public class IngredienteControllerTest {
 	private RestauranteService restauranteService;
 	
 	@MockBean
-    private AuthoritiesService authoritiesService; 
+    private AuthoritiesService authoritiesService;
+	
+	@MockBean
+	private ProveedorService proveedoreService;
 	
 	@Autowired
 	private MockMvc mockMvc;
