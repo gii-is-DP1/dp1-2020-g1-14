@@ -98,7 +98,7 @@ public class ReclamacionControllerTest {
 	@WithMockUser(value = "spring")
     @Test
     void testProcessCreationFormSuccess() throws Exception {
-		mockMvc.perform(post("/restaurantes/{restauranteId}/reclamaciones/new", TEST_RESTAURANTE_ID)
+		mockMvc.perform(get("/restaurantes/{restauranteId}/reclamaciones/new", TEST_RESTAURANTE_ID)
 				.param("descripcion", "Hola buenas tardes")
 				.with(csrf())
 				.param("restaurante", "Prueba"))
