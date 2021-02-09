@@ -19,23 +19,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class GerenteServiceTest {
-	
+
 	@Autowired
 	private GerenteService gerenteService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Test
 	public void testCountWithInitialData() {
 		int count = gerenteService.gerenteCount();
 		assertEquals(count,3);
 	}
-	
+
 	@Test
 	@Transactional
 	public void shouldInsertGerente() {
-	Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
+		Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
 		int found = gerentes.size();
 
 
@@ -45,12 +45,12 @@ public class GerenteServiceTest {
 		s.setEnabled(true);
 		s.setrDate(LocalDate.now());
 		userService.saveUser(s);
-		
+
 		Gerente g = new Gerente();
 		g.setUser(s);
 		g.setName("Pable");
 		g.setDni("34596703H");
-		
+
 		try {
 			this.gerenteService.save(g);
 		} catch (Exception e) {
@@ -60,26 +60,26 @@ public class GerenteServiceTest {
 		gerentes = (Collection<Gerente>) this.gerenteService.findAll();
 		assertThat(gerentes.size()).isEqualTo(found+1);
 	}
-	
 
-	
+
+
 	@Test
 	@Transactional
 	public void shouldDeleteGerente() {
-		
-		
+
+
 		User s = new User();
 		s.setUsername("Juan_gerente");
 		s.setPassword("contrasenya2");
 		s.setEnabled(true);
 		s.setrDate(LocalDate.now());
 		userService.saveUser(s);
-		
+
 		Gerente g = new Gerente();
 		g.setUser(s);
 		g.setName("Juan");
 		g.setDni("34788543G");
-		
+
 		try {
 			this.gerenteService.save(g);
 		} catch (Exception e) {
@@ -91,14 +91,14 @@ public class GerenteServiceTest {
 		Collection<Gerente> gerenteDeleted = (Collection<Gerente>) this.gerenteService.findAll();
 		assertThat(gerenteDeleted.size()).isEqualTo(found-1);
 	}
-	
-	 @Test
-	 @Transactional
-	 public void shouldFindGerenteWithCorrectId() {
-		 Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
-		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
-	 }
-	
+
+	@Test
+	@Transactional
+	public void shouldFindGerenteWithCorrectId() {
+		Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
+		assertThat(gerente.get().getDni()).isEqualTo("12345678F");
+	}
+
 	@Test
 	@Transactional
 	public void shouldFindGerenteByUsuario() {
@@ -107,8 +107,8 @@ public class GerenteServiceTest {
 		if(!gerente.get().getUser().getUsername().equals("gerente3")) {
 			gerenteCorrecto=false;
 		}
-			
-			assertThat(gerenteCorrecto).isEqualTo(true);
-		}
-	 
+
+		assertThat(gerenteCorrecto).isEqualTo(true);
+	}
+
 }
