@@ -1,13 +1,17 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.samples.petclinic.service.exceptions.WrongDataProductosException;
@@ -33,6 +37,8 @@ public class ProductoController {
 	private ProductoService productoService;
 	@Autowired
 	private RestauranteService resService;
+	@Autowired
+	private IngredienteService ingredienteService;
 
 	//Se obtiene la lista de productos por restaurante.
 	@GetMapping()
@@ -136,5 +142,25 @@ public class ProductoController {
 		log.info("Operación para editar producto en ejecucion");
 
 		return VIEWS_PRODUCTOS_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@GetMapping(path="/{IngredienteId}")
+	public String productoIngredientes(@PathVariable("restauranteId") int restauranteId, @PathVariable("IngredienteId") int IngredienteId, ModelMap modelMap) {
+		Optional<Ingrediente> ingrediente = ingredienteService.findIngredienteById(IngredienteId);
+		if(ingrediente.isPresent()) {
+			Iterable<Producto> porducts = productoService.findProductosByRestauranteId(restauranteId);
+			Set<Producto> productos = new HashSet<>();
+			for(Producto p:porducts) {
+				if(p.getIngredientes().contains(ingrediente.get())) {
+					productos.add(p);
+				}
+			}
+			modelMap.addAttribute("productos",productos);
+			return "productos/listadoProductos";
+		}else {
+			modelMap.addAttribute("message","ingrediente no encontrado!");
+			log.warn("ingrediente no encontrado");
+			return "redirect: /restaurantes/{restauranteId}/ingredientes";
+		}
 	}
 }

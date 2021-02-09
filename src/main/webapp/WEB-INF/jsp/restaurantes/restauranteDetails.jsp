@@ -91,6 +91,28 @@
     	<spring:url value="/restaurantes/${restaurante.id}/gerentes" var="gerenteUrl"/>
     	<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Listado de Gerentes</a>
     </sec:authorize>
+    <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
+    <br/>
+    <br/>
+    <br/>
+    <h2>Gerente</h2>
+	    <table class="table table-striped">
+	            <tr>
+	                <td valign="top">
+	                    <dl class="dl-horizontal">
+	                        <dt>Nombre</dt>
+	                        <dd><c:out value="${gerente.name}"/></dd>
+	                        <dt>Usuario</dt>
+	                        <dd><c:out value="${gerente.user.username}"/></dd>
+	                        <dt>Contraseña</dt>
+	                        <dd><c:out value="${gerente.user.password}"/></dd>
+	                        <dt>Dni</dt>
+	                        <dd><c:out value="${gerente.dni}"/></dd>
+	                    </dl>
+	                </td>
+	            </tr>
+	    </table>
+    </sec:authorize>
     <br/>
     <br/>
     <br/>

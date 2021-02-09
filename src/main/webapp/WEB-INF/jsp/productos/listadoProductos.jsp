@@ -35,15 +35,25 @@
                     <c:out value="${producto.alergenos}"/>
                 </td>
 				<td>
-				<spring:url value="/restaurantes/${restauranteId}/productos/delete/{productoId}" var="productoUrl">
+					<spring:url value="/restaurantes/${restauranteId}/productos/delete/{productoId}" var="productoUrl">
                         <spring:param name="productoId" value="${producto.id}"/>
                     </spring:url>
                     <a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Eliminar producto</a>
                 
-                 <spring:url value="/restaurantes/${restauranteId}/productos/edit/{productoId}" var="productoUrl">
+                 	<spring:url value="/restaurantes/${restauranteId}/productos/edit/{productoId}" var="productoUrl">
         				<spring:param name="productoId" value="${producto.id}"/>
     				</spring:url>
     				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Editar producto</a>
+    				
+    				<spring:url value="/restaurantes/${restauranteId}/ingredientes/producto/{productoId}" var="productoUrl">
+        				<spring:param name="productoId" value="${producto.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Listar Ingredientes</a>
+    				
+    				<spring:url value="/restaurantes/${restauranteId}/ingredientes/{productoId}/vincula" var="productoUrl">
+        				<spring:param name="productoId" value="${producto.id}"/>
+    				</spring:url>
+    				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Vincular Ingrediente</a>
                 	
                 </td>      
             </tr>

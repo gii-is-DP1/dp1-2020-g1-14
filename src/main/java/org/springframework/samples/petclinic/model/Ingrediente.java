@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
@@ -35,7 +36,10 @@ public class Ingrediente extends NamedEntity {
 	private Restaurante restaurante;
 	
 	@ManyToMany()
-	@JoinColumn(name = "producto_id")
+	@JoinTable(
+			  name = "productos", 
+			  joinColumns = @JoinColumn(name = "ingrediente_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "producto_id"))
 	private Set<Producto> productos;
 	
 	@ManyToMany(mappedBy = "ingredientes")
