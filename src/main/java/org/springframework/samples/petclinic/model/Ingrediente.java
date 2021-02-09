@@ -38,7 +38,7 @@ public class Ingrediente extends NamedEntity {
 	@JoinColumn(name = "producto_id")
 	private Set<Producto> productos;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "ingredientes")
 	private Set<Proveedor> proveedores;
 	
 	public double getStock() {

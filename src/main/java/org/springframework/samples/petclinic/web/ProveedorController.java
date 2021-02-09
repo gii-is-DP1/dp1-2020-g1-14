@@ -8,8 +8,10 @@ import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
@@ -35,6 +37,8 @@ public class ProveedorController {
 	private ProveedorService proveedorService;
 	@Autowired
 	private RestauranteService restauranteService;
+	@Autowired
+	private IngredienteService ingredienteService;
 	
 	//Se obtiene la lista de proveedores.
 	@GetMapping()
@@ -44,6 +48,7 @@ public class ProveedorController {
 		Iterable<Proveedor> proveedores = restaurante.getProveedores();
 		modelMap.addAttribute("proveedores",proveedores);
 		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("condicion",false);
 		log.info("Mostrando lista de proveedores");
 		return vista;
 	}
@@ -131,13 +136,13 @@ public class ProveedorController {
 		log.info("Proveedor eliminado con éxito");
 	}else {
 		modelMap.addAttribute("restauranteId",restauranteId);
-		modelMap.addAttribute("message","Event not found!");
+		modelMap.addAttribute("message","proveedor not found!");
 		view=listadoProveedores(modelMap, restauranteId);
 		
 		log.error("No se ha encontrado el proveedor para eliminar");
 	}
-	return view;
-}
+		return view;
+	}
 	
 	//Editamos un proveedor ya existente.
 	@GetMapping(path="/{proveedorId}/edit") 
@@ -174,6 +179,7 @@ public class ProveedorController {
 		Iterable<Proveedor> proveedores = proveedorService.findAll();
 		modelMap.addAttribute("proveedores",proveedores);
 		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("condicion",true);
 		log.info("Mostrando lista de proveedores");
 		return vista;
 	}
@@ -194,6 +200,122 @@ public class ProveedorController {
 		log.info("Proveedor asignado satisfactoriamente");
 
 		return "redirect:/restaurantes/{restauranteId}/proveedores";
+	}
+	
+	@GetMapping(path="desvincula/{proveedorId}")
+	public String desvincularProveedor(@PathVariable("proveedorId") int proveedorId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {
+	String view="proveedores/listadoProveedores";
+	Optional<Proveedor> proveedor=proveedorService.findProveedorById(proveedorId);
+	Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+	if(proveedor.isPresent()) {
+		Set<Proveedor> proveedores = restaurante.getProveedores();
+		proveedores.remove(proveedor.get());
+		restauranteService.save(restaurante);
+		
+		Set<Restaurante> restaurantes = proveedor.get().getRestaurantes();
+		restaurantes.remove(restaurante);
+		proveedorService.save(proveedor.get());
+		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("message","proveedor desvinculado!");
+		view=listadoProveedores(modelMap, restauranteId);
+		
+		log.info("Proveedor desvinculado con éxito");
+	}else {
+		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("message","proveedor not found!");
+		view=listadoProveedores(modelMap, restauranteId);
+		
+		log.error("No se ha encontrado el proveedor para desvincular");
+	}
+		return view;
+	}
+	
+	@GetMapping(path="/{ingredienteId}")
+	public String ingredientesProveedor(@PathVariable("restauranteId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId, ModelMap modelMap) {
+		Optional<Ingrediente> ingrediente = ingredienteService.findIngredienteById(ingredienteId);
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		if(ingrediente.isPresent()) {
+			Iterable<Proveedor> proveedoress = proveedorService.findAll();
+			Set<Proveedor> proveedores = new HashSet<>();
+			for(Proveedor p:proveedoress) {
+				if(p.getIngredientes().contains(ingrediente.get()) && p.getRestaurantes().contains(restaurante)) {
+					proveedores.add(p);
+				}
+			}
+			modelMap.addAttribute("ing",false);
+			modelMap.addAttribute("proveedores",proveedores);
+			return "proveedores/listadoProveedores";
+		}else {
+			modelMap.addAttribute("message","ingrediente no encontrado!");
+			log.warn("ingrediente no encontrado");
+			return "redirect: /restaurantes/{restauranteId}/proveedores";
+		}
+	}
+	
+	@GetMapping("/{ingredienteId}/vincula")
+	public String seleccionProveedores(ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId) {
+		String vista ="proveedores/listadoProveedores";
+		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
+		Iterable<Proveedor> proveedoress = proveedorService.findAll();
+		Set<Proveedor> proveedores = new HashSet<>();
+		for(Proveedor p:proveedoress) {
+			if(p.getRestaurantes().contains(restaurante)) {
+				proveedores.add(p);
+			}
+		}
+		modelMap.addAttribute("proveedores",proveedores);
+		modelMap.addAttribute("restauranteId",restauranteId);
+		modelMap.addAttribute("ingredienteId",ingredienteId);
+		modelMap.addAttribute("ing",true);
+		log.info("Mostrando lista de proveedores");
+		return vista;
+	}
+	
+	@GetMapping(value="/{ingredienteId}/vincula/{proveedorId}")
+	public String vinculaProveedor(ModelMap model, @PathVariable("restauranteId") int restauranteId, @PathVariable("proveedorId") int proveedorId, @PathVariable("ingredienteId") int ingredienteId) {
+		Proveedor proveedor = proveedorService.findProveedorById(proveedorId).get();
+		Ingrediente ingrediente = ingredienteService.findIngredienteById(ingredienteId).get();
+		Set<Proveedor> proveedores = ingrediente.getProveedores();
+		proveedores.add(proveedor);
+		ingredienteService.save(ingrediente);
+		
+		Set<Ingrediente> ingredientes = proveedor.getIngredientes();
+		ingredientes.add(ingrediente);
+		proveedorService.save(proveedor);
+		
+		model.addAttribute("restauranteId",restauranteId);
+		log.info("Proveedor asignado satisfactoriamente");
+
+		return "redirect:/restaurantes/{restauranteId}/ingredientes";
+	}
+	
+	@GetMapping(path="/{ingredienteId}/separa/{proveedorId}")
+	public String desvincularProveedorIngrediente(@PathVariable("proveedorId") int proveedorId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId, @PathVariable("ingredienteId") int ingredienteId) {
+		String view="ingredientes/listadoIngredientes";
+		Optional<Proveedor> proveedor=proveedorService.findProveedorById(proveedorId);
+		Ingrediente ingrediente = ingredienteService.findIngredienteById(ingredienteId).get();
+		if(proveedor.isPresent()) {
+			Set<Proveedor> proveedores = ingrediente.getProveedores();
+			proveedores.remove(proveedor.get());
+			ingredienteService.save(ingrediente);
+			
+			Set<Ingrediente> ingredientes = proveedor.get().getIngredientes();
+			ingredientes.remove(ingrediente);
+			proveedorService.save(proveedor.get());
+			modelMap.addAttribute("restauranteId",restauranteId);
+			modelMap.addAttribute("ingredientes",ingredienteService.findIngredientesByRestauranteId(restauranteId));
+			modelMap.addAttribute("message","proveedor desvinculado!");
+			log.info("Proveedor desvinculado con éxito");
+			return view;
+		}else {
+			modelMap.addAttribute("restauranteId",restauranteId);
+			modelMap.addAttribute("message","proveedor not found!");
+			view=listadoProveedores(modelMap, restauranteId);
+			
+			log.error("No se ha encontrado el proveedor para desvincular");
+			return view;
+		}
+		
 	}
 }
 
