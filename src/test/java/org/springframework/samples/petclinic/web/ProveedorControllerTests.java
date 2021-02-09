@@ -22,7 +22,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Proveedor;
+import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.samples.petclinic.service.ProveedorService;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,21 +40,36 @@ public class ProveedorControllerTests {
 	
 	
 	private static final int TEST_PROVEEDOR_ID = 1;
+	private static final int TEST_RESTAURANTE_ID = 1;
 
+	@MockBean
+	private IngredienteService ingredService;
 	
 	@Autowired
 	private ProveedorController proveedorController;
 
 	@MockBean
 	private ProveedorService proveedorService;
+	
+	@MockBean
+	private RestauranteService restauranteService;
 
 	@Autowired
 	private MockMvc mockMvc;
 	
 	private Proveedor proveedor;
+	private Restaurante restaurante;
 	
 	@BeforeEach
 	void setup() {
+		
+		restaurante = new Restaurante();
+		restaurante.setId(TEST_RESTAURANTE_ID);
+		restaurante.setName("Restaurante 1");
+		restaurante.setTipo("Chino");
+		restaurante.setLocalizacion("Reina Mercedes, 34");
+		restaurante.setAforomax(25);
+		restaurante.setSenial(20);
 		
 		proveedor = new Proveedor();
 		proveedor.setId(TEST_PROVEEDOR_ID);
@@ -66,7 +84,7 @@ public class ProveedorControllerTests {
 	@WithMockUser(value = "spring")
     @Test
     void testListadoProveedores() throws Exception {
-		mockMvc.perform(get("/proveedores")).andExpect(status().isOk()).andExpect(model().attributeExists("proveedores"))
+		mockMvc.perform(get("/restaurantes/{restauranteId}/proveedores", TEST_RESTAURANTE_ID, TEST_PROVEEDOR_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("proveedores"))
 		.andExpect(status().is2xxSuccessful()).andExpect(view().name("proveedores/listadoProveedores"));
 	}
 	
@@ -76,14 +94,14 @@ public class ProveedorControllerTests {
 	@WithMockUser(value = "spring")
     @Test
     void testInitCreationForm() throws Exception {
-		mockMvc.perform(get("/proveedores/new")).andExpect(status().isOk()).andExpect(model().attributeExists("proveedor"))
+		mockMvc.perform(get("/restaurantes/{restauranteId}/proveedores/new", TEST_RESTAURANTE_ID, TEST_PROVEEDOR_ID)).andExpect(status().isOk()).andExpect(model().attributeExists("proveedor"))
 			.andExpect(view().name("proveedores/editProveedor"));
 }
 	
 	@WithMockUser(value = "spring")
     @Test
     void testSaveProveedorSuccess() throws Exception {
-		mockMvc.perform(post("/proveedores/save/{proveedorId}", TEST_PROVEEDOR_ID)
+		mockMvc.perform(post("/restaurantes/{restauranteId}/proveedores/save/{proveedorId}", TEST_RESTAURANTE_ID, TEST_PROVEEDOR_ID)
 				.with(csrf())
 				.param("name", "Fernando")
 				.param("tlf", "655789809"))
@@ -94,7 +112,7 @@ public class ProveedorControllerTests {
 	@WithMockUser(value = "spring")
     @Test
 void testSaveProveedorHasErrors() throws Exception {
-	mockMvc.perform(post("/proveedores/save/{proveedorId}",TEST_PROVEEDOR_ID)
+	mockMvc.perform(post("/restaurantes/{restauranteId}/proveedores/save/{proveedorId}", TEST_RESTAURANTE_ID, TEST_PROVEEDOR_ID)
 						.with(csrf())
 						.param("name", "Fernando")
 						.param("tlf", ""))
@@ -109,7 +127,7 @@ void testSaveProveedorHasErrors() throws Exception {
 	@WithMockUser(value = "spring")
 	@Test
 	void testDeleteProveedor() throws Exception{
-		mockMvc.perform(get("/proveedores/delete/{proveedorId}", TEST_PROVEEDOR_ID))
+		mockMvc.perform(get("/restaurantes/{restauranteId}/proveedores/delete/{proveedorId}", TEST_RESTAURANTE_ID, TEST_PROVEEDOR_ID))
 		.andExpect(status().is2xxSuccessful());
 	}
 	
