@@ -27,8 +27,9 @@
         <tbody>
         <c:forEach items="${ingredientes}" var="ingrediente">
             <tr>
-                <td>
-                    <c:out value="${ingrediente.name}"/>
+            	<td>
+                	<spring:url value="/restaurantes/${restauranteId}/proveedores/${ingrediente.id}" var="ingredienteUrl"/>
+                    <a href="${fn:escapeXml(ingredienteUrl)}"><c:out value="${ingrediente.name}"/></a>
                 </td>
                 <td>
                     <c:out value="${ingrediente.stock} ${ingrediente.medida}"/>
@@ -37,11 +38,17 @@
                     <spring:url value="/restaurantes/${restauranteId}/ingredientes/delete/{ingredienteId}" var="ingredienteUrl">
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
-                	<a href="${fn:escapeXml(ingredienteUrl)}">Borrar</a>
+                	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Borrar</a>
+                	
                 	<spring:url value="/restaurantes/${restauranteId}/ingredientes/{ingredienteId}/edit" var="ingredienteUrl">
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
-                	<a href="${fn:escapeXml(ingredienteUrl)}">Editar</a>
+                	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Editar</a>
+                	
+                	<spring:url value="/restaurantes/${restauranteId}/proveedores/{ingredienteId}/vincula" var="ingredienteUrl">
+                        <spring:param name="ingredienteId" value="${ingrediente.id}"/>
+                    </spring:url>
+                	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Vincular proveedor</a>
                 </td>
             </tr>
         </c:forEach>

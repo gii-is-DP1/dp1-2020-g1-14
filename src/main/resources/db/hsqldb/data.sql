@@ -147,6 +147,10 @@ INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(1,'N
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(2,'Cajas de tomates',5,'UNIDAD', 2,1);
 INSERT INTO ingrediente(id,name,stock,medida,restaurante_id,version) VALUES(3,'Harina',17,'KG', 3,1);
 
+INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (1,1);
+INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (2,1);
+INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (2,2);
+
 INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,1);
 INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,2);
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------

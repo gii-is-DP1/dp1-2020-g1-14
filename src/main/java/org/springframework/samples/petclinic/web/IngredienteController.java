@@ -2,15 +2,19 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Ingrediente;
 import org.springframework.samples.petclinic.model.Medida;
+import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Restaurante;
 import org.springframework.samples.petclinic.service.IngredienteService;
+import org.springframework.samples.petclinic.service.ProveedorService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +37,8 @@ public class IngredienteController {
 	private IngredienteService ingService;
 	@Autowired
 	private RestauranteService resService;
+	@Autowired
+	private ProveedorService proveedorService;
 	
 	@GetMapping()
 	public String listadoIngredientes(@PathVariable("restauranteId") int restauranteId, ModelMap modelMap) {
@@ -146,15 +152,35 @@ public class IngredienteController {
 		Optional<Ingrediente> ingrediente = ingService.findIngredienteById(id);
 		if(ingrediente.isPresent()) {
 			ingService.delete(ingrediente.get());
-			modelMap.addAttribute("message","Event succesfully deleted!");
+			modelMap.addAttribute("message","ingrediente succesfully deleted!");
 			log.info("ingrediente borrado");
 		}else {
-			modelMap.addAttribute("message","Event not found!");
+			modelMap.addAttribute("message","ingrediente not found!");
 			log.warn("ingrediente no encontrado");
 		}
 		vista = listadoIngredientes(restauranteId, modelMap);
 
 
 		return vista;
+	}
+	
+	@GetMapping(path="/{proveedorId}")
+	public String proveedoresIngrediente(@PathVariable("restauranteId") int restauranteId, @PathVariable("proveedorId") int proveedorId, ModelMap modelMap) {
+		Optional<Proveedor> proveedor = proveedorService.findProveedorById(proveedorId);
+		if(proveedor.isPresent()) {
+			Iterable<Ingrediente> ingredients = ingService.findIngredientesByRestauranteId(restauranteId);
+			Set<Ingrediente> ingredientes = new HashSet<>();
+			for(Ingrediente i:ingredients) {
+				if(i.getProveedores().contains(proveedor.get())) {
+					ingredientes.add(i);
+				}
+			}
+			modelMap.addAttribute("ingredientes",ingredientes);
+			return "ingredientes/listadoIngredientes";
+		}else {
+			modelMap.addAttribute("message","proveedor no encontrado!");
+			log.warn("proveedor no encontrado");
+			return "redirect: /restaurantes/{restauranteId}/ingredientes";
+		}
 	}
 }
