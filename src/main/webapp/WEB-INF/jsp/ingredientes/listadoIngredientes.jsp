@@ -28,8 +28,7 @@
         <c:forEach items="${ingredientes}" var="ingrediente">
             <tr>
             	<td>
-                	<spring:url value="/restaurantes/${restauranteId}/proveedores/${ingrediente.id}" var="ingredienteUrl"/>
-                    <a href="${fn:escapeXml(ingredienteUrl)}"><c:out value="${ingrediente.name}"/></a>
+					<c:out value="${ingrediente.name}"/>
                 </td>
                 <td>
                     <c:out value="${ingrediente.stock} ${ingrediente.medida}"/>
@@ -45,10 +44,26 @@
                     </spring:url>
                 	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Editar</a>
                 	
+                	<spring:url value="/restaurantes/${restauranteId}/proveedores/${ingrediente.id}" var="ingredienteUrl"/>
+                	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Ver proveedores vinculados</a>
+                	
                 	<spring:url value="/restaurantes/${restauranteId}/proveedores/{ingredienteId}/vincula" var="ingredienteUrl">
                         <spring:param name="ingredienteId" value="${ingrediente.id}"/>
                     </spring:url>
                 	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Vincular proveedor</a>
+                	
+                	<spring:url value="/restaurantes/${restauranteId}/productos/${ingrediente.id}" var="ingredienteUrl"/>
+                	<a class="btn btn-default" href="${fn:escapeXml(ingredienteUrl)}">Ver productos vinculados</a>
+                	
+                	<c:if test="${prod==true}">
+	    				<spring:url value="/restaurantes/${restauranteId}/ingredientes/${productoId}/vincula/${ingrediente.id}" var="productoUrl"/>
+	    				<a href="${fn:escapeXml(productoUrl)}" class="btn btn-default">Vincular producto al ingrediente</a>
+    				</c:if>
+    				
+    				<c:if test="${prod==false}">
+	    				<spring:url value="/restaurantes/${restauranteId}/ingredientes/${productoId}/separa/${ingrediente.id}" var="productoUrl"/>
+                    	<a class="btn btn-default" href="${fn:escapeXml(productoUrl)}">desvincular</a>
+    				</c:if>
                 </td>
             </tr>
         </c:forEach>

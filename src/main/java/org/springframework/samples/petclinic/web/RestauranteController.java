@@ -1,12 +1,11 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Oferta;
+import org.springframework.samples.petclinic.model.Gerente;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Proveedor;
 import org.springframework.samples.petclinic.model.Restaurante;
@@ -130,6 +129,8 @@ public class RestauranteController {
 		ModelAndView mav = new ModelAndView("restaurantes/restauranteDetails");
 		Restaurante restaurante = restauranteService.findRestauranteById(restauranteId).get();
 		Iterable<Producto> productos = productoService.findProductosByRestauranteId(restauranteId);
+		Gerente gerente = restaurante.getGerente();
+		mav.addObject("gerente",gerente);
 		mav.addObject("productos",productos);
 		mav.addObject("restaurante",restaurante);
 		mav.addObject("gerente",restaurante.getGerente());

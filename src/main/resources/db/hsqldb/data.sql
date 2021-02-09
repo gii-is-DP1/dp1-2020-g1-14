@@ -151,8 +151,8 @@ INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (1,1);
 INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (2,1);
 INSERT INTO ingredientes(proveedor_id,ingrediente_id) VALUES (2,2);
 
-INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,1);
-INSERT INTO producto_ingredientes(producto_id,ingredientes_id) VALUES (1,2);
+INSERT INTO productos(producto_id,ingrediente_id) VALUES (1,1);
+INSERT INTO productos(producto_id,ingrediente_id) VALUES (3,2);
 /*Usado para pruebas también*/ ---------------------------------------------------------------------------------------------
 INSERT INTO pedido(id,adress,checkea,estado,order_date,price,cliente_id,restaurante_id,version) VALUES(1,'Calle A',true,'PROCESANDO','2020-08-13',17.3,1,1,1);
 INSERT INTO linea_pedido(id,cantidad,pedido_id,producto_id) VALUES (1,2,1,1);

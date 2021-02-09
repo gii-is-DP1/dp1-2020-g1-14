@@ -37,7 +37,7 @@ public class Producto extends NamedEntity {
 	@Pattern(regexp="^[a-zA-Z,.!? ]*$", message="Solo se permiten espacios, símbolos y letras")
 	private String alergenos;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "productos")
 	private Set<Ingrediente> ingredientes;
 	
 	@ManyToOne
