@@ -41,6 +41,8 @@
     <a href="${fn:escapeXml(ingresoUrl)}" class="btn btn-default">Ingresar 20 euros en mi cuenta</a>
     <spring:url value="/clientes/ingresa/50" var="ingresoUrl"/>
     <a href="${fn:escapeXml(ingresoUrl)}" class="btn btn-default">Ingresar 50 euros en mi cuenta</a>
+    <spring:url value="/clientes/upgrade" var="clienteUrl"/>
+    <a class="btn btn-default"  href="${fn:escapeXml(clienteUrl)}">Hacer socio</a>
     </sec:authorize>
     
     </div>
