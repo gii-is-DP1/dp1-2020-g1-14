@@ -88,8 +88,6 @@
    			<spring:url value="/restaurantes/${restaurante.id}/gerentes/delete/${restaurante.gerente.id}" var="gerenteUrl"/>
     		<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Eliminar Gerente</a>
     	</c:if>    	
-    	<spring:url value="/restaurantes/${restaurante.id}/gerentes" var="gerenteUrl"/>
-    	<a href="${fn:escapeXml(gerenteUrl)}" class="btn btn-default">Listado de Gerentes</a>
     </sec:authorize>
     <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
     <br/>

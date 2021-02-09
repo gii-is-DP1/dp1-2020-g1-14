@@ -46,7 +46,9 @@
                     <a class="btn btn-default" href="${fn:escapeXml(restauranteUrl)}">Volver atrás</a>
                 </div>
             </div>
-        </form:form>       
+        </form:form>
+        <spring:url value="/restaurantes" var="restauranteUrl"/>
+    	<a class="btn btn-default" href="${fn:escapeXml(restauranteUrl)}">Volver atrás</a>       
     </jsp:body>
 
 </petclinic:layout>

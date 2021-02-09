@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="Reservas">
 	<jsp:attribute name="customScript">
@@ -98,6 +98,8 @@
                     		<button class="btn btn-default" type="submit">Update reserva</button>
                     	</c:otherwise>
                     </c:choose>
+                    <spring:url value="/restaurantes/${restauranteId}" var="restauranteUrl"/>
+    				<a class="btn btn-default" href="${fn:escapeXml(restauranteUrl)}">Volver atrás</a>
                 </div>
             </div>
         </form:form>       
