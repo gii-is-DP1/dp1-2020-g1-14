@@ -63,7 +63,7 @@ public class ReservaServiceTest {
 	}
 	
 	@Test
-	void shouldFindReservaByUsuarioYReservaId() {
+	void shouldFindReservaByUsuarioYRestauranteId() {
 		Iterable<Reserva> reservas = reservaService.findReservasByRestauranteIdYCliente(1, "Cliente1");
 		boolean reservasCorrectas=true;
 		for(Reserva r:reservas) {
