@@ -6,14 +6,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <petclinic:layout pageName="ofertas">
     
     <h2>Ofertas</h2>
-	
+    
+	<sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
 	<spring:url value="/restaurantes/${restauranteId}/ofertas/new" var="ofertaUrl">
                     </spring:url>
                     <a class="btn btn-default" href="${fn:escapeXml(ofertaUrl)}">Agregar oferta</a>
+    </sec:authorize>
     
     <table id="ofertasTable" class="table table-striped">
         
