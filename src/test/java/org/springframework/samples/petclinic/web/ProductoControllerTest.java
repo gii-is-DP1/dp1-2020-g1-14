@@ -27,10 +27,12 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Producto;
 import org.springframework.samples.petclinic.model.Restaurante;
+import org.springframework.samples.petclinic.service.IngredienteService;
 import org.springframework.samples.petclinic.service.ProductoService;
 import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -43,6 +45,9 @@ public class ProductoControllerTest {
 
 	private static final int TEST_PRODUCTO_ID = 1;
 	private static final int TEST_RESTAURANTE_ID = 1;
+	
+	@MockBean
+	private IngredienteService ingredService;
 	
 	@Autowired
 	private ProductoController productoController;
