@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Reclamacion extends BaseEntity{
 
 	@NotBlank(message="El campo no puede ser nulo o estar vacío")
+	@Size(min = 8)
 	private String descripcion;
 	
 	
