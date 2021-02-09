@@ -27,7 +27,9 @@
             <th style="width: 120px">Precio mínimo</th>
             <th style="width: 120px">Descuento</th>
             <th style="width: 120px">Exclusivo</th>
+            <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">	
             <th style="width: 120px">Actions</th>
+            </sec:authorize>
             
         </tr>
         </thead>
@@ -54,8 +56,10 @@
                 <td>
                     <c:out value="${oferta.exclusivo}"/>
                 </td>
-					
+				
+				<sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">	
 				<td>
+				
 				
 				<spring:url value="/restaurantes/${restauranteId}/ofertas/delete/{ofertaId}" var="ofertaUrl">
                         <spring:param name="ofertaId" value="${oferta.id}"/>
@@ -69,7 +73,7 @@
     				
     				<a href="${fn:escapeXml(ofertaUrl)}" class="btn btn-default">Editar</a>
                 </td>
-                
+                </sec:authorize>
      
             </tr>
         </c:forEach>

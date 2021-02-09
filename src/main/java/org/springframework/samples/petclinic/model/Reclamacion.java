@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Reclamacion extends BaseEntity{
 
 	@NotBlank(message="El campo no puede ser nulo o estar vacío")
-	@Size(min = 8)
+	@Size(min = 8, message="El tamaño mínimo es de 8")
 	private String descripcion;
 	
 	
