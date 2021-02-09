@@ -1,7 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Gerente;
+import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.stereotype.Component;
@@ -9,27 +9,23 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
-public class GerenteValidator implements Validator{
-	
+public class ClienteValidator implements Validator{
 	@Autowired
 	private UserService userService;
-	
+
 	@Override
 	public void validate(Object target, Errors errors) {
-		Gerente gerente = (Gerente) target;
-		User user = gerente.getUser();
+		Cliente cliente = (Cliente) target;
+		User user = cliente.getUser();
 		String username = user.getUsername();
-		String name = gerente.getName();
+		Boolean esSocio = cliente.getEsSocio();
 		String password = user.getPassword();
-		String dni = gerente.getDni();
-		
+		String tlf = cliente.getTlf();
+		Double monedero = cliente.getMonedero();
+
 		//password validator
 		if(!password.matches("^.*(?=.{6,})(?=.*\\d)(?=.*[a-zA-Z]).*$")) {
 			errors.rejectValue("user.password", "La contraseña debe tener 6 carácteres y contener al menos un número","La contraseña debe tener 6 carácteres y contener al menos un número");
-		}
-		//dni validator
-		if(!dni.matches("^[0-9]{8}[a-zA-Z]?$")) {
-			errors.rejectValue("dni", "Debe introducir DNI válido p.ej: '95467897E'","Debe introducir DNI válido p.ej: '95467897E'");
 		}
 		//username validator
 		if(username.isEmpty()) {
@@ -45,18 +41,22 @@ public class GerenteValidator implements Validator{
 				}
 			}
 		}
-		//name validator
-		if(name.isEmpty()) {
-			errors.rejectValue("name", "Por favor introduzca su nombre", "Por favor introduzca su nombre");
-		}else if(name.length()<3 || name.length()>15) {
-			errors.rejectValue("name", "Debe de introducir un nombre de 3 caracteres como minimo y de 15 como maximo", "Debe de introducir un nombre de 3 caracteres como minimo y de 15 como maximo");
-		}else if(!name.matches("^[a-zA-Z]+$")) {
-			errors.rejectValue("name", "Solo se permiten letras en este campo", "Solo se permiten letras en este campo");
+		//esSocio validator
+		if(esSocio == null) {
+			errors.rejectValue("esSocio", "Este campo es obligatorio", "Este campo es obligatorio");
+		}
+		//monedero validator
+		if(monedero < 0) {
+			errors.rejectValue("monedero", "No se admiten valores negativos", "No se admiten valores negativos");
+		}
+		//tlf validator
+		if(!tlf.matches("^[0-9]{9}")) {
+			errors.rejectValue("tlf", "Introduzca un numero de telefono valido", "Introduzca un numero de telefono valido");
 		}
 	}
-	
+
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return Gerente.class.isAssignableFrom(clazz);
+		return Cliente.class.isAssignableFrom(clazz);
 	}
 }

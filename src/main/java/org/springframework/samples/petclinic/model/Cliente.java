@@ -18,16 +18,12 @@ public class Cliente extends BaseEntity {
 	
 
 	
-    @NotNull
     private Boolean esSocio;
     
-    @NotEmpty(message="El número de teléfono es obligatorio.")
-
     private String tlf;
     
     private int numPedidos;
     
-    @Min(value = 0,message="no se puede tener dinero negativo")
     private Double monedero;
     
     @OneToOne
