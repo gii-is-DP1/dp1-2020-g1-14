@@ -2,7 +2,9 @@
 package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -153,7 +155,7 @@ public class PedidoControllerTests {
 	}
 	
 	
-	//TEST LISTAR OFERTAS
+	//TEST LISTAR PEDIDOS
 	@WithMockUser(authorities = "cliente",username = "cliente1", password = "cliente1")
 	@Test
 	void testListadoPedidos() throws Exception {
@@ -162,4 +164,14 @@ public class PedidoControllerTests {
 		.andExpect(model().attributeExists("pedidos"))
 		.andExpect(view().name("pedidos/listadoPedidos"));
 	}	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
 }

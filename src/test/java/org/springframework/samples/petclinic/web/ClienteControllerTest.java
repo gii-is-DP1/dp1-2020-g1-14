@@ -29,6 +29,8 @@ import org.springframework.samples.petclinic.service.ClienteService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.stereotype.Component;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(controllers= {ClienteController.class, CustomErrorController.class},
@@ -38,7 +40,9 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 
 public class ClienteControllerTest {
 
-
+	@MockBean
+	private ClienteValidator clienteValidator;
+	
 	@Autowired
 	private ClienteController clienteController;
 
