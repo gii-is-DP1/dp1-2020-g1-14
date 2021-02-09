@@ -64,7 +64,8 @@
 	                </td>           
 	            </tr>
         </c:forEach>
-       
         </tbody>
     </table>
+    <spring:url value="/restaurantes/${restauranteId}" var="restauranteUrl"/>
+    <a class="btn btn-default" href="${fn:escapeXml(restauranteUrl)}">Volver atrás</a>
 </petclinic:layout>
