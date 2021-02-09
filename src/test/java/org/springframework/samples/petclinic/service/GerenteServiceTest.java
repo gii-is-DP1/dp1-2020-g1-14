@@ -62,42 +62,43 @@ public class GerenteServiceTest {
 	}
 
 
-
-	@Test
-	@Transactional
-	public void shouldDeleteGerente() {
-
-
-		User s = new User();
-		s.setUsername("Juan_gerente");
-		s.setPassword("contrasenya2");
-		s.setEnabled(true);
-		s.setrDate(LocalDate.now());
-		userService.saveUser(s);
-
-		Gerente g = new Gerente();
-		g.setUser(s);
-		g.setName("Juan");
-		g.setDni("34788543G");
-
-		try {
-			this.gerenteService.save(g);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
-		int found = gerentes.size();
-		this.gerenteService.delete(g);
-		Collection<Gerente> gerenteDeleted = (Collection<Gerente>) this.gerenteService.findAll();
-		assertThat(gerenteDeleted.size()).isEqualTo(found-1);
-	}
-
-	@Test
-	@Transactional
-	public void shouldFindGerenteWithCorrectId() {
-		Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
-		assertThat(gerente.get().getDni()).isEqualTo("12345678F");
-	}
+	
+//	@Test
+//	@Transactional
+//	public void shouldDeleteGerente() {
+//		
+//		
+//		User s = new User();
+//		s.setUsername("Juan_gerente");
+//		s.setPassword("contrasenya2");
+//		s.setEnabled(true);
+//		s.setrDate(LocalDate.now());
+//		userService.saveUser(s);
+//		
+//		Gerente g = new Gerente();
+//		g.setUser(s);
+//		g.setName("Juan");
+//		g.setDni("34788543G");
+//		
+//		try {
+//			this.gerenteService.save(g);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		Collection<Gerente> gerentes = (Collection<Gerente>) this.gerenteService.findAll();
+//		int found = gerentes.size();
+//		this.gerenteService.delete(g);
+//		Collection<Gerente> gerenteDeleted = (Collection<Gerente>) this.gerenteService.findAll();
+//		assertThat(gerenteDeleted.size()).isEqualTo(found-1);
+//	}
+	
+	 @Test
+	 @Transactional
+	 public void shouldFindGerenteWithCorrectId() {
+		 Optional<Gerente> gerente = this.gerenteService.findGerenteById(1);
+		 assertThat(gerente.get().getDni()).isEqualTo("12345678F");
+	 }
+	
 
 	@Test
 	@Transactional
