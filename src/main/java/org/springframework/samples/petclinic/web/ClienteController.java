@@ -15,7 +15,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,14 @@ public class ClienteController {
     private ClienteService clienteService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ClienteValidator clienteValidator;
+	
+	@InitBinder("cliente")
+	public void initGerenteBinder(WebDataBinder dataBinder) {
+		dataBinder.setValidator(clienteValidator);
+		log.info("inicializando DataBinder");
+	}
     
 	//Obtener la lista de clientes.
     @GetMapping()
