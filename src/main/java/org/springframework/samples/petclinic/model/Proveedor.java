@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
@@ -32,6 +32,10 @@ public class Proveedor extends NamedEntity{
 	private String tlf;
     
 	@ManyToMany
+	@JoinTable(
+			  name = "ingredientes", 
+			  joinColumns = @JoinColumn(name = "proveedor_id"), 
+			  inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
 	private Set<Ingrediente> ingredientes;
 
 	@ManyToMany(mappedBy = "proveedores")
