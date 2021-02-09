@@ -105,28 +105,28 @@ public class GerenteController {
 		return view;
 	}
 
-	@GetMapping(path = "/{gerenteId}/edit")
-	public String initUpdateForm(@PathVariable("gerenteId") int gerenteId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
-		Gerente gerente = this.gerenteService.findGerenteById(gerenteId).get();
-		model.addAttribute("gerente", gerente);
-		log.info("Inicialización de la edición de gerente");
-		return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
-	}
-
-	@PostMapping(value = "/{gerenteId}/edit")
-	public String processUpdateOwnerForm(@Valid Gerente gerente, BindingResult result,
-			@PathVariable("gerenteId") int gerenteId) {
-		if (result.hasErrors()) {
-			log.warn("error de validación");
-			return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			gerente.setId(gerenteId);
-			this.gerenteService.save(gerente);
-			log.info("Guardado de cambios realizados");
-			return "redirect:/gerentes/{gerenteId}";
-		}
-	}
+//	@GetMapping(path = "/{gerenteId}/edit")
+//	public String initUpdateForm(@PathVariable("gerenteId") int gerenteId, ModelMap model, @PathVariable("restauranteId") int restauranteId) {
+//		Gerente gerente = this.gerenteService.findGerenteById(gerenteId).get();
+//		model.addAttribute("gerente", gerente);
+//		log.info("Inicialización de la edición de gerente");
+//		return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
+//	}
+//
+//	@PostMapping(value = "/{gerenteId}/edit")
+//	public String processUpdateGerenteForm(@Valid Gerente gerente, BindingResult result,
+//			@PathVariable("gerenteId") int gerenteId) {
+//		if (result.hasErrors()) {
+//			log.warn("error de validación");
+//			return VIEWS_GERENTES_CREATE_OR_UPDATE_FORM;
+//		}
+//		else {
+//			gerente.setId(gerenteId);
+//			this.gerenteService.save(gerente);
+//			log.info("Guardado de cambios realizados");
+//			return "redirect:/gerentes/{gerenteId}";
+//		}
+//	}
 
 	@GetMapping(path="delete/{gerenteId}")
 	public String borrarGerente(@PathVariable("gerenteId") int gerenteId, ModelMap modelMap, @PathVariable("restauranteId") int restauranteId) {

@@ -49,6 +49,8 @@
     <a href="${fn:escapeXml(pedidosUrl)}" class="btn btn-default">Redactar Reclamación</a>
     </sec:authorize>
     
+    <spring:url value="/restaurantes/${restaurante.id}/ofertas" var="ofertasUrl"/>
+    <a href="${fn:escapeXml(ofertasUrl)}" class="btn btn-default">Listar Ofertas</a>
     
     <sec:authorize access="hasAuthority('admin') || hasAuthority('gerente')">
 	<spring:url value="/restaurantes/${restaurante.id}/reservas/{userName}" var="reservasUrl">
@@ -66,9 +68,6 @@
     
     <spring:url value="/restaurantes/${restaurante.id}/reclamaciones" var="reclamacionesUrl"/>
     <a href="${fn:escapeXml(reclamacionesUrl)}" class="btn btn-default">Listar Reclamaciones</a>
-    
-    <spring:url value="/restaurantes/${restaurante.id}/ofertas" var="ofertasUrl"/>
-    <a href="${fn:escapeXml(ofertasUrl)}" class="btn btn-default">Listar Ofertas</a>
     
     <spring:url value="/restaurantes/${restaurante.id}/productos" var="productosUrl"/>
     <a href="${fn:escapeXml(productosUrl)}" class="btn btn-default">Listar Productos</a>

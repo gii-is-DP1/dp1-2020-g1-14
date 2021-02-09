@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cliente;
 import org.springframework.samples.petclinic.service.ClienteService;
+import org.springframework.samples.petclinic.service.RestauranteService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.exceptions.CantBeAMemberException;
 import org.springframework.security.core.Authentication;
@@ -35,6 +36,8 @@ public class ClienteController {
     private ClienteService clienteService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private RestauranteService restauranteService;
 	@Autowired
 	private ClienteValidator clienteValidator;
 	
@@ -139,28 +142,27 @@ public class ClienteController {
     }
    
     //Convertir cliente a socio.
-    @GetMapping(path="/upgrade/{clienteId}") 
-    public String upgradeCliente(@PathVariable("clienteId") int clienteId, ModelMap modelMap)  {
-    	String view = "clientes/listadoClientes";
-    	Optional<Cliente> cliente = clienteService.findClienteById(clienteId);
+    @GetMapping(path="/upgrade") 
+    public String upgradeCliente(ModelMap modelMap)  {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String name = auth.getName(); //get logged in username
+	    Cliente cliente = clienteService.findClienteByUsuario(name).get();
     	try {
-			clienteService.checkSocio(cliente.get());
+			clienteService.checkSocio(cliente);
 		} catch (CantBeAMemberException e) {
 			// TODO Auto-generated catch block
 			modelMap.addAttribute("message","No cumple las condiciones necesarias o ya es socio");
-			view=listadoClientes(modelMap);
 			
 			log.error("No se puede convertir a socio: no se cumplen las condiciones o ya es socio");
 			
-			return view;
+			return "restaurantes/listadoRestaurantes";
 		}
         modelMap.addAttribute("cliente", cliente);
         modelMap.addAttribute("message", "Convertido a socio con éxito");
-        view= listadoClientes(modelMap);
-        
+        modelMap.addAttribute("restaurantes", restauranteService.findAll());
         log.info("Convertido a socio satisfactoriamente");
         
-        return view;
+        return "restaurantes/listadoRestaurantes";
   
     }
     
